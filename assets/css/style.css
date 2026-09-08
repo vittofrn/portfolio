@@ -583,6 +583,13 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
     transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
   }
   .place { text-align: left; }
+  /* a soft white scrim behind the open drawer, so the section links and
+     clock read clearly over whatever's on the map behind them */
+  body.nav-open .masthead {
+    background: rgba(255,255,255,.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
   body.nav-open .masthead__nav,
   body.nav-open .place {
     max-height: 16rem;
@@ -1044,6 +1051,16 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 
 @media (max-width: 860px) {
   .filter { flex-wrap: wrap; }
-  .filter__list { flex-wrap: wrap; justify-content: center; }
-  .filter.is-open .filter__list { max-width: 100%; }
+  /* the list keeps its fully-open footprint at all times here, so opening
+     it never shifts anything below it — only its opacity/pointer-events
+     toggle, from the exact spot it already occupies. */
+  .filter__list {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .filter.is-open .filter__list { opacity: 1; pointer-events: auto; }
 }
