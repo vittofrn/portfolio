@@ -414,8 +414,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 
 @media (max-width: 760px) {
   /* the landing/map screen gets the same true 50px edge margin as the rest
-     of the site on desktop — it was still on the small 1rem mobile gutter. */
-  .map { padding-left: 50px; padding-right: 50px; }
+     of the site on desktop — it was still on the small 1rem mobile gutter.
+     Padding-top is bumped up too: the navbar itself got a lot shorter, so
+     the old gap collapsed along with it — this keeps real air between the
+     bar and the filter row underneath. */
+  .map { padding-left: 50px; padding-right: 50px; padding-top: clamp(6rem, 16vh, 8rem); }
 }
 
 
@@ -552,12 +555,24 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .burger.is-open .burger__bar--b { transform: translateY(-7px) rotate(-45deg); }
 
 @media (max-width: 760px) {
-  .masthead { grid-template-columns: 1fr auto; gap: .6rem 1rem; padding: .85rem var(--gutter); }
+  /* a short bar: logo and burger share one tight row, nav and place fold
+     into a drawer underneath — clock-and-city first, then the sections. */
+  .masthead {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "logo burger" "place place" "nav nav";
+    align-items: center;
+    gap: 0 1rem;
+    padding: .5rem var(--gutter);
+  }
+  .wordmark { grid-area: logo; }
+  .burger { grid-area: burger; align-self: center; }
+  .place { grid-area: place; }
+  .masthead__nav { grid-area: nav; }
+
   .burger { display: grid; place-items: center; }
 
   /* nav and place fold into a drawer under the bar, closed by default */
   .masthead__nav, .place {
-    grid-column: 1 / -1;
     flex-direction: column;
     align-items: flex-start;
     gap: .9rem;
@@ -575,6 +590,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
     pointer-events: auto;
   }
   body.nav-open .place { padding-top: .2rem; }
+  body.nav-open .masthead__nav { padding-top: .2rem; }
 }
 
 /* the scroll cue, centred at the foot of the first screen */
