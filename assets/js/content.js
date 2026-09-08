@@ -56,7 +56,7 @@ window.SITE = {
       // size in the grid: "wide" | "tall" | "regular"
       size: "wide",
       intro:
-        "Maggo is a talking, perceptive editorial magazine developed for the Mag to Mag 2024 Festival with RUFA around the theme of intelligence. The core idea: what if a magazine had its own mind, and could actually talk to you?",
+        "Maggo is a talking, perceptive editorial magazine developed for the Mag to Mag 2024 Festival with Rufa around the theme of \"intelligence.\" The core idea is, what if a magazine had its own mind, and could actually talk to you?",
       sections: [
         {
           heading: "",
@@ -68,7 +68,7 @@ window.SITE = {
         {
           heading: "Typographic storytelling",
           body:
-            "Every page relies entirely on typography and colour to carry tone of voice, narrative arc and emotional nuance. Feeling came out of letterform, scale, spacing and hue. That became the skill the project was really about — typography conveying emotion the way a face or a photograph does. Maggo trades the image-driven conventions of the format for a voice-driven one.",
+            "Every page relies entirely on typography and color to carry tone of voice, narrative arc and emotional nuance. Feelings stemmed from letterform, scale, spacing, and hue. This became the project's skill: typography conveying emotion like a face or photo. Maggo is a fundamentally different take on what editorial design can be, trading the image-driven conventions of the format for a voice-driven one.",
           images: [
             { src: "assets/images/projects/maggo/02.jpg" },
             { src: "assets/images/projects/maggo/03.jpg" }
@@ -77,7 +77,7 @@ window.SITE = {
         {
           heading: "A paper companion",
           body:
-            "Ahead of the physical launch we ran Maggo's social presence as a Q&A, where the magazine itself asked the questions and started conversations with readers — building an audience before the issue existed in print. We also led a collaboration with SLAB Letterpress on a limited postcard series using rare vintage letterpress type, extending Maggo's voice into something you could hold and keep.",
+            "Ahead of the physical launch, we run Maggo's social media presence, a Q&A format where the magazine itself asked questions and started conversations with readers, building anticipation before the issue existed in print. We also led a collaboration with SLAB Letterpress to produce a limited postcard series using rare, vintage letterpress type, extending Maggo's voice into a tactile, collectible object.",
           images: [
             { src: "assets/images/projects/maggo/04.jpg" },
             { src: "assets/images/projects/maggo/05.jpg" }
@@ -110,7 +110,7 @@ window.SITE = {
       cover: "assets/images/projects/enifolia/cover.jpg",
       size: "regular",
       intro:
-        "Enifolia is a concept game that uses gamification, sustainability and behavioural design to nudge Enel Energia customers toward better household energy habits. It came out of a two-hour group brainstorm during a workshop on Neuromarketing & Behavioural Data-Driven Design led by Dr. Andrea Ciceri.",
+        "Enifolia is a concept game that uses gamification, sustainability, and behavioral design to nudge Enel Energia customers toward better household energy habits. It was born out of a two-hour group brainstorming session during a workshop on Neuromarketing & Behavioral Data-Driven Design, led by Dr. Andrea Ciceri.",
       sections: [
         {
           heading: "",
@@ -120,9 +120,9 @@ window.SITE = {
           ]
         },
         {
-          heading: "Making an abstract habit tangible",
+          heading: "Abstract behavior into tangible",
           body:
-            "Energy saving is hard to sustain because the payoff is invisible and delayed. Enifolia turns it into something you can hold and have to look after. It's a pet-care and collection game built around a virtual leaf: every month you unlock a new tree species to nurture, gradually building a personal forest. The commitment pays back directly — €0.20 credit on the Eni bill for every tree planted — turning an ecological action into an economic one.",
+            "Energy-saving behavior is hard to sustain because the payoff is invisible and delayed, Enifolia turns that abstract behavior into something tangible and ongoing to care for. It's a pet-care and collection game built around a virtual tree leaf: every month a customer unlocks a new tree species to nurture, gradually building a personal forest. That commitment pays back directly, with a €0.20 credit on the Eni bill for every tree planted, turning an ecological action into an actual economic one.",
           images: [
             { src: "assets/images/projects/enifolia/02.jpg" }
           ]
@@ -130,7 +130,7 @@ window.SITE = {
         {
           heading: "Life-cycle logic",
           body:
-            "My contribution was the concept and its point of difference: instead of generic pet-care visuals, I proposed original artist-made illustrations for the trees and leaves. I worked on the UX and UI and directed the illustration, making the interface narrate a leaf's full life cycle — growth through to bloom or death — so the UI itself reinforces the goal. The stakes had to be legible without instructions: you feel your energy habits through the state of the leaf, not through a dashboard or a score.",
+            "My contribution was the game's concept and its point of difference, rather than generic pet-care visuals, I proposed using original artist-made illustrations for the trees and leafs. I worked on the UX&UI design and directed the illustration process for the leafs, made the UI visually narrate a leaf's full life cycle, from growth through to either bloom or death, so the interface itself reinforces the goal, care for it. I made that life-cycle logic legible entirely through UI and illustration, without instructions doing the work the player needed to feel the stakes of their energy habits through the state of the leaf itself, not through a dashboard or a score.",
           images: [
             { src: "assets/images/projects/enifolia/03.jpg" }
           ]
@@ -162,7 +162,7 @@ window.SITE = {
       cover: "assets/images/projects/abstract-entity-atlas/cover.jpg",
       size: "tall",
       intro:
-        "My thesis project: a website and an editorial book exploring the distance between real and digital identity, and the archetypes people build for themselves online.",
+        "Abstract Entity Atlas is a test-taking platform that generates a personal and unique data-map, built to raise awareness of how our online identity is actually shaped by data, not by who we are physically, but by what we do, click, and share.",
       sections: [
         {
           heading: "",
@@ -172,9 +172,9 @@ window.SITE = {
           ]
         },
         {
-          heading: "A book and a site, built together",
+          heading: "You are your data",
           body:
-            "The Atlas exists in two forms that argue with each other — a printed editorial volume and a live site. The book was organised across roughly fifty spreads split into sections, each colour-coded so the structure stayed legible while it grew. Journey maps were set A5 in a black-and-white editorial style, deliberately quiet against a palette of pink, coral, amber, lime and purple used everywhere else.",
+            "The platform is a personality test with a twist, instead of telling you which \"type\" of person you are, it tells you which \"type\" of data profile you are. Users answer ten questions about their internet habits, why they go online, which platforms they use, and how they use them, and the platform translates those answers into a personalised infographic map, almost like a diagnostic readout of their digital self. The project's central argument is online, you are your data, nothing more and nothing less.",
           images: [
             { src: "assets/images/projects/abstract-entity-atlas/02.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/03.jpg" },
@@ -182,9 +182,9 @@ window.SITE = {
           ]
         },
         {
-          heading: "Structure as content",
+          heading: "Reconfigurable system",
           body:
-            "Alongside the visual work sits the information architecture: user flows, sitemaps and prototypes, drawn as SVG so they could live in both the book and the browser. Mapping identity meant the diagrams weren't documentation of the project — they were the project.",
+            "As founder, I led every layer of this: the concept, the UX/UI, the infographic system, and the editorial book documenting it all. The map itself is a modular, reconfigurable system, visually researched from the internal architecture of electronic chips, and I structured the whole interface like a motherboard: a central archetype connects outward to the user's social channels and media usage via \"cables\", each one worth 10% of the test answers. I designed both an active state (every element switched on) and an inactive state (elements not selected), plus a mobile layout built specifically for social sharing. Beyond the map, I designed and built the website home, archetype deep-dives, and project rationale, and produced an editorial book covering the research and design process behind the whole system.",
           images: [
             { src: "assets/images/projects/abstract-entity-atlas/05.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/06.jpg" }
@@ -219,7 +219,7 @@ window.SITE = {
       cover: "assets/images/projects/bozza/cover.jpg",
       size: "regular",
       intro:
-        "Bozza is an editorial project made for the 2025 ARF! Festival, documenting the creative journey of students in RUFA's Graphic Design, Comics and Illustration programme.",
+        "Bozza is an editorial project created for the 2025 ARF! Festival to document the creative journey of students in RUFA's Graphic Design Comics and Illustration program.",
       sections: [
         {
           heading: "",
@@ -231,16 +231,16 @@ window.SITE = {
         {
           heading: "A student sketchbook",
           body:
-            "It was conceived as a record of a three-year learning process, one issue per academic year. The editorial style set out to capture what it feels like to page through someone's sketchbook — the range of what gets made in a year, and the way complexity and media shift as skill builds. It landed well at the festival, and by making three years of growth visible and tangible it ended up drawing new students to the university.",
+            "It was conceived as a record of a three-year learning process: each issue corresponds to one academic year. The editorial style aims to represent the essence of exploring a student sketchbook, showcasing the variety of projects created each year and how the complexity and media evolve to enhance their skills. The project was well received at the festival, and by making three years of student growth visible and tangible, it ended up drawing new students to the university.",
           images: [
             { src: "assets/images/projects/bozza/02.jpg" },
             { src: "assets/images/projects/bozza/03.jpg" }
           ]
         },
         {
-          heading: "Deciding what counted",
+          heading: "What counted",
           body:
-            "The team worked through more than three hundred individual student works and had to judge what actually represented meaningful development, then shape it into a narrative. We wanted early exercises sitting next to later, harder projects so you could watch the change happen across the pages. The difficult part was judgement under pressure — a tight timeline and the need to be critical about what was genuinely strong. My contribution ran across both the conceptual and editorial sides: the publication's name and identity, collecting and curating the body of work, then editing and editorial development for the full booklet.",
+            "The team had to work through 300+ individual student works, decide what actually represented meaningful development, and make it into a coherent editorial narrative. We wanted the reader to see early exercises next to later, more complex projects, and watch skill and media evolve in real time across the pages. The challenging part was judgment under pressure, with a tight timeline, the team had to be critical about what counted as strong work. My contribution spanned both the conceptual and editorial sides, I worked on the publication's name and identity, and on collecting and curating the body of student work. I then moved into editing and editorial development for the full booklet.",
           images: [
             { src: "assets/images/projects/bozza/04.jpg" }
           ]
@@ -271,9 +271,8 @@ window.SITE = {
       blurb: "Two kinds of noise, one sleeve.",
       cover: "assets/images/projects/theclash-x-basquiat/cover.jpg",
       size: "regular",
-      // Nothing written yet — the page still works, it just shows the images.
       intro:
-        "An album design exercise putting the visual language of The Clash against Basquiat's mark-making.",
+        "This project was a brief pairing The Clash's self-titled 1977 album with the artist Jean-Michel Basquiat, developed in my first year of university, working under an art director. I had to merge two voices, one musical, one visual, rather than just borrowing Basquiat's aesthetic as decoration.",
       sections: [
         {
           heading: "",
@@ -283,8 +282,9 @@ window.SITE = {
           ]
         },
         {
-          heading: "",
-          body: "",
+          heading: "Two systems at once",
+          body:
+            "We were walking a line between two systems at once: staying true to Basquiat's storytelling, his rawness, his symbolism, while still functioning as an actual Clash album, with all the format conventions that involves. The result is a cover that keeps Basquiat's visual storytelling intact, but built specifically to carry The Clash's politics and packaged as a concept for a complete, market-ready release.",
           images: [
             { src: "assets/images/projects/theclash-x-basquiat/02.jpg" },
             { src: "assets/images/projects/theclash-x-basquiat/03.jpg" },
@@ -292,8 +292,9 @@ window.SITE = {
           ]
         },
         {
-          heading: "",
-          body: "",
+          heading: "The message",
+          body:
+            "I researched Basquiat's visual language to create an illustration that captures The Clash's critique of capitalism, depicting band members as fighters against money.",
           images: [
             { src: "assets/images/projects/theclash-x-basquiat/05.jpg" },
             { src: "assets/images/projects/theclash-x-basquiat/06.jpg" }
@@ -326,7 +327,7 @@ window.SITE = {
       cover: "assets/images/projects/scomodo/cover.jpg",
       size: "wide",
       intro:
-        "An advertising and illustration project written and drawn to sit awkwardly with its reader.",
+        "This advertising campaign was commissioned by Scomodo, a youth community founded in Rome in 2016 to drive social and cultural change by empowering young people. They needed to attract new members to their shared spaces where younger people can express themselves and pursue what they're actually passionate about, stepping out of their comfort zone.",
       sections: [
         {
           heading: "",
@@ -336,8 +337,9 @@ window.SITE = {
           ]
         },
         {
-          heading: "",
-          body: "",
+          heading: "Into the right space",
+          body:
+            "I built the campaign around the line \"Step out of your comfort zone, step into the right space\", pushing on the \"growing\" aspects of teens, reframing the ask not as risk, but as trade: give up the comfort zone, gain a space actually built for you. The tone stayed direct and authentic, speaking to young people's real desire to grow, be challenged, and belong to something, while the illustrations did the work of making that message feel immediate and approachable rather than abstract.",
           images: [
             { src: "assets/images/projects/scomodo/02.jpg" },
             { src: "assets/images/projects/scomodo/03.jpg" },
@@ -345,8 +347,9 @@ window.SITE = {
           ]
         },
         {
-          heading: "",
-          body: "",
+          heading: "A new direction",
+          body:
+            "As co-art director, copywriter, illustrator, and editor, I developed the campaign idea and copy, and created the illustration style and graphics that carry it. The problem was twofold, first a positioning problem: how do you convince someone to step outside their comfort zone and into a space they've never been, when the whole appeal of a comfort zone is that it's comfortable? Second, a brand problem: Scomodo's communication had always been text driven, so any new direction had to feel like a natural evolution of their identity. We wanted it to read as more professional and more considered, while still unmistakably being Scomodo.",
           images: [
             { src: "assets/images/projects/scomodo/05.jpg" },
             { src: "assets/images/projects/scomodo/06.jpg" },

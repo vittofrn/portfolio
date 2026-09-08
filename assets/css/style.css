@@ -762,18 +762,17 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 
 /* --------------------------------------------------------- case studies */
-/* A medium-weight, all-caps title with the "back to map" link sitting right
-   beside it, then wide plates with generous air between them. */
+/* "back to the map" sits on its own line above the title; the title itself
+   is set lowercase, medium-weight, tightly tracked. */
 .study__inner { margin: 0 auto; padding: 0 var(--gutter) clamp(4rem, 12vh, 8rem); }
 .study__head {
-  max-width: 62rem;
   padding: clamp(5.5rem, 12vh, 8.5rem) 0 clamp(2rem, 6vh, 4rem);
 }
 .study__head__row {
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: .9rem 1.6rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .9rem;
 }
 .study__back {
   font-size: .6875rem;
@@ -787,7 +786,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .study__head h1 {
   font-family: var(--font-display);
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: lowercase;
   font-size: clamp(2.4rem, 7.5vw, 5.5rem);
   letter-spacing: -.09em;
   line-height: .95;
@@ -802,9 +801,13 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 .study__lede {
   margin: 1.6rem 0 0;
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  line-height: 1.55;
-  color: var(--graphite);
+  max-width: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1.25;
+  color: var(--ink);
+  opacity: .8;
 }
 .study__link {
   display: inline-block;
@@ -819,7 +822,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 
 .spread { padding: clamp(2.5rem, 8vh, 5rem) 0 0; }
-.spread__text { max-width: 42rem; }
+.spread__text { max-width: none; }
 .spread__text h2 {
   font-family: var(--font-display);
   font-weight: 400;
