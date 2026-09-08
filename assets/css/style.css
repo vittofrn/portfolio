@@ -912,6 +912,14 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   }
 }
 
+@media (max-width: 760px) {
+  /* the "about the project" intro reads oversized at 40px on a phone */
+  .study__lede { font-size: 26px; }
+  /* less air before each new picture/section — the solo pictures in
+     particular were sitting far apart with the section's full padding-top
+     between every one of them */
+  .spread { padding-top: clamp(1.5rem, 5vh, 2.5rem); }
+}
 
 .study__foot {
   margin-top: clamp(3rem, 10vh, 6rem);
