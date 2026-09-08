@@ -412,6 +412,12 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   .node__shot { width: clamp(84px, 23vw, 124px); }
 }
 
+@media (max-width: 760px) {
+  /* the landing/map screen gets the same true 50px edge margin as the rest
+     of the site on desktop — it was still on the small 1rem mobile gutter. */
+  .map { padding-left: 50px; padding-right: 50px; }
+}
+
 
 
 
