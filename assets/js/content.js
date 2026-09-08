@@ -59,19 +59,12 @@ window.SITE = {
         "Maggo is a talking, perceptive editorial magazine developed for the Mag to Mag 2024 Festival with Rufa around the theme of \"intelligence.\" The core idea is, what if a magazine had its own mind, and could actually talk to you?",
       sections: [
         {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/maggo/01.jpg" }
-          ]
-        },
-        {
           heading: "Typographic storytelling",
           body:
             "Every page relies entirely on typography and color to carry tone of voice, narrative arc and emotional nuance. Feelings stemmed from letterform, scale, spacing, and hue. This became the project's skill: typography conveying emotion like a face or photo. Maggo is a fundamentally different take on what editorial design can be, trading the image-driven conventions of the format for a voice-driven one.",
           images: [
-            { src: "assets/images/projects/maggo/02.jpg" },
-            { src: "assets/images/projects/maggo/03.jpg" }
+            { src: "assets/images/projects/maggo/01.jpg" },
+            { src: "assets/images/projects/maggo/02.jpg" }
           ]
         },
         {
@@ -79,7 +72,14 @@ window.SITE = {
           body:
             "Ahead of the physical launch, we run Maggo's social media presence, a Q&A format where the magazine itself asked questions and started conversations with readers, building anticipation before the issue existed in print. We also led a collaboration with SLAB Letterpress to produce a limited postcard series using rare, vintage letterpress type, extending Maggo's voice into a tactile, collectible object.",
           images: [
-            { src: "assets/images/projects/maggo/04.jpg" },
+            { src: "assets/images/projects/maggo/03.jpg" },
+            { src: "assets/images/projects/maggo/04.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/maggo/05.jpg" }
           ]
         },
@@ -88,13 +88,6 @@ window.SITE = {
           body: "",
           images: [
             { src: "assets/images/projects/maggo/06.jpg" }
-          ]
-        },
-        {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/maggo/07.jpg" }
           ]
         }
       ],
@@ -113,17 +106,11 @@ window.SITE = {
         "Enifolia is a concept game that uses gamification, sustainability, and behavioral design to nudge Enel Energia customers toward better household energy habits. It was born out of a two-hour group brainstorming session during a workshop on Neuromarketing & Behavioral Data-Driven Design, led by Dr. Andrea Ciceri.",
       sections: [
         {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/enifolia/01.jpg" }
-          ]
-        },
-        {
           heading: "Abstract behavior into tangible",
           body:
             "Energy-saving behavior is hard to sustain because the payoff is invisible and delayed, Enifolia turns that abstract behavior into something tangible and ongoing to care for. It's a pet-care and collection game built around a virtual tree leaf: every month a customer unlocks a new tree species to nurture, gradually building a personal forest. That commitment pays back directly, with a €0.20 credit on the Eni bill for every tree planted, turning an ecological action into an actual economic one.",
           images: [
+            { src: "assets/images/projects/enifolia/01.jpg" },
             { src: "assets/images/projects/enifolia/02.jpg" }
           ]
         },
@@ -165,17 +152,11 @@ window.SITE = {
         "Abstract Entity Atlas is a test-taking platform that generates a personal and unique data-map, built to raise awareness of how our online identity is actually shaped by data, not by who we are physically, but by what we do, click, and share.",
       sections: [
         {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/abstract-entity-atlas/01.jpg" }
-          ]
-        },
-        {
           heading: "You are your data",
           body:
             "The platform is a personality test with a twist, instead of telling you which \"type\" of person you are, it tells you which \"type\" of data profile you are. Users answer ten questions about their internet habits, why they go online, which platforms they use, and how they use them, and the platform translates those answers into a personalised infographic map, almost like a diagnostic readout of their digital self. The project's central argument is online, you are your data, nothing more and nothing less.",
           images: [
+            { src: "assets/images/projects/abstract-entity-atlas/01.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/02.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/03.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/04.jpg" }
@@ -222,19 +203,12 @@ window.SITE = {
         "Bozza is an editorial project created for the 2025 ARF! Festival to document the creative journey of students in RUFA's Graphic Design Comics and Illustration program.",
       sections: [
         {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/bozza/01.jpg" }
-          ]
-        },
-        {
           heading: "A student sketchbook",
           body:
             "It was conceived as a record of a three-year learning process: each issue corresponds to one academic year. The editorial style aims to represent the essence of exploring a student sketchbook, showcasing the variety of projects created each year and how the complexity and media evolve to enhance their skills. The project was well received at the festival, and by making three years of student growth visible and tangible, it ended up drawing new students to the university.",
           images: [
-            { src: "assets/images/projects/bozza/02.jpg" },
-            { src: "assets/images/projects/bozza/03.jpg" }
+            { src: "assets/images/projects/bozza/01.jpg" },
+            { src: "assets/images/projects/bozza/02.jpg" }
           ]
         },
         {
@@ -242,6 +216,7 @@ window.SITE = {
           body:
             "The team had to work through 300+ individual student works, decide what actually represented meaningful development, and make it into a coherent editorial narrative. We wanted the reader to see early exercises next to later, more complex projects, and watch skill and media evolve in real time across the pages. The challenging part was judgment under pressure, with a tight timeline, the team had to be critical about what counted as strong work. My contribution spanned both the conceptual and editorial sides, I worked on the publication's name and identity, and on collecting and curating the body of student work. I then moved into editing and editorial development for the full booklet.",
           images: [
+            { src: "assets/images/projects/bozza/03.jpg" },
             { src: "assets/images/projects/bozza/04.jpg" }
           ]
         },
@@ -275,20 +250,13 @@ window.SITE = {
         "This project was a brief pairing The Clash's self-titled 1977 album with the artist Jean-Michel Basquiat, developed in my first year of university, working under an art director. I had to merge two voices, one musical, one visual, rather than just borrowing Basquiat's aesthetic as decoration.",
       sections: [
         {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/theclash-x-basquiat/01.jpg" }
-          ]
-        },
-        {
           heading: "Two systems at once",
           body:
             "We were walking a line between two systems at once: staying true to Basquiat's storytelling, his rawness, his symbolism, while still functioning as an actual Clash album, with all the format conventions that involves. The result is a cover that keeps Basquiat's visual storytelling intact, but built specifically to carry The Clash's politics and packaged as a concept for a complete, market-ready release.",
           images: [
+            { src: "assets/images/projects/theclash-x-basquiat/01.jpg" },
             { src: "assets/images/projects/theclash-x-basquiat/02.jpg" },
-            { src: "assets/images/projects/theclash-x-basquiat/03.jpg" },
-            { src: "assets/images/projects/theclash-x-basquiat/04.jpg" }
+            { src: "assets/images/projects/theclash-x-basquiat/03.jpg" }
           ]
         },
         {
@@ -296,7 +264,14 @@ window.SITE = {
           body:
             "I researched Basquiat's visual language to create an illustration that captures The Clash's critique of capitalism, depicting band members as fighters against money.",
           images: [
-            { src: "assets/images/projects/theclash-x-basquiat/05.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/04.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/05.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/theclash-x-basquiat/06.jpg" }
           ]
         },
@@ -305,13 +280,6 @@ window.SITE = {
           body: "",
           images: [
             { src: "assets/images/projects/theclash-x-basquiat/07.jpg" }
-          ]
-        },
-        {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/theclash-x-basquiat/08.jpg" }
           ]
         }
       ],
@@ -330,20 +298,12 @@ window.SITE = {
         "This advertising campaign was commissioned by Scomodo, a youth community founded in Rome in 2016 to drive social and cultural change by empowering young people. They needed to attract new members to their shared spaces where younger people can express themselves and pursue what they're actually passionate about, stepping out of their comfort zone.",
       sections: [
         {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/scomodo/01.jpg" }
-          ]
-        },
-        {
           heading: "Into the right space",
           body:
             "I built the campaign around the line \"Step out of your comfort zone, step into the right space\", pushing on the \"growing\" aspects of teens, reframing the ask not as risk, but as trade: give up the comfort zone, gain a space actually built for you. The tone stayed direct and authentic, speaking to young people's real desire to grow, be challenged, and belong to something, while the illustrations did the work of making that message feel immediate and approachable rather than abstract.",
           images: [
-            { src: "assets/images/projects/scomodo/02.jpg" },
-            { src: "assets/images/projects/scomodo/03.jpg" },
-            { src: "assets/images/projects/scomodo/04.jpg" }
+            { src: "assets/images/projects/scomodo/01.jpg" },
+            { src: "assets/images/projects/scomodo/02.jpg" }
           ]
         },
         {
@@ -351,25 +311,22 @@ window.SITE = {
           body:
             "As co-art director, copywriter, illustrator, and editor, I developed the campaign idea and copy, and created the illustration style and graphics that carry it. The problem was twofold, first a positioning problem: how do you convince someone to step outside their comfort zone and into a space they've never been, when the whole appeal of a comfort zone is that it's comfortable? Second, a brand problem: Scomodo's communication had always been text driven, so any new direction had to feel like a natural evolution of their identity. We wanted it to read as more professional and more considered, while still unmistakably being Scomodo.",
           images: [
-            { src: "assets/images/projects/scomodo/05.jpg" },
-            { src: "assets/images/projects/scomodo/06.jpg" },
-            { src: "assets/images/projects/scomodo/07.jpg" }
+            { src: "assets/images/projects/scomodo/03.jpg" },
+            { src: "assets/images/projects/scomodo/04.jpg" }
           ]
         },
         {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/scomodo/08.jpg" },
-            { src: "assets/images/projects/scomodo/09.jpg" },
-            { src: "assets/images/projects/scomodo/10.jpg" }
+            { src: "assets/images/projects/scomodo/05.jpg" }
           ]
         },
         {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/scomodo/11.jpg" }
+            { src: "assets/images/projects/scomodo/06.jpg" }
           ]
         }
       ],

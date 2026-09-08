@@ -873,7 +873,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .spread__shots {
   margin-top: clamp(1.5rem, 4vh, 2.6rem);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  /* min(420px, 100%) instead of a bare 420px — a narrow phone can't offer
+     420px of column, and a bare minimum there just overflows the viewport
+     instead of shrinking. */
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
   gap: clamp(1.2rem, 2.6vw, 2rem);
 }
 .plate { margin: 0; }
@@ -882,6 +885,31 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    what shape the source photo came in. */
 .plate__shot { display: block; position: relative; overflow: hidden; background: var(--paper-deep); aspect-ratio: 4 / 3; }
 .plate__shot img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 1; }
+
+/* a lone image — the cover, or any single-picture group in the rhythm —
+   runs full width, so aspect-ratio:4/3 alone would make it enormous on a
+   wide screen. Cap the height instead so it sits comfortably within a
+   1920×1080 view; object-fit:cover still crops it in cleanly. */
+.study__inner > .plate .plate__shot,
+.spread__shots > .plate:only-child .plate__shot {
+  aspect-ratio: auto;
+  height: clamp(320px, 58vh, 760px);
+}
+
+/* a three-picture group reads as one big spread up top with two smaller
+   plates underneath it, rather than three equal columns — desktop only;
+   mobile keeps the plain single-column stack. */
+@media (min-width: 761px) {
+  .spread__shots:has(> .plate:nth-child(3):last-child) {
+    grid-template-columns: 1fr 1fr;
+  }
+  .spread__shots:has(> .plate:nth-child(3):last-child) > .plate:first-child {
+    grid-column: 1 / -1;
+  }
+  .spread__shots:has(> .plate:nth-child(3):last-child) > .plate:first-child .plate__shot {
+    aspect-ratio: 16 / 9;
+  }
+}
 
 
 .study__foot {
