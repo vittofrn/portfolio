@@ -416,14 +416,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   /* the landing/map screen gets the same true 50px edge margin as the rest
      of the site on desktop — it was still on the small 1rem mobile gutter. */
   .map { padding-left: 50px; padding-right: 50px; padding-top: clamp(3rem, 8vh, 4.5rem); }
-  /* small enough, with enough field height, that the collision pass in
-     main.js can actually separate all six nodes instead of leaving them
-     leaning on each other — six ~110px photos never fit cleanly across a
-     ~275px-wide field, so the fix is real headroom on both axes. Kept as
-     compact as that allows, so most of the constellation lands inside the
-     first screen instead of running well past it. */
-  .node__shot { width: clamp(50px, 13vw, 72px); }
-  .map__field { height: clamp(400px, 58vh, 500px); }
+  /* bigger than before, with the collision buffer in main.js tightened to
+     match (see gapFactor) — a very thin gap between photos instead of real
+     air, without letting them touch. */
+  .node__shot { width: clamp(64px, 17vw, 96px); }
+  .map__field { height: clamp(440px, 62vh, 560px); }
 }
 
 

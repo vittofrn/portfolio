@@ -391,8 +391,11 @@
     /* The force layout works in abstract units; once it is mapped onto real
        pixels at a real picture size, neighbours can still end up on top of
        each other. A few passes of straight collision relaxation fixes that
-       without disturbing the overall arrangement. */
-    var min = size * 1.16, i, j, A, B, dx, dy, d, push;
+       without disturbing the overall arrangement. A tighter buffer on
+       narrow/mobile widths keeps a real but very thin gap instead of the
+       roomier spacing desktop has space for. */
+    var gapFactor = window.innerWidth <= 760 ? 1.04 : 1.16;
+    var min = size * gapFactor, i, j, A, B, dx, dy, d, push;
     for (var pass = 0; pass < 60; pass++) {
       for (i = 0; i < MAP.nodes.length; i++) {
         for (j = i + 1; j < MAP.nodes.length; j++) {
