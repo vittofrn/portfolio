@@ -59,11 +59,17 @@ window.SITE = {
         "Maggo is a talking, perceptive editorial magazine developed for the Mag to Mag 2024 Festival with RUFA around the theme of intelligence. The core idea: what if a magazine had its own mind, and could actually talk to you?",
       sections: [
         {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/maggo/01.jpg" }
+          ]
+        },
+        {
           heading: "Typographic storytelling",
           body:
             "Every page relies entirely on typography and colour to carry tone of voice, narrative arc and emotional nuance. Feeling came out of letterform, scale, spacing and hue. That became the skill the project was really about — typography conveying emotion the way a face or a photograph does. Maggo trades the image-driven conventions of the format for a voice-driven one.",
           images: [
-            { src: "assets/images/projects/maggo/01.jpg" },
             { src: "assets/images/projects/maggo/02.jpg" },
             { src: "assets/images/projects/maggo/03.jpg" }
           ]
@@ -107,11 +113,18 @@ window.SITE = {
         "Enifolia is a concept game that uses gamification, sustainability and behavioural design to nudge Enel Energia customers toward better household energy habits. It came out of a two-hour group brainstorm during a workshop on Neuromarketing & Behavioural Data-Driven Design led by Dr. Andrea Ciceri.",
       sections: [
         {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/enifolia/01.jpg" }
+          ]
+        },
+        {
           heading: "Making an abstract habit tangible",
           body:
             "Energy saving is hard to sustain because the payoff is invisible and delayed. Enifolia turns it into something you can hold and have to look after. It's a pet-care and collection game built around a virtual leaf: every month you unlock a new tree species to nurture, gradually building a personal forest. The commitment pays back directly — €0.20 credit on the Eni bill for every tree planted — turning an ecological action into an economic one.",
           images: [
-            { src: "assets/images/projects/enifolia/01.jpg" }
+            { src: "assets/images/projects/enifolia/02.jpg" }
           ]
         },
         {
@@ -119,7 +132,6 @@ window.SITE = {
           body:
             "My contribution was the concept and its point of difference: instead of generic pet-care visuals, I proposed original artist-made illustrations for the trees and leaves. I worked on the UX and UI and directed the illustration, making the interface narrate a leaf's full life cycle — growth through to bloom or death — so the UI itself reinforces the goal. The stakes had to be legible without instructions: you feel your energy habits through the state of the leaf, not through a dashboard or a score.",
           images: [
-            { src: "assets/images/projects/enifolia/02.jpg" },
             { src: "assets/images/projects/enifolia/03.jpg" }
           ]
         },
@@ -153,13 +165,20 @@ window.SITE = {
         "My thesis project: a website and an editorial book exploring the distance between real and digital identity, and the archetypes people build for themselves online.",
       sections: [
         {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/abstract-entity-atlas/01.jpg" }
+          ]
+        },
+        {
           heading: "A book and a site, built together",
           body:
             "The Atlas exists in two forms that argue with each other — a printed editorial volume and a live site. The book was organised across roughly fifty spreads split into sections, each colour-coded so the structure stayed legible while it grew. Journey maps were set A5 in a black-and-white editorial style, deliberately quiet against a palette of pink, coral, amber, lime and purple used everywhere else.",
           images: [
-            { src: "assets/images/projects/abstract-entity-atlas/01.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/02.jpg" },
-            { src: "assets/images/projects/abstract-entity-atlas/03.jpg" }
+            { src: "assets/images/projects/abstract-entity-atlas/03.jpg" },
+            { src: "assets/images/projects/abstract-entity-atlas/04.jpg" }
           ]
         },
         {
@@ -167,7 +186,6 @@ window.SITE = {
           body:
             "Alongside the visual work sits the information architecture: user flows, sitemaps and prototypes, drawn as SVG so they could live in both the book and the browser. Mapping identity meant the diagrams weren't documentation of the project — they were the project.",
           images: [
-            { src: "assets/images/projects/abstract-entity-atlas/04.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/05.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/06.jpg" }
           ]
@@ -204,12 +222,19 @@ window.SITE = {
         "Bozza is an editorial project made for the 2025 ARF! Festival, documenting the creative journey of students in RUFA's Graphic Design, Comics and Illustration programme.",
       sections: [
         {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/bozza/01.jpg" }
+          ]
+        },
+        {
           heading: "A student sketchbook",
           body:
             "It was conceived as a record of a three-year learning process, one issue per academic year. The editorial style set out to capture what it feels like to page through someone's sketchbook — the range of what gets made in a year, and the way complexity and media shift as skill builds. It landed well at the festival, and by making three years of growth visible and tangible it ended up drawing new students to the university.",
           images: [
-            { src: "assets/images/projects/bozza/01.jpg" },
-            { src: "assets/images/projects/bozza/02.jpg" }
+            { src: "assets/images/projects/bozza/02.jpg" },
+            { src: "assets/images/projects/bozza/03.jpg" }
           ]
         },
         {
@@ -217,7 +242,6 @@ window.SITE = {
           body:
             "The team worked through more than three hundred individual student works and had to judge what actually represented meaningful development, then shape it into a narrative. We wanted early exercises sitting next to later, harder projects so you could watch the change happen across the pages. The difficult part was judgement under pressure — a tight timeline and the need to be critical about what was genuinely strong. My contribution ran across both the conceptual and editorial sides: the publication's name and identity, collecting and curating the body of work, then editing and editorial development for the full booklet.",
           images: [
-            { src: "assets/images/projects/bozza/03.jpg" },
             { src: "assets/images/projects/bozza/04.jpg" }
           ]
         },
@@ -255,24 +279,30 @@ window.SITE = {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/theclash-x-basquiat/01.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/01.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/theclash-x-basquiat/02.jpg" },
-            { src: "assets/images/projects/theclash-x-basquiat/03.jpg" }
+            { src: "assets/images/projects/theclash-x-basquiat/03.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/04.jpg" }
           ]
         },
         {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/theclash-x-basquiat/04.jpg" },
-            { src: "assets/images/projects/theclash-x-basquiat/05.jpg" }
+            { src: "assets/images/projects/theclash-x-basquiat/05.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/06.jpg" }
           ]
         },
         {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/theclash-x-basquiat/06.jpg" },
             { src: "assets/images/projects/theclash-x-basquiat/07.jpg" }
           ]
         },
@@ -302,7 +332,13 @@ window.SITE = {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/scomodo/01.jpg" },
+            { src: "assets/images/projects/scomodo/01.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/scomodo/02.jpg" },
             { src: "assets/images/projects/scomodo/03.jpg" },
             { src: "assets/images/projects/scomodo/04.jpg" }
