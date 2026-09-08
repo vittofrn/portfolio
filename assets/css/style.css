@@ -889,11 +889,12 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 /* a lone image — the cover, or any single-picture group in the rhythm —
    runs full width, so aspect-ratio:4/3 alone would make it enormous on a
    wide screen. Cap the height instead so it sits comfortably within a
-   1920×1080 view; object-fit:cover still crops it in cleanly. */
+   1920×1080 view; object-fit:cover still crops it in cleanly. 200px taller
+   than the original cap, on request. */
 .study__inner > .plate .plate__shot,
 .spread__shots > .plate:only-child .plate__shot {
   aspect-ratio: auto;
-  height: clamp(320px, 58vh, 760px);
+  height: clamp(520px, calc(58vh + 200px), 960px);
 }
 
 /* a three-picture group reads as one big spread up top with two smaller
