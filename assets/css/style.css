@@ -136,7 +136,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   font-style: italic;
   color: var(--graphite);
 }
-.about__body p { max-width: var(--measure); }
+.about__body p { max-width: none; }
 .rule {
   margin: 2.25rem 0 1.1rem;
   padding-bottom: .7rem;
@@ -724,7 +724,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 /* capped independently of the grid track, so the column doesn't stretch
    text to fill all the room the grid gives it — the same right-hand
    whitespace the reference layout has */
-.about__body { max-width: 30rem; }
+.about__body { max-width: none; }
 .about__body p { color: var(--graphite); font-size: clamp(1rem, 1.6vw, 1.1875rem); line-height: 1.7; }
 
 .disciplines {

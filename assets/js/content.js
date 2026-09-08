@@ -22,7 +22,7 @@ window.SITE = {
     role: "graphic & visual designer",
     tagline: "I'm drawn to varied, of all kinds projects. I believe good design starts with openness: understanding a problem from every point of view.",
     // the line pinned to the right edge of the homepage, opposite `role`
-    motto: "I design by connecting dots that were never meant to meet",
+    motto: "I design by connecting dots and making art of them",
     location: "Between Rome and Barcelona",
     // Your mascot logo. PNG with transparency. If it's missing the
     // wordmark below is used instead — nothing breaks.
@@ -394,7 +394,7 @@ window.SITE = {
       { t: "Vittoria Fornari", b: true },
       { t: ", graphic and visual designer with an art background, aiming to turn " },
       { t: "design into art", b: true },
-      { t: " — drawing inspiration from " },
+      { t: ", drawing inspiration from " },
       { t: "raw life experience", b: true },
       { t: "." }
     ],
