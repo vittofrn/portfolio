@@ -416,10 +416,12 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   /* the landing/map screen gets the same true 50px edge margin as the rest
      of the site on desktop — it was still on the small 1rem mobile gutter. */
   .map { padding-left: 50px; padding-right: 50px; padding-top: clamp(3rem, 8vh, 4.5rem); }
-  /* a touch smaller than the 860px default, so the nodes have a little more
-     room to spread sideways within the narrower width instead of pad
-     eating most of it */
-  .node__shot { width: clamp(72px, 20vw, 108px); }
+  /* small enough, with enough field height, that the collision pass in
+     main.js can actually separate all six nodes instead of leaving them
+     leaning on each other — six ~110px photos never fit cleanly across a
+     ~275px-wide field, so the fix is real headroom on both axes. */
+  .node__shot { width: clamp(58px, 16vw, 88px); }
+  .map__field { height: clamp(480px, 74vh, 640px); }
 }
 
 
