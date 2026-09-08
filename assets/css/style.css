@@ -574,8 +574,12 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 
   .burger { display: grid; place-items: center; }
 
-  /* nav and place fold into a drawer under the bar, closed by default */
+  /* nav and place fold into a drawer under the bar, closed by default.
+     Both blocks start flush at the same left edge, under the logo — the
+     desktop rules (justify-self: end/center, text-align: right) that
+     positioned them apart from each other are cleared here. */
   .masthead__nav, .place {
+    justify-self: start;
     flex-direction: column;
     align-items: flex-start;
     gap: .9rem;
