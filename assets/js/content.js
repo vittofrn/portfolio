@@ -52,8 +52,6 @@ window.SITE = {
       year: "2024",
       // one line, shown under the title in the grid
       blurb: "A magazine with a mind of its own.",
-      // a note taped into the case study. Leave "" to hide it.
-      note: "Write anything here and it shows up as a note taped into the case study — a thought, a line from the brief, why this one mattered. Delete the line to hide it.",
       cover: "assets/images/projects/maggo/cover.jpg",
       // size in the grid: "wide" | "tall" | "regular"
       size: "wide",
@@ -65,8 +63,9 @@ window.SITE = {
           body:
             "Every page relies entirely on typography and colour to carry tone of voice, narrative arc and emotional nuance. Feeling came out of letterform, scale, spacing and hue. That became the skill the project was really about — typography conveying emotion the way a face or a photograph does. Maggo trades the image-driven conventions of the format for a voice-driven one.",
           images: [
-            { src: "assets/images/projects/maggo/01.jpg", caption: "Opening spread" },
-            { src: "assets/images/projects/maggo/02.jpg", caption: "Type as tone of voice" }
+            { src: "assets/images/projects/maggo/01.jpg" },
+            { src: "assets/images/projects/maggo/02.jpg" },
+            { src: "assets/images/projects/maggo/03.jpg" }
           ]
         },
         {
@@ -74,10 +73,21 @@ window.SITE = {
           body:
             "Ahead of the physical launch we ran Maggo's social presence as a Q&A, where the magazine itself asked the questions and started conversations with readers — building an audience before the issue existed in print. We also led a collaboration with SLAB Letterpress on a limited postcard series using rare vintage letterpress type, extending Maggo's voice into something you could hold and keep.",
           images: [
-            { src: "assets/images/projects/maggo/03.jpg", caption: "Letterpress postcards with SLAB" },
-            { src: "assets/images/projects/maggo/04.jpg", caption: "Printed covers" },
-            { src: "assets/images/projects/maggo/05.jpg" },
-            { src: "assets/images/projects/maggo/06.jpg" },
+            { src: "assets/images/projects/maggo/04.jpg" },
+            { src: "assets/images/projects/maggo/05.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/maggo/06.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/maggo/07.jpg" }
           ]
         }
@@ -91,8 +101,6 @@ window.SITE = {
       category: "UX & UI / App design",
       year: "2024",
       blurb: "A leaf you have to keep alive.",
-      // a note taped into the case study. Leave "" to hide it.
-      note: "",
       cover: "assets/images/projects/enifolia/cover.jpg",
       size: "regular",
       intro:
@@ -103,8 +111,7 @@ window.SITE = {
           body:
             "Energy saving is hard to sustain because the payoff is invisible and delayed. Enifolia turns it into something you can hold and have to look after. It's a pet-care and collection game built around a virtual leaf: every month you unlock a new tree species to nurture, gradually building a personal forest. The commitment pays back directly — €0.20 credit on the Eni bill for every tree planted — turning an ecological action into an economic one.",
           images: [
-            { src: "assets/images/projects/enifolia/01.jpg", caption: "Collection screen" },
-            { src: "assets/images/projects/enifolia/02.jpg", caption: "Wallet and credit screens" }
+            { src: "assets/images/projects/enifolia/01.jpg" }
           ]
         },
         {
@@ -112,8 +119,21 @@ window.SITE = {
           body:
             "My contribution was the concept and its point of difference: instead of generic pet-care visuals, I proposed original artist-made illustrations for the trees and leaves. I worked on the UX and UI and directed the illustration, making the interface narrate a leaf's full life cycle — growth through to bloom or death — so the UI itself reinforces the goal. The stakes had to be legible without instructions: you feel your energy habits through the state of the leaf, not through a dashboard or a score.",
           images: [
-            { src: "assets/images/projects/enifolia/03.jpg", caption: "Flow" },
-            { src: "assets/images/projects/enifolia/04.jpg" },
+            { src: "assets/images/projects/enifolia/02.jpg" },
+            { src: "assets/images/projects/enifolia/03.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/enifolia/04.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/enifolia/05.jpg" }
           ]
         }
@@ -127,8 +147,6 @@ window.SITE = {
       category: "UX & UI / Infographics / Editorial design",
       year: "2025",
       blurb: "Who you are online, mapped.",
-      // a note taped into the case study. Leave "" to hide it.
-      note: "",
       cover: "assets/images/projects/abstract-entity-atlas/cover.jpg",
       size: "tall",
       intro:
@@ -139,8 +157,9 @@ window.SITE = {
           body:
             "The Atlas exists in two forms that argue with each other — a printed editorial volume and a live site. The book was organised across roughly fifty spreads split into sections, each colour-coded so the structure stayed legible while it grew. Journey maps were set A5 in a black-and-white editorial style, deliberately quiet against a palette of pink, coral, amber, lime and purple used everywhere else.",
           images: [
-            { src: "assets/images/projects/abstract-entity-atlas/01.jpg", caption: "Book spreads" },
-            { src: "assets/images/projects/abstract-entity-atlas/02.jpg", caption: "Colour system" }
+            { src: "assets/images/projects/abstract-entity-atlas/01.jpg" },
+            { src: "assets/images/projects/abstract-entity-atlas/02.jpg" },
+            { src: "assets/images/projects/abstract-entity-atlas/03.jpg" }
           ]
         },
         {
@@ -148,12 +167,23 @@ window.SITE = {
           body:
             "Alongside the visual work sits the information architecture: user flows, sitemaps and prototypes, drawn as SVG so they could live in both the book and the browser. Mapping identity meant the diagrams weren't documentation of the project — they were the project.",
           images: [
-            { src: "assets/images/projects/abstract-entity-atlas/03.jpg", caption: "The archetype cards" },
             { src: "assets/images/projects/abstract-entity-atlas/04.jpg" },
             { src: "assets/images/projects/abstract-entity-atlas/05.jpg" },
-            { src: "assets/images/projects/abstract-entity-atlas/06.jpg" },
+            { src: "assets/images/projects/abstract-entity-atlas/06.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/abstract-entity-atlas/07.jpg" },
-            { src: "assets/images/projects/abstract-entity-atlas/08.jpg" },
+            { src: "assets/images/projects/abstract-entity-atlas/08.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/abstract-entity-atlas/09.jpg" }
           ]
         }
@@ -168,8 +198,6 @@ window.SITE = {
       category: "Editorial design",
       year: "2025",
       blurb: "Three years of learning, in print.",
-      // a note taped into the case study. Leave "" to hide it.
-      note: "",
       cover: "assets/images/projects/bozza/cover.jpg",
       size: "regular",
       intro:
@@ -180,8 +208,8 @@ window.SITE = {
           body:
             "It was conceived as a record of a three-year learning process, one issue per academic year. The editorial style set out to capture what it feels like to page through someone's sketchbook — the range of what gets made in a year, and the way complexity and media shift as skill builds. It landed well at the festival, and by making three years of growth visible and tangible it ended up drawing new students to the university.",
           images: [
-            { src: "assets/images/projects/bozza/01.jpg", caption: "Inside spreads" },
-            { src: "assets/images/projects/bozza/02.jpg", caption: "Issue covers" }
+            { src: "assets/images/projects/bozza/01.jpg" },
+            { src: "assets/images/projects/bozza/02.jpg" }
           ]
         },
         {
@@ -189,9 +217,21 @@ window.SITE = {
           body:
             "The team worked through more than three hundred individual student works and had to judge what actually represented meaningful development, then shape it into a narrative. We wanted early exercises sitting next to later, harder projects so you could watch the change happen across the pages. The difficult part was judgement under pressure — a tight timeline and the need to be critical about what was genuinely strong. My contribution ran across both the conceptual and editorial sides: the publication's name and identity, collecting and curating the body of work, then editing and editorial development for the full booklet.",
           images: [
-            { src: "assets/images/projects/bozza/03.jpg", caption: "Curation in progress" },
-            { src: "assets/images/projects/bozza/04.jpg" },
-            { src: "assets/images/projects/bozza/05.jpg" },
+            { src: "assets/images/projects/bozza/03.jpg" },
+            { src: "assets/images/projects/bozza/04.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/bozza/05.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/bozza/06.jpg" }
           ]
         }
@@ -205,8 +245,6 @@ window.SITE = {
       category: "Album design / Illustration",
       year: "2024",
       blurb: "Two kinds of noise, one sleeve.",
-      // a note taped into the case study. Leave "" to hide it.
-      note: "",
       cover: "assets/images/projects/theclash-x-basquiat/cover.jpg",
       size: "regular",
       // Nothing written yet — the page still works, it just shows the images.
@@ -217,13 +255,31 @@ window.SITE = {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/theclash-x-basquiat/01.jpg", caption: "Sleeve" },
-            { src: "assets/images/projects/theclash-x-basquiat/02.jpg", caption: "In context" },
-            { src: "assets/images/projects/theclash-x-basquiat/03.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/01.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/02.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/03.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/theclash-x-basquiat/04.jpg" },
-            { src: "assets/images/projects/theclash-x-basquiat/05.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/05.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/theclash-x-basquiat/06.jpg" },
-            { src: "assets/images/projects/theclash-x-basquiat/07.jpg" },
+            { src: "assets/images/projects/theclash-x-basquiat/07.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/theclash-x-basquiat/08.jpg" }
           ]
         }
@@ -237,8 +293,6 @@ window.SITE = {
       category: "Advertising / Illustration / Copywriting",
       year: "2024",
       blurb: "Uncomfortable on purpose.",
-      // a note taped into the case study. Leave "" to hide it.
-      note: "",
       cover: "assets/images/projects/scomodo/cover.jpg",
       size: "wide",
       intro:
@@ -248,16 +302,34 @@ window.SITE = {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/scomodo/01.jpg", caption: "Campaign" },
+            { src: "assets/images/projects/scomodo/01.jpg" },
             { src: "assets/images/projects/scomodo/02.jpg" },
             { src: "assets/images/projects/scomodo/03.jpg" },
-            { src: "assets/images/projects/scomodo/04.jpg" },
+            { src: "assets/images/projects/scomodo/04.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/scomodo/05.jpg" },
             { src: "assets/images/projects/scomodo/06.jpg" },
-            { src: "assets/images/projects/scomodo/07.jpg" },
+            { src: "assets/images/projects/scomodo/07.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/scomodo/08.jpg" },
             { src: "assets/images/projects/scomodo/09.jpg" },
-            { src: "assets/images/projects/scomodo/10.jpg" },
+            { src: "assets/images/projects/scomodo/10.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/scomodo/11.jpg" }
           ]
         }
@@ -274,7 +346,6 @@ window.SITE = {
 
   /* ------------------------------------------------------------------ about */
   about: {
-    greeting: "hi, I'm Vittoria",
     portrait: "assets/images/about/portrait.jpg",
     // the big opening line at the top of the section. `b: true` on a segment
     // bolds it — this is what used to be the first line of `body` below,

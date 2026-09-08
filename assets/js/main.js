@@ -29,7 +29,7 @@
         'onerror="this.remove()">'
       : "";
     return '<div class="' + (cls || "shot") + '">' +
-             '<div class="slot"><span>' + label + '</span></div>' + img +
+             '<div class="slot"></div>' + img +
            "</div>";
   }
 
@@ -537,10 +537,23 @@
   function wireMasthead() {
     var bar = $(".masthead");
     if (!bar) return;
-    var lastY = window.scrollY || 0, ticking = false;
+    var lastY = 0, ticking = false;
+
+    /* A case study is a position:fixed overlay with its own internal
+       scroll — scrolling inside it never fires a "scroll" event on window,
+       so without this the navbar's hidden/visible state would just freeze
+       at whatever it happened to be when you clicked into the project
+       (openStudy forces it visible on the way in; this keeps it behaving
+       normally — hide on the way down, show on the way up — once you're
+       actually reading). */
+    function currentY() {
+      var study = $(".study");
+      if (study && !study.hidden) return study.scrollTop;
+      return window.scrollY || 0;
+    }
 
     function apply() {
-      var y = window.scrollY || 0;
+      var y = currentY();
       var pastHero = y > 120;
       if (y > lastY && pastHero) bar.classList.add("is-hidden");
       else if (y < lastY) bar.classList.remove("is-hidden");
@@ -548,11 +561,16 @@
       lastY = y;
       ticking = false;
     }
-    window.addEventListener("scroll", function () {
+    function onScroll() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(apply);
-    }, { passive: true });
+    }
+    lastY = currentY();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("scroll", function (e) {
+      if (e.target && e.target.classList && e.target.classList.contains("study")) onScroll();
+    }, { passive: true, capture: true });
   }
 
   /* ============================================================== BURGER */
@@ -643,9 +661,7 @@
       }).join("");
     }
 
-    $(".portrait").innerHTML =
-      shot(a.portrait, "", "portrait__shot") +
-      "<figcaption>" + esc(a.greeting) + "</figcaption>";
+    $(".portrait").innerHTML = shot(a.portrait, "", "portrait__shot");
 
     $(".about__body").innerHTML =
       a.body.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
@@ -859,9 +875,7 @@
                "</div>";
       }
       var shots = (sec.images || []).map(function (im) {
-        return '<figure class="plate">' + shot(im.src, im.caption, "plate__shot") +
-               (im.caption ? "<figcaption>" + esc(im.caption) + "</figcaption>" : "") +
-               "</figure>";
+        return '<figure class="plate">' + shot(im.src, "", "plate__shot") + "</figure>";
       }).join("");
       return '<section class="spread">' + text +
              (shots ? '<div class="spread__shots">' + shots + "</div>" : "") +
@@ -869,23 +883,18 @@
     }).join("");
 
     return (
-      '<div class="study__bar">' +
-        '<a class="study__back" href="#work">back to the map</a>' +
-        '<span class="study__year">' + esc(p.year || "") + "</span>" +
-      "</div>" +
       '<div class="study__inner">' +
         '<header class="study__head">' +
-          "<h1>" + esc(p.title) + "</h1>" +
-          '<div class="study__tags"><span>' + esc(p.category || "") + "</span></div>" +
+          '<div class="study__head__row">' +
+            '<a class="study__back" href="#work">back to the map</a>' +
+            "<h1>" + esc(p.title) + "</h1>" +
+          "</div>" +
+          '<div class="study__tags"><span>' + esc(p.category || "") + "</span><span>" + esc(p.year || "") + "</span></div>" +
           (p.intro ? '<p class="study__lede">' + esc(p.intro) + "</p>" : "") +
           (p.link ? '<a class="study__link" href="' + esc(p.link.href) + '" target="_blank" rel="noopener">' +
                     esc(p.link.label) + "</a>" : "") +
         "</header>" +
-        (p.cover ? '<figure class="plate">' + shot(p.cover, p.title, "plate__shot") + "</figure>" : "") +
-        /* a torn note taped to the page — write it in content.js as `note`.
-           Leave it out and nothing renders. */
-        (p.note ? '<aside class="studynote"><span class="studynote__tape" aria-hidden="true"></span>' +
-                  '<p>' + esc(p.note) + '</p></aside>' : "") +
+        (p.cover ? '<figure class="plate">' + shot(p.cover, "", "plate__shot") + "</figure>" : "") +
         spreads +
         '<footer class="study__foot">' +
           '<div class="study__credits">' +
@@ -909,6 +918,8 @@
     studyEl.scrollTop = 0;
     document.body.style.overflow = "hidden";
     requestAnimationFrame(function () { studyEl.classList.add("is-open"); });
+    var bar = $(".masthead");
+    if (bar) { bar.classList.remove("is-hidden"); bar.classList.add("is-floating"); }
     wireScribbles(studyEl.querySelectorAll(".study__back, .study__link, .study__next a"));
     document.title = p.title + " — " + S.identity.name;
     studyEl.focus();

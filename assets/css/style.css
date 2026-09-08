@@ -164,7 +164,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   position: relative;
   z-index: 3;
   padding: clamp(3.5rem, 9vh, 6.5rem) var(--gutter) 2.5rem;
-  max-width: 1240px;
   margin: 0 auto;
   background-image: var(--scribble-rule);
   background-repeat: no-repeat;
@@ -592,10 +591,9 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   list-style: none;
   margin: 0 auto;
   padding: 0 var(--gutter);
-  max-width: 1400px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: clamp(2rem, 4vw, 3.6rem) clamp(1.5rem, 3vw, 2.6rem);
+  gap: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 3vw, 2.6rem);
 }
 .work__a {
   display: block;
@@ -616,7 +614,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   display: block;
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 6 / 5;
   background: var(--paper-deep);
 }
 .work__shot img {
@@ -671,7 +669,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 /* the big opening line: full width, left-aligned, sits above the grid below
    rather than being the grid's own first paragraph */
 .about__headline {
-  max-width: 74rem;
   margin: 0 auto clamp(3rem, 9vh, 5.5rem);
   padding: 0 var(--gutter);
   text-align: left;
@@ -685,7 +682,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .about__headline strong { color: var(--ink); font-weight: 600; }
 
 .about__grid {
-  max-width: 1100px;
   margin: 0 auto;
   padding: 0 var(--gutter);
   display: grid;
@@ -703,7 +699,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .about__body p { color: var(--graphite); font-size: clamp(1rem, 1.6vw, 1.1875rem); line-height: 1.7; }
 
 .disciplines {
-  max-width: 1100px;
   margin: clamp(3rem, 8vh, 5rem) auto 0;
   padding: 0 var(--gutter);
 }
@@ -767,36 +762,35 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 
 /* --------------------------------------------------------- case studies */
-/* Same dark ground: a big Light title, then wide plates with generous air
-   between them, and small tracked-out uppercase for every label. */
-.study__bar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+/* A medium-weight, all-caps title with the "back to map" link sitting right
+   beside it, then wide plates with generous air between them. */
+.study__inner { margin: 0 auto; padding: 0 var(--gutter) clamp(4rem, 12vh, 8rem); }
+.study__head {
+  max-width: 62rem;
+  padding: clamp(5.5rem, 12vh, 8.5rem) 0 clamp(2rem, 6vh, 4rem);
+}
+.study__head__row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.1rem var(--gutter);
-  background: linear-gradient(var(--paper) 62%, transparent);
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .9rem 1.6rem;
 }
 .study__back {
-  font-size: .625rem;
+  font-size: .6875rem;
   letter-spacing: .16em;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--graphite);
+  --swipe-colour: var(--swipe-blue);
 }
 .study__back:hover { color: var(--ink); }
-
-.study__inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--gutter) clamp(4rem, 12vh, 8rem); }
-.study__head { max-width: 46rem; padding: clamp(2rem, 9vh, 6rem) 0 clamp(2rem, 6vh, 4rem); }
 .study__head h1 {
   font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(2.8rem, 9vw, 6.5rem);
-  letter-spacing: -.035em;
-  line-height: .93;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 7.5vw, 5.5rem);
+  letter-spacing: -.09em;
+  line-height: .95;
   margin: 0;
 }
 .study__tags {
@@ -834,66 +828,21 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   margin: 0 0 .9rem;
 }
 .spread__text p { color: var(--graphite); font-size: 1.0625rem; line-height: 1.7; margin: 0; }
+/* the reference brief: large, generously-scaled images. A lone image (the
+   1s in the 1-3-2-2-1 rhythm) fills the row; a group of 2-3 still gets real
+   size each, not a cramped minimum. */
 .spread__shots {
   margin-top: clamp(1.5rem, 4vh, 2.6rem);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: clamp(1rem, 2.4vw, 1.8rem);
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: clamp(1.2rem, 2.6vw, 2rem);
 }
 .plate { margin: 0; }
-.plate__shot { display: block; overflow: hidden; background: var(--paper-deep); }
-.plate__shot img { width: 100%; height: auto; display: block; }
-.plate figcaption {
-  margin-top: .7rem;
-  font-size: .625rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--pencil);
-}
-
-/* ------------------------------------------------- a note on a case study */
-/* Set `note:` on a project in content.js and it appears here, taped to the
-   page like something torn out of the sketchbook. */
-.studynote {
-  position: relative;
-  max-width: 34rem;
-  margin: 2.6rem auto 3.2rem;
-  padding: 1.6rem 1.8rem 1.7rem;
-  background: #FBF6DC;
-  color: var(--ink);
-  transform: rotate(-1.1deg);
-  box-shadow: 0 2px 4px rgba(40,38,30,.16), 0 16px 30px -18px rgba(40,38,30,.5);
-}
-.studynote::after {          /* the torn bottom edge */
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -7px;
-  height: 8px;
-  background: #FBF6DC;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='8'%3E%3Cpath d='M0 0h90v3l-6 2 -7-2 -6 3 -8-2 -7 2 -6-3 -7 2 -6-1 -8 3 -7-3 -6 2 -9-2 -7 1z' fill='%23000'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='8'%3E%3Cpath d='M0 0h90v3l-6 2 -7-2 -6 3 -8-2 -7 2 -6-3 -7 2 -6-1 -8 3 -7-3 -6 2 -9-2 -7 1z' fill='%23000'/%3E%3C/svg%3E");
-  -webkit-mask-size: 90px 8px;
-  mask-size: 90px 8px;
-}
-.studynote__tape {
-  position: absolute;
-  top: -13px; left: 50%;
-  width: 108px; height: 26px;
-  transform: translateX(-50%) rotate(-2.4deg);
-  background: var(--tape);
-  border-left: 1px solid var(--tape-edge);
-  border-right: 1px solid var(--tape-edge);
-}
-.studynote p {
-  margin: 0;
-  font-family: var(--font-hand);
-  font-style: italic;
-  font-size: 1.05rem;
-  line-height: 1.55;
-}
-@media (max-width: 640px) {
-  .studynote { margin-inline: var(--gutter); transform: rotate(-.7deg); }
-}
+/* every plate — cover included — is cropped to a fixed frame instead of
+   showing at its native size, so a row of images lines up evenly no matter
+   what shape the source photo came in. */
+.plate__shot { display: block; position: relative; overflow: hidden; background: var(--paper-deep); aspect-ratio: 4 / 3; }
+.plate__shot img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 1; }
 
 
 .study__foot {
@@ -921,18 +870,15 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 .study__next a:hover { color: var(--graphite); }
 
-/* the empty-slot placeholder, on dark */
+/* the empty-slot placeholder, on dark — sits behind the real photo and only
+   shows through if the image is missing or fails to load. */
 .slot {
-  display: grid;
-  place-content: center;
-  text-align: center;
-  padding: 1rem;
+  position: absolute;
+  inset: 0;
   background: var(--paper-deep);
   background-image: repeating-linear-gradient(
     -45deg, transparent 0 9px, rgba(255,255,255,.03) 9px 10px);
 }
-.slot span { font-size: .625rem; letter-spacing: .12em; text-transform: uppercase; color: var(--pencil); font-style: normal; }
-
 .study__year { font-size: .625rem; letter-spacing: .14em; text-transform: uppercase; color: var(--pencil); }
 
 /* ------------------------------------------------- the mascot at the hub */
