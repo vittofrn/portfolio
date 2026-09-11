@@ -379,8 +379,7 @@ window.SITE = {
     links: [
       { label: "LinkedIn", href: "https://www.linkedin.com/in/vittoria-fornari-6405b0313/" },
       { label: "Behance", href: "https://www.behance.net/vittoriafornari2" },
-      { label: "Instagram — design", href: "https://www.instagram.com/vitto_gd/" },
-      { label: "Instagram — personal", href: "https://www.instagram.com/jeonvitto/" }
+      { label: "Instagram — design", href: "https://www.instagram.com/vitto_gd/" }
     ]
   }
 };

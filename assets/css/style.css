@@ -826,7 +826,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .study__head h1 {
   font-family: var(--font-display);
   font-weight: 600;
-  text-transform: lowercase;
+  text-transform: uppercase;
   font-size: clamp(2.4rem, 7.5vw, 5.5rem);
   letter-spacing: -.09em;
   line-height: .95;
