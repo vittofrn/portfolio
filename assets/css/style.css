@@ -861,7 +861,12 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   --swipe-colour: var(--swipe-blue);
 }
 
-.spread { padding: clamp(.25rem, .6vh, .4rem) 0 0; }
+/* a text-bearing section gets the same gap above its heading as it does
+   below its text, before the picture row — symmetric top/bottom air. A
+   textless section (a solo picture in the rhythm) gets a much smaller gap
+   instead, so consecutive solo pictures sit close together. */
+.spread { padding: clamp(2.5rem, 7vh, 4.5rem) 0 0; }
+.spread:not(:has(.spread__text)) { padding-top: clamp(.2rem, .5vh, .3rem); }
 .spread__text { max-width: none; }
 .spread__text h2 {
   font-family: var(--font-display);
@@ -919,10 +924,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 @media (max-width: 760px) {
   /* the "about the project" intro reads oversized at 40px on a phone */
   .study__lede { font-size: 26px; }
-  /* less air before each new picture/section — the solo pictures in
-     particular were sitting far apart with the section's full padding-top
-     between every one of them */
-  .spread { padding-top: clamp(.2rem, .7vh, .4rem); }
+  /* symmetric top/bottom air around a text section on mobile too, but the
+     solo pictures still get a much tighter gap between each other */
+  .spread { padding-top: clamp(1.8rem, 6vh, 3rem); }
+  .spread:not(:has(.spread__text)) { padding-top: clamp(.15rem, .5vh, .25rem); }
 }
 
 .study__foot {
