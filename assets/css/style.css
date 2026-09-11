@@ -861,7 +861,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   --swipe-colour: var(--swipe-blue);
 }
 
-.spread { padding: clamp(1.5rem, 4vh, 2.5rem) 0 0; }
+.spread { padding: clamp(1rem, 2.5vh, 1.6rem) 0 0; }
 .spread__text { max-width: none; }
 .spread__text h2 {
   font-family: var(--font-display);
@@ -922,7 +922,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   /* less air before each new picture/section — the solo pictures in
      particular were sitting far apart with the section's full padding-top
      between every one of them */
-  .spread { padding-top: clamp(1.5rem, 5vh, 2.5rem); }
+  .spread { padding-top: clamp(.9rem, 3vh, 1.6rem); }
 }
 
 .study__foot {
