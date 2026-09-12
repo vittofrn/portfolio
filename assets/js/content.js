@@ -156,10 +156,7 @@ window.SITE = {
           body:
             "The platform is a personality test with a twist, instead of telling you which \"type\" of person you are, it tells you which \"type\" of data profile you are. Users answer ten questions about their internet habits, why they go online, which platforms they use, and how they use them, and the platform translates those answers into a personalised infographic map, almost like a diagnostic readout of their digital self. The project's central argument is online, you are your data, nothing more and nothing less.",
           images: [
-            { src: "assets/images/projects/abstract-entity-atlas/01.jpg" },
-            { src: "assets/images/projects/abstract-entity-atlas/02.jpg" },
-            { src: "assets/images/projects/abstract-entity-atlas/03.jpg" },
-            { src: "assets/images/projects/abstract-entity-atlas/04.jpg" }
+            { src: "assets/images/projects/abstract-entity-atlas/01.jpg" }
           ]
         },
         {
@@ -167,7 +164,34 @@ window.SITE = {
           body:
             "As founder, I led every layer of this: the concept, the UX/UI, the infographic system, and the editorial book documenting it all. The map itself is a modular, reconfigurable system, visually researched from the internal architecture of electronic chips, and I structured the whole interface like a motherboard: a central archetype connects outward to the user's social channels and media usage via \"cables\", each one worth 10% of the test answers. I designed both an active state (every element switched on) and an inactive state (elements not selected), plus a mobile layout built specifically for social sharing. Beyond the map, I designed and built the website home, archetype deep-dives, and project rationale, and produced an editorial book covering the research and design process behind the whole system.",
           images: [
-            { src: "assets/images/projects/abstract-entity-atlas/05.jpg" },
+            { src: "assets/images/projects/abstract-entity-atlas/02.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/abstract-entity-atlas/03.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/abstract-entity-atlas/04.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/abstract-entity-atlas/05.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
             { src: "assets/images/projects/abstract-entity-atlas/06.jpg" }
           ]
         },
@@ -175,15 +199,7 @@ window.SITE = {
           heading: "",
           body: "",
           images: [
-            { src: "assets/images/projects/abstract-entity-atlas/07.jpg" },
-            { src: "assets/images/projects/abstract-entity-atlas/08.jpg" }
-          ]
-        },
-        {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/abstract-entity-atlas/09.jpg" }
+            { src: "assets/images/projects/abstract-entity-atlas/07.jpg" }
           ]
         }
       ],
