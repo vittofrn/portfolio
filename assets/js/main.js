@@ -173,11 +173,18 @@
 
   function buildGraph() {
     MAP.nodes = S.projects.map(function (p, i) {
-      return { i: i, p: p, tags: disciplines(p),
+      return { i: i, p: p, tags: disciplines(p), arch: false,
                bx: 0, by: 0, x: 0, y: 0, ox: 0, oy: 0, el: null, out: null };
     });
-    MAP.links = [];
+    /* the archive rides along as small circles. No tags, so they stay out of
+       the discipline filter and only ever get the faint, unrelated-pair links
+       — they are companions to the constellation, not part of its structure. */
     var projectCount = MAP.nodes.length;
+    (S.archive || []).forEach(function (p, j) {
+      MAP.nodes.push({ i: projectCount + j, p: p, tags: [], arch: true,
+                       bx: 0, by: 0, x: 0, y: 0, ox: 0, oy: 0, el: null, out: null });
+    });
+    MAP.links = [];
     for (var a = 0; a < projectCount; a++) {
       for (var b = a + 1; b < projectCount; b++) {
         var A = MAP.nodes[a].tags, B = MAP.nodes[b].tags;
@@ -199,11 +206,25 @@
      settle at init, so the arrangement is the same on every load. */
   function relax() {
     var n = MAP.nodes, N = n.length, i, j, d, dx, dy, f;
-    for (i = 0; i < N; i++) {
-      var a = (i / N) * Math.PI * 2 - Math.PI / 2;
-      n[i].x = Math.cos(a) * 0.62;
-      n[i].y = Math.sin(a) * 0.52;
-    }
+    /* Seed on a ring. The archive nodes sit at the end of the array, so
+       seeding in plain index order starts all three of them side by side and
+       they stay bunched on one edge — spread them evenly through the ring
+       instead, so they end up orbiting the constellation. */
+    var projs = [], arcs = [];
+    n.forEach(function (v, k) { (v.arch ? arcs : projs).push(k); });
+    var takenBy = {};
+    arcs.forEach(function (k, m) {
+      var slot = Math.min(N - 1, Math.round((m + 0.5) * N / arcs.length));
+      while (slot in takenBy) slot = (slot + 1) % N;
+      takenBy[slot] = k;
+    });
+    var order = [], p = 0;
+    for (i = 0; i < N; i++) order.push(i in takenBy ? takenBy[i] : projs[p++]);
+    order.forEach(function (k, slot) {
+      var a = (slot / N) * Math.PI * 2 - Math.PI / 2;
+      n[k].x = Math.cos(a) * 0.62;
+      n[k].y = Math.sin(a) * 0.52;
+    });
     for (var step = 0; step < 600; step++) {
       for (i = 0; i < N; i++) {
         for (j = i + 1; j < N; j++) {
@@ -256,7 +277,8 @@
 
     MAP.layer.innerHTML = MAP.nodes.map(function (v) {
       var p = v.p;
-      return '<a class="node" href="#/' + esc(p.slug) + '" data-i="' + v.i + '" ' +
+      return '<a class="node' + (v.arch ? " node--arch" : "") + '" ' +
+               'href="#/' + (v.arch ? "archive/" : "") + esc(p.slug) + '" data-i="' + v.i + '" ' +
                'aria-label="' + esc(p.title) + ', ' + esc(p.year || "") + '">' +
                '<span class="node__shot">' +
                  (p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy" onerror="this.remove()">' : "") +
@@ -367,10 +389,21 @@
     var r = MAP.field.getBoundingClientRect();
     MAP.w = r.width; MAP.h = r.height;
     MAP.svg.setAttribute("viewBox", "0 0 " + Math.round(r.width) + " " + Math.round(r.height));
-    /* keep whole pictures inside the field, and keep them off each other */
-    var shot = MAP.nodes[0].el.querySelector(".node__shot");
-    var size = shot ? shot.getBoundingClientRect().width : 140;
-    var pad  = size * 0.62 + 26;
+    /* keep whole pictures inside the field, and keep them off each other.
+       Each node carries its own radius: the archive circles are less than
+       half the size of a project picture, and giving every node the biggest
+       node's clearance wasted so much room that the six real ones could no
+       longer be separated at all. */
+    MAP.nodes.forEach(function (v) {
+      var el = v.el.querySelector(".node__shot");
+      v.r = (el ? el.getBoundingClientRect().width : 140) / 2;
+    });
+    /* the layout is scaled into the field minus one node's own half-width,
+       not minus a fixed fraction of the biggest picture — the old padding
+       reserved ~40px more on every side than any node actually needs and
+       that was the room the collision pass was missing. */
+    var maxR = MAP.nodes.reduce(function (m, v) { return Math.max(m, v.r); }, 0);
+    var pad  = maxR + 18;
     var xs = MAP.nodes.map(function (v) { return v.lx; });
     var ys = MAP.nodes.map(function (v) { return v.ly; });
     var w = Math.max.apply(null, xs) - Math.min.apply(null, xs) || 1;
@@ -390,28 +423,39 @@
 
     /* The force layout works in abstract units; once it is mapped onto real
        pixels at a real picture size, neighbours can still end up on top of
-       each other. A few passes of straight collision relaxation fixes that
-       without disturbing the overall arrangement. A tighter buffer on
-       narrow/mobile widths keeps a real but very thin gap instead of the
-       roomier spacing desktop has space for. */
+       each other. A few passes of collision relaxation fixes that without
+       disturbing the overall arrangement. A tighter buffer on narrow/mobile
+       widths keeps a real but very thin gap instead of the roomier spacing
+       desktop has space for.
+
+       The pictures are SQUARES, so separation is measured per axis, not by
+       centre distance: two nodes sitting diagonally at a circle-safe
+       distance still overlap as boxes, which is exactly what kept leaving
+       corners touching. Push along whichever axis needs the least movement. */
     var gapFactor = window.innerWidth <= 760 ? 1.04 : 1.16;
-    var min = size * gapFactor, i, j, A, B, dx, dy, d, push;
-    for (var pass = 0; pass < 60; pass++) {
+    var i, j, A, B, dx, dy, push, need, ox, oy, s;
+    for (var pass = 0; pass < 120; pass++) {
       for (i = 0; i < MAP.nodes.length; i++) {
         for (j = i + 1; j < MAP.nodes.length; j++) {
           A = MAP.nodes[i]; B = MAP.nodes[j];
+          need = (A.r + B.r) * gapFactor;
           dx = B.bx - A.bx; dy = B.by - A.by;
-          d = Math.sqrt(dx * dx + dy * dy) || 0.01;
-          if (d >= min) continue;
-          push = (min - d) / 2;
-          dx /= d; dy /= d;
-          A.bx -= dx * push; A.by -= dy * push;
-          B.bx += dx * push; B.by += dy * push;
+          ox = need - Math.abs(dx);
+          oy = need - Math.abs(dy);
+          if (ox <= 0 || oy <= 0) continue;   /* already clear on one axis */
+          if (ox <= oy) {                      /* cheaper to separate sideways */
+            s = dx < 0 ? -1 : 1; push = ox / 2;
+            A.bx -= s * push; B.bx += s * push;
+          } else {
+            s = dy < 0 ? -1 : 1; push = oy / 2;
+            A.by -= s * push; B.by += s * push;
+          }
         }
       }
       MAP.nodes.forEach(function (v) {
-        v.bx = Math.max(pad, Math.min(r.width  - pad, v.bx));
-        v.by = Math.max(pad, Math.min(r.height - pad, v.by));
+        var m = v.r + 12;
+        v.bx = Math.max(m, Math.min(r.width  - m, v.bx));
+        v.by = Math.max(m, Math.min(r.height - m, v.by));
       });
     }
 
@@ -923,6 +967,45 @@
     );
   }
 
+  /* The archive gets a gallery, not a case study: the title, the tags and
+     then the pictures. Same overlay, so it inherits the open/close, the
+     scrolling and the masthead behaviour for free. */
+  function archiveMarkup(p) {
+    return (
+      '<div class="study__inner study__inner--arch">' +
+        '<header class="study__head">' +
+          '<div class="study__head__row">' +
+            '<a class="study__back" href="#work">back to the map</a>' +
+            "<h1>" + esc(p.title) + "</h1>" +
+          "</div>" +
+          '<div class="study__tags"><span>' + esc(p.category || "") + "</span><span>" + esc(p.year || "") + "</span></div>" +
+        "</header>" +
+        '<div class="arch__grid">' +
+          (p.images || []).map(function (src) {
+            return '<figure class="plate">' + shot(src, "", "plate__shot") + "</figure>";
+          }).join("") +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  function openArchive(slug) {
+    var p = (S.archive || []).find(function (x) { return x.slug === slug; });
+    if (!p) { closeStudy(); return; }
+
+    lastFocus = document.activeElement;
+    studyEl.innerHTML = archiveMarkup(p);
+    studyEl.hidden = false;
+    studyEl.scrollTop = 0;
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(function () { studyEl.classList.add("is-open"); });
+    var bar = $(".masthead");
+    if (bar) { bar.classList.remove("is-hidden"); bar.classList.add("is-floating"); }
+    wireScribbles(studyEl.querySelectorAll(".study__back"));
+    document.title = p.title + " — " + S.identity.name;
+    studyEl.focus();
+  }
+
   function openStudy(slug) {
     var p = S.projects.find(function (x) { return x.slug === slug; });
     if (!p) { closeStudy(); return; }
@@ -951,7 +1034,8 @@
 
   function route() {
     var h = location.hash || "";
-    if (h.indexOf("#/") === 0) openStudy(h.slice(2));
+    if (h.indexOf("#/archive/") === 0) openArchive(h.slice(10));
+    else if (h.indexOf("#/") === 0) openStudy(h.slice(2));
     else closeStudy();
   }
 

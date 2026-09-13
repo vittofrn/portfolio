@@ -4,48 +4,45 @@
    ========================================================================== */
 
 /* ------------------------------------------------------------------ fonts */
-/* Drop your typeface into assets/fonts/. Name the files display.woff2 /
-   display.otf / display.ttf and it gets picked up automatically. If it's not
-   there yet, the fallback stack below keeps everything readable. */
-/* Milligram — three static cuts: Light 300, Regular 400, Medium 600.
-   (Milligram has no true Semibold; Medium is the 600 slot. Swap the file in
-   display-semibold.otf for Milligram-Bold.otf if you want it heavier.)
-   These are .otf — converting them to .woff2 at cloudconvert.com/otf-to-woff2
-   and dropping the results in beside them makes the site load ~3x faster;
-   the src lists already look for .woff2 first. */
+/* Milligram — four static cuts: Light 300, Regular 400, Medium 600, Italic.
+   (Milligram has no true Semibold; Medium fills the 600 slot.) If you ever
+   convert these to .woff2 they'll load a lot faster — add the woff2 line
+   back to each src, ahead of the .otf.
+
+   Milligram, and only Milligram. The four cuts below are the whole
+   typographic system — nothing else is loaded or referenced anywhere.
+   `font-display: block` rather than `swap` so a system face is never
+   painted on the way in: the type shows up as Milligram or not at all.
+   Only the .otf files exist, so those are the only formats listed —
+   the old .woff2/.woff/.ttf lines pointed at files that were never
+   there and just cost four 404s on every load. */
 @font-face {
   font-family: "Display";
-  src: url("../fonts/display-light.woff2") format("woff2"),
-       url("../fonts/display-light.otf")   format("opentype");
+  src: url("../fonts/display-light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 @font-face {
   font-family: "Display";
-  src: url("../fonts/display.woff2") format("woff2"),
-       url("../fonts/display.woff")  format("woff"),
-       url("../fonts/display.otf")   format("opentype"),
-       url("../fonts/display.ttf")   format("truetype");
+  src: url("../fonts/display.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 @font-face {
   font-family: "Display";
-  src: url("../fonts/display-semibold.woff2") format("woff2"),
-       url("../fonts/display-semibold.otf")   format("opentype");
+  src: url("../fonts/display-semibold.otf") format("opentype");
   font-weight: 600;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 @font-face {
   font-family: "Display";
-  src: url("../fonts/display-italic.woff2") format("woff2"),
-       url("../fonts/display-italic.otf")   format("opentype");
+  src: url("../fonts/display-italic.otf") format("opentype");
   font-style: italic;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
 }
 
 /* ----------------------------------------------------------------- tokens */
@@ -134,7 +131,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    own stacking position the (plain, static) img was actually painting
    BELOW it — the photo was there, just permanently hidden behind the
    grey placeholder. Same bug already fixed on .plate__shot img. */
-.portrait__shot img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; position: relative; z-index: 1; display: block; }
+.portrait__shot img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; display: block; }
 .portrait figcaption {
   margin-top: .7rem;
   font-size: .8125rem;
@@ -354,7 +351,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .node__shot {
   position: absolute;
   left: 50%; top: 50%;
-  width: clamp(112px, 12.5vw, 186px);
+  /* a touch smaller than before: the archive circles added three more
+     bodies to the same field, and at the old size the six project pictures
+     could no longer be separated inside it. */
+  width: clamp(104px, 11vw, 158px);
   aspect-ratio: 1 / 1;
   translate: -50% -50%;
   overflow: hidden;
@@ -405,6 +405,18 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .node.is-on .node__name { opacity: 1; }
 .node.is-off .node__tag { opacity: .4; }
 
+/* the archive: side projects ride along as small circles, so they read as
+   companions to the constellation rather than nodes in it. Same hover
+   behaviour, just quieter and rounder. */
+.node--arch .node__shot {
+  width: clamp(58px, 6vw, 92px);
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(40,38,30,.12), 0 6px 14px -10px rgba(40,38,30,.45);
+}
+.node--arch .node__tag { translate: -50% calc(-50% - clamp(44px, 4.2vw, 64px)); }
+.node--arch.is-on .node__shot { scale: 1.3; }
+.node--arch.is-on .node__tag { translate: -50% calc(-50% - clamp(60px, calc(5vw + 16px), 92px)); }
+
 /* the filter: the chosen kind of work comes forward, the rest steps back */
 .node.is-lit  { z-index: 4; }
 .node.is-lit  .node__shot { box-shadow: 0 3px 8px rgba(40,38,30,.2), 0 20px 40px -20px rgba(40,38,30,.55); }
@@ -416,6 +428,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   .filter { padding-bottom: clamp(.4rem, 1.2vh, .7rem); }
   .map__field { height: clamp(380px, 62vh, 560px); }
   .node__shot { width: clamp(84px, 23vw, 124px); }
+  .node--arch .node__shot { width: clamp(46px, 12vw, 68px); }
 }
 
 @media (max-width: 760px) {
@@ -426,6 +439,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
      match (see gapFactor) — a very thin gap between photos instead of real
      air, without letting them touch. */
   .node__shot { width: clamp(64px, 17vw, 96px); }
+  .node--arch .node__shot { width: clamp(38px, 9vw, 54px); }
   .map__field { height: clamp(440px, 62vh, 560px); }
 }
 
@@ -634,9 +648,24 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   margin: 0 auto;
   padding: 0 var(--gutter);
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 3vw, 2.6rem);
+  /* three loose columns of small pictures rather than two big ones, each
+     item narrower than its own column and dropped to a different height,
+     so the page reads as scattered prints rather than a tidy grid. */
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(3rem, 7vw, 6rem) clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
 }
+/* the stagger: fixed, hand-set widths and offsets per position rather than
+   anything random, so the arrangement is the same on every load. Each item
+   is narrower than its own column, which is what leaves the air between
+   them and stops the row reading as a tidy grid. */
+.work { width: min(100%, 21rem); }
+.work:nth-child(6n+1) { width: min(100%, 20rem); justify-self: end;    margin-top: 0; }
+.work:nth-child(6n+2) { width: min(100%, 22rem); justify-self: center; margin-top: clamp(3rem, 9vh, 7rem); }
+.work:nth-child(6n+3) { width: min(100%, 21rem); justify-self: start;  margin-top: clamp(.5rem, 1.5vh, 1.2rem); }
+.work:nth-child(6n+4) { width: min(100%, 22rem); justify-self: end;    margin-top: clamp(2rem, 6vh, 4.5rem); }
+.work:nth-child(6n+5) { width: min(100%, 19rem); justify-self: center; margin-top: clamp(5rem, 14vh, 11rem); }
+.work:nth-child(6n+6) { width: min(100%, 21rem); justify-self: start;  margin-top: 0; }
 .work__a {
   display: block;
   text-decoration: none;
@@ -652,16 +681,16 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   color: var(--ink);
   mix-blend-mode: difference;
 }
+/* no forced crop here any more — each cover keeps its own proportions, which
+   is what gives the row its uneven, pinned-up look. */
 .work__shot {
   display: block;
   position: relative;
   overflow: hidden;
-  aspect-ratio: 6 / 5;
   background: var(--paper-deep);
 }
 .work__shot img {
-  width: 100%; height: 100%;
-  object-fit: cover;
+  width: 100%; height: auto;
   display: block;
   transition: scale .7s cubic-bezier(.2,.8,.3,1);
   /* full colour at rest and on hover now — the grayscale(.35) that used to
@@ -670,23 +699,25 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .work__a:hover .work__shot img,
 .work__a:focus-visible .work__shot img { scale: 1.05; }
 
+/* title on its own line, then the disciplines with the year pushed out to
+   the far edge of the caption */
 .work__meta {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: .1rem .8rem;
-  margin-top: 1.1rem;
+  gap: .15rem .8rem;
+  margin-top: .9rem;
 }
 .work__title {
+  grid-column: 1 / -1;
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: .9375rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -.09em;
+  letter-spacing: -.06em;
 }
-.work__year { font-size: .6875rem; letter-spacing: .12em; color: var(--pencil); text-align: right; }
+.work__year { font-size: .625rem; letter-spacing: .12em; color: var(--pencil); text-align: right; align-self: end; }
 .work__cat {
-  grid-column: 1 / -1;
-  font-size: .6875rem;
+  font-size: .625rem;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--graphite);
@@ -800,7 +831,20 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   .portrait { margin-top: 0; }
   .about__body { max-width: none; }
   .disciplines li { grid-template-columns: 1fr; }
-  .works__grid { grid-template-columns: 1fr; }
+  /* one column on a phone, and the desktop stagger/offsets come back off —
+     there's no room for scattering at this width. */
+  .works__grid { grid-template-columns: 1fr; gap: clamp(2.5rem, 8vh, 4rem); }
+  .work { width: 100%; }
+  .works__grid .work { justify-self: stretch; margin-top: 0; }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  /* two columns in the middle band, with the stagger re-keyed to pairs */
+  .works__grid { grid-template-columns: repeat(2, 1fr); }
+  .work:nth-child(4n+1) { justify-self: end;   margin-top: 0; }
+  .work:nth-child(4n+2) { justify-self: start; margin-top: clamp(3rem, 9vh, 6rem); }
+  .work:nth-child(4n+3) { justify-self: end;   margin-top: clamp(1rem, 3vh, 2rem); }
+  .work:nth-child(4n+4) { justify-self: start; margin-top: clamp(4rem, 12vh, 8rem); }
 }
 
 /* --------------------------------------------------------- case studies */
@@ -808,7 +852,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    is set lowercase, medium-weight, tightly tracked. */
 .study__inner { margin: 0 auto; padding: 0 var(--gutter) clamp(4rem, 12vh, 8rem); }
 .study__head {
-  padding: clamp(5.5rem, 12vh, 8.5rem) 0 clamp(2rem, 6vh, 4rem);
+  padding: clamp(5.5rem, 12vh, 8.5rem) 0 clamp(1rem, 3vh, 2rem);
 }
 .study__head__row {
   display: flex;
@@ -871,7 +915,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   grid-template-columns: auto 1fr 1fr 1fr;
   align-items: start;
   gap: 1rem 2rem;
-  margin-top: clamp(2rem, 6vh, 3.5rem);
+  margin-top: clamp(1rem, 3vh, 1.75rem);
   padding-top: 1.4rem;
   border-top: 1px solid var(--paper-deep);
 }
@@ -952,6 +996,18 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   .study__meta { grid-template-columns: 1fr; gap: 1.1rem; }
   .study__meta__arrow { display: none; }
 }
+
+/* the archive gallery: just the pictures, at their own proportions, in a
+   loose column. No sections, no rhythm — it isn't a case study. */
+.arch__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  gap: clamp(1.2rem, 2.6vw, 2rem);
+  margin-top: clamp(1.5rem, 4vh, 2.6rem);
+  padding-bottom: clamp(3rem, 10vh, 6rem);
+}
+.arch__grid .plate__shot { aspect-ratio: auto; height: auto; }
+.arch__grid .plate__shot img { height: auto; }
 
 .study__foot {
   margin-top: clamp(3rem, 10vh, 6rem);

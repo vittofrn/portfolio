@@ -381,11 +381,49 @@ window.SITE = {
     }
   ],
 
-  /* The archive / pinboard section was removed when the homepage became the
-     map. Its four images are still in assets/images/archive/ if you want it
-     back — the entries looked like:
-       { title: "...", year: "2025", src: "assets/images/archive/01.jpg",
-         note: "..." }                                                     */
+  /* --------------------------------------------------------------- archive */
+  /* Smaller, side projects. They ride along on the map as little circles
+     rather than full nodes, and clicking one opens a plain picture gallery
+     instead of a whole case study. Same shape as `projects`, minus the
+     sections and the copy: a cover for the circle, then the pictures. */
+  archive: [
+    {
+      slug: "rufa-annual-report",
+      title: "RUFA Annual Report",
+      category: "Editorial design / Infographics",
+      year: "2023",
+      cover: "assets/images/archive/rufa-annual-report/cover.jpg",
+      images: [
+        "assets/images/archive/rufa-annual-report/01.jpg",
+        "assets/images/archive/rufa-annual-report/02.jpg",
+        "assets/images/archive/rufa-annual-report/03.jpg",
+        "assets/images/archive/rufa-annual-report/04.jpg"
+      ]
+    },
+    {
+      slug: "magjam",
+      title: "MagJam",
+      category: "Editorial photography",
+      year: "2024",
+      cover: "assets/images/archive/magjam/cover.jpg",
+      images: [
+        "assets/images/archive/magjam/01.jpg",
+        "assets/images/archive/magjam/02.jpg",
+        "assets/images/archive/magjam/03.jpg"
+      ]
+    },
+    {
+      slug: "maxxi-infinito",
+      title: "Infinito — MAXXI",
+      category: "Poster",
+      year: "2023",
+      cover: "assets/images/archive/maxxi-infinito/cover.jpg",
+      images: [
+        "assets/images/archive/maxxi-infinito/01.jpg",
+        "assets/images/archive/maxxi-infinito/02.jpg"
+      ]
+    }
+  ],
 
   /* ------------------------------------------------------------------ about */
   about: {
