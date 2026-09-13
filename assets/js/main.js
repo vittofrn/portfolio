@@ -220,10 +220,13 @@
     });
     var order = [], p = 0;
     for (i = 0; i < N; i++) order.push(i in takenBy ? takenBy[i] : projs[p++]);
+    /* rotated off the old top-start / left-right symmetric seed so the
+       settled shape reads differently on the page, not the same arrangement
+       repeated after every content change */
     order.forEach(function (k, slot) {
-      var a = (slot / N) * Math.PI * 2 - Math.PI / 2;
-      n[k].x = Math.cos(a) * 0.62;
-      n[k].y = Math.sin(a) * 0.52;
+      var a = (slot / N) * Math.PI * 2 + Math.PI / 5;
+      n[k].x = Math.cos(a) * 0.7;
+      n[k].y = Math.sin(a) * 0.46;
     });
     for (var step = 0; step < 600; step++) {
       for (i = 0; i < N; i++) {
@@ -936,7 +939,6 @@
             '<a class="study__back" href="#work">back to the map</a>' +
             "<h1>" + esc(p.title) + "</h1>" +
           "</div>" +
-          '<div class="study__tags"><span>' + esc(p.category || "") + "</span><span>" + esc(p.year || "") + "</span></div>" +
           (p.intro ? '<p class="study__lede">' + esc(p.intro) + "</p>" : "") +
           (p.link ? '<a class="study__link" href="' + esc(p.link.href) + '" target="_blank" rel="noopener">' +
                     esc(p.link.label) + "</a>" : "") +
@@ -967,43 +969,38 @@
     );
   }
 
-  /* The archive gets a gallery, not a case study: the title, the tags and
-     then the pictures. Same overlay, so it inherits the open/close, the
-     scrolling and the masthead behaviour for free. */
-  function archiveMarkup(p) {
-    return (
-      '<div class="study__inner study__inner--arch">' +
-        '<header class="study__head">' +
-          '<div class="study__head__row">' +
-            '<a class="study__back" href="#work">back to the map</a>' +
-            "<h1>" + esc(p.title) + "</h1>" +
-          "</div>" +
-          '<div class="study__tags"><span>' + esc(p.category || "") + "</span><span>" + esc(p.year || "") + "</span></div>" +
-        "</header>" +
-        '<div class="arch__grid">' +
-          (p.images || []).map(function (src) {
-            return '<figure class="plate">' + shot(src, "", "plate__shot") + "</figure>";
-          }).join("") +
-        "</div>" +
-      "</div>"
-    );
-  }
+  /* The archive doesn't get a page — just a lightbox over the landing, with
+     the pictures in a single horizontal-scrolling strip. Opening one never
+     touches studyEl or the masthead; it's a layer on top of wherever you
+     already are. */
+  var lightboxEl = null, lightboxLastFocus = null;
 
   function openArchive(slug) {
     var p = (S.archive || []).find(function (x) { return x.slug === slug; });
-    if (!p) { closeStudy(); return; }
+    if (!p || !lightboxEl) return;
 
-    lastFocus = document.activeElement;
-    studyEl.innerHTML = archiveMarkup(p);
-    studyEl.hidden = false;
-    studyEl.scrollTop = 0;
+    lightboxLastFocus = document.activeElement;
+    lightboxEl.querySelector(".lightbox__title").textContent = p.title;
+    lightboxEl.querySelector(".lightbox__strip").innerHTML =
+      (p.images || []).map(function (src) {
+        return '<figure class="lightbox__plate">' + shot(src, "", "lightbox__shot") + "</figure>";
+      }).join("");
+    lightboxEl.hidden = false;
+    requestAnimationFrame(function () { lightboxEl.classList.add("is-open"); });
     document.body.style.overflow = "hidden";
-    requestAnimationFrame(function () { studyEl.classList.add("is-open"); });
-    var bar = $(".masthead");
-    if (bar) { bar.classList.remove("is-hidden"); bar.classList.add("is-floating"); }
-    wireScribbles(studyEl.querySelectorAll(".study__back"));
-    document.title = p.title + " — " + S.identity.name;
-    studyEl.focus();
+    lightboxEl.focus();
+  }
+
+  function closeArchive() {
+    if (!lightboxEl || lightboxEl.hidden) return;
+    lightboxEl.classList.remove("is-open");
+    document.body.style.overflow = "";
+    setTimeout(function () {
+      lightboxEl.hidden = true;
+      lightboxEl.querySelector(".lightbox__strip").innerHTML = "";
+    }, 280);
+    if (lightboxLastFocus && lightboxLastFocus.focus) lightboxLastFocus.focus();
+    if (location.hash.indexOf("#/archive/") === 0) history.replaceState(null, "", "#work");
   }
 
   function openStudy(slug) {
@@ -1034,8 +1031,9 @@
 
   function route() {
     var h = location.hash || "";
-    if (h.indexOf("#/archive/") === 0) openArchive(h.slice(10));
-    else if (h.indexOf("#/") === 0) openStudy(h.slice(2));
+    if (h.indexOf("#/archive/") === 0) { openArchive(h.slice(10)); return; }
+    closeArchive();
+    if (h.indexOf("#/") === 0) openStudy(h.slice(2));
     else closeStudy();
   }
 
@@ -1052,9 +1050,17 @@
     wireBurger();
 
     studyEl = $(".study");
+    lightboxEl = $(".lightbox");
+    if (lightboxEl) {
+      lightboxEl.addEventListener("click", function (e) {
+        if (e.target.closest("[data-close]")) location.hash = "#work";
+      });
+    }
 
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !studyEl.hidden) location.hash = "#work";
+      if (e.key !== "Escape") return;
+      if (lightboxEl && !lightboxEl.hidden) { location.hash = "#work"; return; }
+      if (!studyEl.hidden) location.hash = "#work";
     });
     window.addEventListener("hashchange", route);
 

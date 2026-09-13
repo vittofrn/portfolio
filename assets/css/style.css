@@ -432,15 +432,17 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 
 @media (max-width: 760px) {
-  /* the landing/map screen gets the same true 50px edge margin as the rest
-     of the site on desktop — it was still on the small 1rem mobile gutter. */
-  .map { padding-left: 50px; padding-right: 50px; padding-top: clamp(3rem, 8vh, 4.5rem); }
+  /* narrower side margin than the 50px desktop edge — the map wants the
+     room back on a phone so the constellation has space to spread. */
+  .map { padding-left: 20px; padding-right: 20px; padding-top: clamp(3rem, 8vh, 4.5rem); }
   /* bigger than before, with the collision buffer in main.js tightened to
      match (see gapFactor) — a very thin gap between photos instead of real
      air, without letting them touch. */
-  .node__shot { width: clamp(64px, 17vw, 96px); }
-  .node--arch .node__shot { width: clamp(38px, 9vw, 54px); }
-  .map__field { height: clamp(440px, 62vh, 560px); }
+  .node__shot { width: clamp(60px, 15vw, 90px); }
+  .node--arch .node__shot { width: clamp(36px, 8vw, 50px); }
+  /* taller field, so the extra width goes toward real spacing rather than
+     tighter packing */
+  .map__field { height: clamp(520px, 74vh, 680px); }
 }
 
 
@@ -852,7 +854,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    is set lowercase, medium-weight, tightly tracked. */
 .study__inner { margin: 0 auto; padding: 0 var(--gutter) clamp(4rem, 12vh, 8rem); }
 .study__head {
-  padding: clamp(5.5rem, 12vh, 8.5rem) 0 clamp(1rem, 3vh, 2rem);
+  padding: clamp(5.5rem, 12vh, 8.5rem) 0 0;
 }
 .study__head__row {
   display: flex;
@@ -877,13 +879,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   letter-spacing: -.09em;
   line-height: .95;
   margin: 0;
-}
-.study__tags {
-  margin-top: 1.2rem;
-  font-size: .6875rem;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--pencil);
 }
 .study__lede {
   margin: 1.6rem 0 0;
@@ -915,7 +910,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   grid-template-columns: auto 1fr 1fr 1fr;
   align-items: start;
   gap: 1rem 2rem;
-  margin-top: clamp(1rem, 3vh, 1.75rem);
+  margin: 20px 0;
   padding-top: 1.4rem;
   border-top: 1px solid var(--paper-deep);
 }
@@ -997,17 +992,73 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   .study__meta__arrow { display: none; }
 }
 
-/* the archive gallery: just the pictures, at their own proportions, in a
-   loose column. No sections, no rhythm — it isn't a case study. */
-.arch__grid {
+/* ------------------------------------------------------------- lightbox */
+/* The archive opens here, on top of the landing — not a page of its own.
+   A dim backdrop, a close button, a title, then the pictures in one
+   horizontal-scrolling strip at their own proportions. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
-  gap: clamp(1.2rem, 2.6vw, 2rem);
-  margin-top: clamp(1.5rem, 4vh, 2.6rem);
-  padding-bottom: clamp(3rem, 10vh, 6rem);
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s ease;
 }
-.arch__grid .plate__shot { aspect-ratio: auto; height: auto; }
-.arch__grid .plate__shot img { height: auto; }
+.lightbox.is-open { opacity: 1; pointer-events: auto; }
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 21, 26, .78);
+  backdrop-filter: blur(2px);
+}
+.lightbox__panel {
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 1400px);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  translate: 0 12px;
+  transition: translate .32s cubic-bezier(.2,.8,.3,1);
+}
+.lightbox.is-open .lightbox__panel { translate: 0 0; }
+.lightbox__close {
+  position: absolute;
+  top: -2.6rem;
+  right: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--paper);
+  display: grid;
+  place-items: center;
+}
+.lightbox__title {
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  margin: 0 0 1rem;
+}
+.lightbox__strip {
+  display: flex;
+  gap: 1.2rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: .5rem;
+}
+.lightbox__plate { margin: 0; flex: none; height: min(72vh, 640px); scroll-snap-align: center; }
+.lightbox__shot { display: inline-block; position: relative; height: 100%; background: var(--paper-deep); }
+.lightbox__shot img { height: 100%; width: auto; max-width: none; display: block; position: relative; z-index: 1; object-fit: contain; }
+
+@media (max-width: 760px) {
+  .lightbox__panel { width: 100vw; padding: 0 1rem; }
+  .lightbox__close { top: .6rem; right: .6rem; color: var(--ink); }
+  .lightbox__plate { height: min(60vh, 480px); }
+}
 
 .study__foot {
   margin-top: clamp(3rem, 10vh, 6rem);
