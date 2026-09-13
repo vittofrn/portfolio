@@ -55,6 +55,12 @@ window.SITE = {
       cover: "assets/images/projects/maggo/cover.jpg",
       // size in the grid: "wide" | "tall" | "regular"
       size: "wide",
+      // shown as the year / service / role strip under the case study title
+      meta: {
+        year: "2024",
+        service: ["Editorial design", "Copywriting", "Social media"],
+        role: ["Co-founder", "Art director", "Editor"]
+      },
       intro:
         "Maggo is a talking, perceptive editorial magazine developed for the Mag to Mag 2024 Festival with Rufa around the theme of \"intelligence.\" The core idea is, what if a magazine had its own mind, and could actually talk to you?",
       sections: [
@@ -102,6 +108,11 @@ window.SITE = {
       blurb: "A leaf you have to keep alive.",
       cover: "assets/images/projects/enifolia/cover.jpg",
       size: "regular",
+      meta: {
+        year: "2023",
+        service: ["App design", "UX & UI design", "Brand design"],
+        role: ["Brand designer", "Art director", "UX & UI designer"]
+      },
       intro:
         "Enifolia is a concept game that uses gamification, sustainability, and behavioral design to nudge Enel Energia customers toward better household energy habits. It was born out of a two-hour group brainstorming session during a workshop on Neuromarketing & Behavioral Data-Driven Design, led by Dr. Andrea Ciceri.",
       sections: [
@@ -148,6 +159,11 @@ window.SITE = {
       blurb: "Who you are online, mapped.",
       cover: "assets/images/projects/abstract-entity-atlas/cover.jpg",
       size: "tall",
+      meta: {
+        year: "2025",
+        service: ["UX & UI design", "Infographics", "Editorial design", "Brand design"],
+        role: ["Brand designer", "UX & UI designer", "Infographics designer", "Editor"]
+      },
       intro:
         "Abstract Entity Atlas is a test-taking platform that generates a personal and unique data-map, built to raise awareness of how our online identity is actually shaped by data, not by who we are physically, but by what we do, click, and share.",
       sections: [
@@ -215,6 +231,11 @@ window.SITE = {
       blurb: "Three years of learning, in print.",
       cover: "assets/images/projects/bozza/cover.jpg",
       size: "regular",
+      meta: {
+        year: "2025",
+        service: ["Editorial design"],
+        role: ["Editor"]
+      },
       intro:
         "Bozza is an editorial project created for the 2025 ARF! Festival to document the creative journey of students in RUFA's Graphic Design Comics and Illustration program.",
       sections: [
@@ -262,6 +283,11 @@ window.SITE = {
       blurb: "Two kinds of noise, one sleeve.",
       cover: "assets/images/projects/theclash-x-basquiat/cover.jpg",
       size: "regular",
+      meta: {
+        year: "2023",
+        service: ["Album design", "Illustration"],
+        role: ["Designer", "Illustrator"]
+      },
       intro:
         "This project was a brief pairing The Clash's self-titled 1977 album with the artist Jean-Michel Basquiat, developed in my first year of university, working under an art director. I had to merge two voices, one musical, one visual, rather than just borrowing Basquiat's aesthetic as decoration.",
       sections: [
@@ -310,6 +336,11 @@ window.SITE = {
       blurb: "Uncomfortable on purpose.",
       cover: "assets/images/projects/scomodo/cover.jpg",
       size: "wide",
+      meta: {
+        year: "2021",
+        service: ["Advertising", "Illustration", "Copywriting"],
+        role: ["Creative director", "Copywriter", "Illustrator", "Editor"]
+      },
       intro:
         "This advertising campaign was commissioned by Scomodo, a youth community founded in Rome in 2016 to drive social and cultural change by empowering young people. They needed to attract new members to their shared spaces where younger people can express themselves and pursue what they're actually passionate about, stepping out of their comfort zone.",
       sections: [
@@ -373,7 +404,7 @@ window.SITE = {
     ],
     body: [
       "I was born in a small town in Italy and moved to Rome to study. I've worked with clients to help tell their stories, giving audiences the feel of a brand that's been curated and cared for.",
-      "I'm drawn to varied projects of all kinds. I think good design starts with openness — understanding a problem from every point of view."
+      "I'm drawn to varied projects of all kinds. I think good design starts with openness, understanding a problem from every point of view."
     ],
     education: [
       { what: "BA Graphic Design, 110/110", where: "Rome University of Fine Arts (RUFA), Rome" },
@@ -395,7 +426,7 @@ window.SITE = {
     links: [
       { label: "LinkedIn", href: "https://www.linkedin.com/in/vittoria-fornari-6405b0313/" },
       { label: "Behance", href: "https://www.behance.net/vittoriafornari2" },
-      { label: "Instagram — design", href: "https://www.instagram.com/vitto_gd/" }
+      { label: "Instagram", href: "https://www.instagram.com/vitto_gd/" }
     ]
   }
 };

@@ -74,9 +74,10 @@
   --gutter: 1rem;
   --measure: 62ch;
 
-  --swipe-yellow: #E8D24A;
-  --swipe-orange: #DE7526;
-  --swipe-blue:   #6FC7ED;
+  --swipe-yellow: #FFDD00;
+  --swipe-pink:   #ED86DA;
+  --swipe-orange: #FF8000;
+  --swipe-blue:   #00E8FF;
 
   /* one of the hover-scribble's own squiggle paths (path 0), reused as a
      stretchable mask so every plain divider line on the site is drawn in
@@ -133,7 +134,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    own stacking position the (plain, static) img was actually painting
    BELOW it — the photo was there, just permanently hidden behind the
    grey placeholder. Same bug already fixed on .plate__shot img. */
-.portrait__shot img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; display: block; }
+.portrait__shot img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; position: relative; z-index: 1; display: block; }
 .portrait figcaption {
   margin-top: .7rem;
   font-size: .8125rem;
@@ -219,9 +220,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   text-transform: uppercase;
   text-decoration: none;
 }
-.colophon__links a:nth-child(3n+1) { --swipe-colour: var(--swipe-yellow); }
-.colophon__links a:nth-child(3n+2) { --swipe-colour: var(--swipe-orange); }
-.colophon__links a:nth-child(3n+3) { --swipe-colour: var(--swipe-blue); }
+.colophon__links a:nth-child(4n+1) { --swipe-colour: var(--swipe-yellow); }
+.colophon__links a:nth-child(4n+2) { --swipe-colour: var(--swipe-pink); }
+.colophon__links a:nth-child(4n+3) { --swipe-colour: var(--swipe-orange); }
+.colophon__links a:nth-child(4n+4) { --swipe-colour: var(--swipe-blue); }
 .colophon__foot {
   margin-top: clamp(2.5rem, 6vh, 4rem);
   font-size: .6875rem;
@@ -770,7 +772,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   line-height: 1;
   color: var(--ink);
 }
-.disciplines span { color: var(--graphite); font-size: .9375rem; }
+.disciplines span { display: block; color: var(--graphite); font-size: .9375rem; text-align: right; }
 
 /* --------------------------------------------------------- the harp strings */
 .disciplines__strings {
@@ -861,6 +863,23 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   --swipe-colour: var(--swipe-blue);
 }
 
+/* the year / service / role strip under the title, sourced from the
+   portfolio deck — an arrow, then three columns of grey label + bold
+   stacked values. */
+.study__meta {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr 1fr;
+  align-items: start;
+  gap: 1rem 2rem;
+  margin-top: clamp(2rem, 6vh, 3.5rem);
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--paper-deep);
+}
+.study__meta__arrow { font-size: 1.1rem; line-height: 1; color: var(--pencil); align-self: center; }
+.study__meta__col { display: flex; flex-direction: column; gap: .4rem; }
+.study__meta__label { font-size: .6875rem; letter-spacing: .14em; text-transform: uppercase; color: var(--pencil); }
+.study__meta__col strong { font-weight: 600; font-size: .875rem; letter-spacing: -.01em; color: var(--ink); }
+
 /* a text-bearing section gets the same gap above its heading as it does
    below its text, before the picture row — symmetric top/bottom air. A
    textless section (a solo picture in the rhythm) gets a much smaller gap
@@ -928,6 +947,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
      solo pictures still get a much tighter gap between each other */
   .spread { padding-top: clamp(1.8rem, 6vh, 3rem); }
   .spread:not(:has(.spread__text)) { padding-top: clamp(.15rem, .5vh, .25rem); }
+  /* the year/service/role strip stacks to one column on a phone; the
+     arrow doesn't earn its space at this width */
+  .study__meta { grid-template-columns: 1fr; gap: 1.1rem; }
+  .study__meta__arrow { display: none; }
 }
 
 .study__foot {
@@ -1098,9 +1121,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   transition: color .22s ease;
 }
 .filter__b:hover, .filter__b.is-on { color: var(--ink); }
-.filter__b:nth-child(3n+1) { --swipe-colour: var(--swipe-yellow); }
-.filter__b:nth-child(3n+2) { --swipe-colour: var(--swipe-orange); }
-.filter__b:nth-child(3n+3) { --swipe-colour: var(--swipe-blue); }
+.filter__b:nth-child(4n+1) { --swipe-colour: var(--swipe-yellow); }
+.filter__b:nth-child(4n+2) { --swipe-colour: var(--swipe-pink); }
+.filter__b:nth-child(4n+3) { --swipe-colour: var(--swipe-orange); }
+.filter__b:nth-child(4n+4) { --swipe-colour: var(--swipe-blue); }
 
 @media (max-width: 860px) {
   .filter { flex-wrap: wrap; }

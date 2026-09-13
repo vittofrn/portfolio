@@ -897,6 +897,18 @@
           (p.link ? '<a class="study__link" href="' + esc(p.link.href) + '" target="_blank" rel="noopener">' +
                     esc(p.link.label) + "</a>" : "") +
         "</header>" +
+        (p.meta ?
+          '<div class="study__meta">' +
+            '<span class="study__meta__arrow" aria-hidden="true">&#8594;</span>' +
+            '<div class="study__meta__col"><span class="study__meta__label">Year</span><strong>' + esc(p.meta.year) + "</strong></div>" +
+            '<div class="study__meta__col"><span class="study__meta__label">Service</span>' +
+              p.meta.service.map(function (s) { return "<strong>" + esc(s) + "</strong>"; }).join("") +
+            "</div>" +
+            '<div class="study__meta__col"><span class="study__meta__label">Role</span>' +
+              p.meta.role.map(function (r) { return "<strong>" + esc(r) + "</strong>"; }).join("") +
+            "</div>" +
+          "</div>"
+        : "") +
         (p.cover ? '<figure class="plate">' + shot(p.cover, "", "plate__shot") + "</figure>" : "") +
         spreads +
         '<footer class="study__foot">' +
