@@ -316,13 +316,6 @@ window.SITE = {
           images: [
             { src: "assets/images/projects/theclash-x-basquiat/06.jpg" }
           ]
-        },
-        {
-          heading: "",
-          body: "",
-          images: [
-            { src: "assets/images/projects/theclash-x-basquiat/07.jpg" }
-          ]
         }
       ],
       credits: []
