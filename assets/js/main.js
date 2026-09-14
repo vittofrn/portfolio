@@ -344,7 +344,12 @@
         B.x -= dx / d * f; B.y -= dy / d * f;
       });
       for (i = 0; i < N; i++) {                    /* keep it centred */
-        n[i].x *= 0.9985; n[i].y *= 0.9985;
+        /* the archive circles have no links pulling them toward the
+           constellation, so plain repulsion alone drifts them out to the
+           edges — a stronger pull-in keeps them riding close to the map
+           instead of stranded on their own. */
+        var pull = n[i].arch ? 0.985 : 0.9985;
+        n[i].x *= pull; n[i].y *= pull;
       }
     }
     /* Centre on the centroid and keep the raw coordinates. Normalising each
