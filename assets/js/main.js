@@ -125,6 +125,75 @@
     });
   }
 
+  /* ============================================== THE CIRCLE SCRIBBLE */
+  /* Same draw-in/erase idea as the underline above, bent into a closed,
+     hand-wobbled loop instead of a straight strip — for circling a picture
+     on hover rather than underlining a word. One path, in a square 0..200
+     coordinate space, scaled to the shot's own box (both axes, unlike the
+     underline's horizontal-only scale — a circle has to bend to fit a
+     rectangle, not just stretch). */
+  var CIRCLE_PATH =
+    "M101 4C138 2 172 22 187 56C202 90 197 133 172 161C147 189 106 199 71 189" +
+    "C36 179 8 151 5 115C2 79 22 43 55 24C69 16 85 6 101 4Z";
+  var CIRCLE_BOX = 200;
+
+  /* wraps `hostEl` (position:relative) with a hover-drawn circle sized to
+     `targetEl`'s own box, a little wider than the picture so the line sits
+     just outside its edges rather than tracing the crop exactly. */
+  function wireCircleScribble(hostEl, targetEl) {
+    var svg = null, path = null, len = 0, hideT = null;
+    var BLEED = 0.07;   /* how far the circle bulges past the picture, each side */
+
+    function build() {
+      var w = targetEl.offsetWidth, h = targetEl.offsetHeight;
+      if (w <= 0 || h <= 0) return null;
+      var bx = w * BLEED, by = h * BLEED;
+
+      svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "circle-scribble-svg");
+      svg.setAttribute("viewBox", "0 0 " + CIRCLE_BOX + " " + CIRCLE_BOX);
+      svg.setAttribute("preserveAspectRatio", "none");
+      /* the svg element itself is drawn bigger than the picture (the bleed),
+         so the 0..CIRCLE_BOX path stretches to cover the picture plus that
+         overhang on every side, instead of tracing its edges exactly */
+      svg.style.left = (targetEl.offsetLeft - bx).toFixed(1) + "px";
+      svg.style.top  = (targetEl.offsetTop  - by).toFixed(1) + "px";
+      svg.style.width  = (w + bx * 2).toFixed(1) + "px";
+      svg.style.height = (h + by * 2).toFixed(1) + "px";
+
+      path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", CIRCLE_PATH);
+      path.setAttribute("stroke-width", "2.4");
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("stroke-linejoin", "round");
+      path.setAttribute("vector-effect", "non-scaling-stroke");
+      svg.appendChild(path);
+      hostEl.appendChild(svg);
+
+      len = path.getTotalLength();
+      path.style.strokeDasharray = len + " " + len;
+      path.style.strokeDashoffset = len;
+      return svg;
+    }
+
+    hostEl.addEventListener("pointerenter", function () {
+      clearTimeout(hideT);
+      if (svg) { svg.remove(); svg = null; }
+      if (!build()) return;
+      path.getBoundingClientRect();
+      path.style.transition = "stroke-dashoffset .6s cubic-bezier(.4,0,.2,1)";
+      path.style.strokeDashoffset = "0";
+    });
+
+    hostEl.addEventListener("pointerleave", function () {
+      if (!path) return;
+      path.style.transition = "stroke-dashoffset .45s cubic-bezier(.4,0,.2,1)";
+      path.style.strokeDashoffset = String(-len);
+      var mine = svg;
+      hideT = setTimeout(function () { if (mine) mine.remove(); if (svg === mine) svg = null; }, 480);
+    });
+  }
+
   function wireScribbles(nodeList) {
     Array.prototype.forEach.call(nodeList, wireScribble);
   }
@@ -699,6 +768,10 @@
                '<span class="work__go">[ view ]</span>' +
              "</a></li>";
     }).join("");
+
+    $$(".work__a").forEach(function (a) {
+      wireCircleScribble(a, a.querySelector(".work__shot"));
+    });
   }
 
   /* ========================================================= RENDER: about */

@@ -375,6 +375,20 @@ window.SITE = {
           images: [
             { src: "assets/images/projects/scomodo/06.jpg" }
           ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/scomodo/07.jpg" }
+          ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/scomodo/08.jpg" }
+          ]
         }
       ],
       credits: []

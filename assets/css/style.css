@@ -677,6 +677,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   color: inherit;
   position: relative;
 }
+.work:nth-child(4n+1) .work__a { --swipe-colour: var(--swipe-yellow); }
+.work:nth-child(4n+2) .work__a { --swipe-colour: var(--swipe-pink); }
+.work:nth-child(4n+3) .work__a { --swipe-colour: var(--swipe-orange); }
+.work:nth-child(4n+4) .work__a { --swipe-colour: var(--swipe-blue); }
 .work__no {
   position: absolute;
   top: .7rem; left: .7rem;
@@ -1152,6 +1156,18 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   color: var(--swipe-colour, var(--swipe-yellow));
 }
 .scribble-svg path { stroke: currentColor; fill: none; }
+
+/* the hand-drawn hover circle main.js wraps a works-grid picture in — same
+   draw-in/erase trick as .scribble-svg, just a closed loop instead of a
+   strip, and positioned by main.js (it has to sit over the picture, not
+   under a line of text). */
+.circle-scribble-svg {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+  color: var(--swipe-colour, var(--swipe-orange));
+}
+.circle-scribble-svg path { stroke: currentColor; fill: none; }
 
 /* the drawn wordmark */
 .wordmark { display: inline-flex; align-items: center; line-height: 0; }
