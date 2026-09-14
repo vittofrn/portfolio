@@ -95,6 +95,13 @@ window.SITE = {
           images: [
             { src: "assets/images/projects/maggo/06.jpg" }
           ]
+        },
+        {
+          heading: "",
+          body: "",
+          images: [
+            { src: "assets/images/projects/maggo/07.jpg" }
+          ]
         }
       ],
       credits: ["Mag to Mag Festival 2024", "RUFA", "SLAB Letterpress"]
