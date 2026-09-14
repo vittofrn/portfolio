@@ -181,11 +181,14 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   line-height: .96;
 }
 .colophon__sub {
-  max-width: 34rem;
+  max-width: none;
   margin: 1rem 0 2.2rem;
   color: var(--graphite);
-  font-size: clamp(.95rem, 1.6vw, 1.15rem);
+  font-size: clamp(.7rem, 1.6vw, 1.15rem);
   line-height: 1.55;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* the email CTA — a button in the same small-caps family as everything
@@ -438,11 +441,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   /* bigger than before, with the collision buffer in main.js tightened to
      match (see gapFactor) — a very thin gap between photos instead of real
      air, without letting them touch. */
-  .node__shot { width: clamp(60px, 15vw, 90px); }
-  .node--arch .node__shot { width: clamp(36px, 8vw, 50px); }
+  .node__shot { width: clamp(50px, 12vw, 76px); }
+  .node--arch .node__shot { width: clamp(30px, 7vw, 42px); }
   /* taller field, so the extra width goes toward real spacing rather than
      tighter packing */
-  .map__field { height: clamp(520px, 74vh, 680px); }
+  .map__field { height: clamp(560px, 80vh, 740px); }
 }
 
 
@@ -834,10 +837,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   .about__body { max-width: none; }
   .disciplines li { grid-template-columns: 1fr; }
   /* one column on a phone, and the desktop stagger/offsets come back off —
-     there's no room for scattering at this width. */
-  .works__grid { grid-template-columns: 1fr; gap: clamp(2.5rem, 8vh, 4rem); }
-  .work { width: 100%; }
-  .works__grid .work { justify-self: stretch; margin-top: 0; }
+     there's no room for scattering at this width. Centred rather than
+     stretched full-bleed, so each picture reads as its own card. */
+  .works__grid { grid-template-columns: 1fr; justify-items: center; gap: clamp(2.5rem, 8vh, 4rem); }
+  .work { width: min(100%, 24rem); }
+  .works__grid .work { justify-self: center; margin-top: 0; }
 }
 
 @media (min-width: 761px) and (max-width: 1100px) {
@@ -903,18 +907,16 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 
 /* the year / service / role strip under the title, sourced from the
-   portfolio deck — an arrow, then three columns of grey label + bold
-   stacked values. */
+   portfolio deck — three columns of grey label + bold stacked values. */
 .study__meta {
   display: grid;
-  grid-template-columns: auto 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: start;
   gap: 1rem 2rem;
   margin: 20px 0;
   padding-top: 1.4rem;
   border-top: 1px solid var(--paper-deep);
 }
-.study__meta__arrow { font-size: 1.1rem; line-height: 1; color: var(--pencil); align-self: center; }
 .study__meta__col { display: flex; flex-direction: column; gap: .4rem; }
 .study__meta__label { font-size: .6875rem; letter-spacing: .14em; text-transform: uppercase; color: var(--pencil); }
 .study__meta__col strong { font-weight: 600; font-size: .875rem; letter-spacing: -.01em; color: var(--ink); }
@@ -989,7 +991,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   /* the year/service/role strip stacks to one column on a phone; the
      arrow doesn't earn its space at this width */
   .study__meta { grid-template-columns: 1fr; gap: 1.1rem; }
-  .study__meta__arrow { display: none; }
 }
 
 /* ------------------------------------------------------------- lightbox */

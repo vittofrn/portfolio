@@ -389,9 +389,11 @@ window.SITE = {
   archive: [
     {
       slug: "rufa-annual-report",
-      title: "RUFA Annual Report",
-      category: "Editorial design / Infographics",
+      title: "Rufa Annual Report",
+      category: "Infographics",
       year: "2023",
+      // opts this one into the map's discipline filter — the others stay out
+      tags: ["infographics"],
       cover: "assets/images/archive/rufa-annual-report/cover.jpg",
       images: [
         "assets/images/archive/rufa-annual-report/01.jpg",
@@ -402,8 +404,8 @@ window.SITE = {
     },
     {
       slug: "magjam",
-      title: "MagJam",
-      category: "Editorial photography",
+      title: "Magjam",
+      category: "Editorial Photography",
       year: "2024",
       cover: "assets/images/archive/magjam/cover.jpg",
       images: [
@@ -414,8 +416,8 @@ window.SITE = {
     },
     {
       slug: "maxxi-infinito",
-      title: "Infinito — MAXXI",
-      category: "Poster",
+      title: "Maxxi GRAPHIIIC Exhibit",
+      category: "Infinito Poster",
       year: "2023",
       cover: "assets/images/archive/maxxi-infinito/cover.jpg",
       images: [

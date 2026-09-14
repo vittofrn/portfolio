@@ -176,12 +176,13 @@
       return { i: i, p: p, tags: disciplines(p), arch: false,
                bx: 0, by: 0, x: 0, y: 0, ox: 0, oy: 0, el: null, out: null };
     });
-    /* the archive rides along as small circles. No tags, so they stay out of
-       the discipline filter and only ever get the faint, unrelated-pair links
-       — they are companions to the constellation, not part of its structure. */
+    /* the archive rides along as small circles, outside the link structure
+       entirely (no project-to-archive lines). Most carry no tags, so they
+       sit outside the discipline filter too — but one can opt in with its
+       own `tags` array in content.js, same list the filter reads. */
     var projectCount = MAP.nodes.length;
     (S.archive || []).forEach(function (p, j) {
-      MAP.nodes.push({ i: projectCount + j, p: p, tags: [], arch: true,
+      MAP.nodes.push({ i: projectCount + j, p: p, tags: p.tags || [], arch: true,
                        bx: 0, by: 0, x: 0, y: 0, ox: 0, oy: 0, el: null, out: null });
     });
     MAP.links = [];
@@ -435,7 +436,7 @@
        centre distance: two nodes sitting diagonally at a circle-safe
        distance still overlap as boxes, which is exactly what kept leaving
        corners touching. Push along whichever axis needs the least movement. */
-    var gapFactor = window.innerWidth <= 760 ? 1.04 : 1.16;
+    var gapFactor = window.innerWidth <= 760 ? 1.9 : 1.16;
     var i, j, A, B, dx, dy, push, need, ox, oy, s;
     for (var pass = 0; pass < 120; pass++) {
       for (i = 0; i < MAP.nodes.length; i++) {
@@ -945,7 +946,6 @@
         "</header>" +
         (p.meta ?
           '<div class="study__meta">' +
-            '<span class="study__meta__arrow" aria-hidden="true">&#8594;</span>' +
             '<div class="study__meta__col"><span class="study__meta__label">Year</span><strong>' + esc(p.meta.year) + "</strong></div>" +
             '<div class="study__meta__col"><span class="study__meta__label">Service</span>' +
               p.meta.service.map(function (s) { return "<strong>" + esc(s) + "</strong>"; }).join("") +
@@ -1016,7 +1016,7 @@
     var bar = $(".masthead");
     if (bar) { bar.classList.remove("is-hidden"); bar.classList.add("is-floating"); }
     wireScribbles(studyEl.querySelectorAll(".study__back, .study__link, .study__next a"));
-    document.title = p.title + " — " + S.identity.name;
+    document.title = p.title + " · " + S.identity.name;
     studyEl.focus();
   }
 
@@ -1024,7 +1024,7 @@
     if (studyEl.hidden) return;
     studyEl.classList.remove("is-open");
     document.body.style.overflow = "";
-    document.title = S.identity.name + " — " + S.identity.role;
+    document.title = S.identity.name + " · " + S.identity.role;
     setTimeout(function () { studyEl.hidden = true; studyEl.innerHTML = ""; }, 340);
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
