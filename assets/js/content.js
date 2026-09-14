@@ -453,7 +453,7 @@ window.SITE = {
       { t: ", graphic and visual designer with an art background, aiming to turn " },
       { t: "design into art", b: true },
       { t: ", drawing inspiration from " },
-      { t: "raw life experience", b: true },
+      { t: "life experience", b: true },
       { t: "." }
     ],
     body: [
