@@ -137,6 +137,24 @@
     "C36 179 8 151 5 115C2 79 22 43 55 24C69 16 85 6 101 4Z";
   var CIRCLE_BOX = 200;
 
+  /* scales the path's own coordinates (both axes independently), the same
+     idea as scalePath above but 2D — a circle has to bend to fit whatever
+     rectangle the picture is, not just stretch horizontally like an
+     underline does. */
+  function scalePath2D(d, sx, sy) {
+    return d.replace(
+      /([ML])\s*([\d.]+)\s+([\d.]+)|([C])\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)|(Z)/g,
+      function (m, cmd1, x1, y1, cmd2, cx1, cy1, cx2, cy2, x2, y2, z) {
+        if (z) return z;
+        if (cmd1) return cmd1 + (parseFloat(x1) * sx) + " " + (parseFloat(y1) * sy);
+        if (cmd2) return cmd2 + (parseFloat(cx1) * sx) + " " + (parseFloat(cy1) * sy) + " " +
+                          (parseFloat(cx2) * sx) + " " + (parseFloat(cy2) * sy) + " " +
+                          (parseFloat(x2) * sx) + " " + (parseFloat(y2) * sy);
+        return m;
+      }
+    );
+  }
+
   /* wraps `hostEl` (position:relative) with a hover-drawn circle sized to
      `targetEl`'s own box, a little wider than the picture so the line sits
      just outside its edges rather than tracing the crop exactly. */
@@ -148,22 +166,26 @@
       var w = targetEl.offsetWidth, h = targetEl.offsetHeight;
       if (w <= 0 || h <= 0) return null;
       var bx = w * BLEED, by = h * BLEED;
+      var boxW = w + bx * 2, boxH = h + by * 2;
 
       svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.setAttribute("class", "circle-scribble-svg");
-      svg.setAttribute("viewBox", "0 0 " + CIRCLE_BOX + " " + CIRCLE_BOX);
-      svg.setAttribute("preserveAspectRatio", "none");
-      /* the svg element itself is drawn bigger than the picture (the bleed),
-         so the 0..CIRCLE_BOX path stretches to cover the picture plus that
-         overhang on every side, instead of tracing its edges exactly */
+      /* the viewBox matches the drawn box's own pixel size exactly (no
+         stretch, no preserveAspectRatio games) — the path is what's bent
+         to fit, via scalePath2D, so it can keep vector-effect for a crisp,
+         constant stroke width. Distorting the viewBox instead broke the
+         dash draw-in animation: a non-uniform SVG scale combined with
+         non-scaling-stroke made most browsers only paint roughly half the
+         loop even at dashoffset 0. */
+      svg.setAttribute("viewBox", "0 0 " + boxW.toFixed(1) + " " + boxH.toFixed(1));
       svg.style.left = (targetEl.offsetLeft - bx).toFixed(1) + "px";
       svg.style.top  = (targetEl.offsetTop  - by).toFixed(1) + "px";
-      svg.style.width  = (w + bx * 2).toFixed(1) + "px";
-      svg.style.height = (h + by * 2).toFixed(1) + "px";
+      svg.style.width  = boxW.toFixed(1) + "px";
+      svg.style.height = boxH.toFixed(1) + "px";
 
       path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.setAttribute("d", CIRCLE_PATH);
-      path.setAttribute("stroke-width", "2.4");
+      path.setAttribute("d", scalePath2D(CIRCLE_PATH, boxW / CIRCLE_BOX, boxH / CIRCLE_BOX));
+      path.setAttribute("stroke-width", "4.4");
       path.setAttribute("stroke-linecap", "round");
       path.setAttribute("stroke-linejoin", "round");
       path.setAttribute("vector-effect", "non-scaling-stroke");
