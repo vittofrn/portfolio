@@ -343,13 +343,13 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .map.is-sprayed .map__spray__blob { animation-play-state: running; }
 @keyframes spray-in {
   0%   { opacity: 0;   filter: blur(14px); transform: scale(.85); }
-  55%  { opacity: .58; filter: blur(9px);  transform: scale(1.02); }
-  100% { opacity: .5;  filter: blur(15px); transform: scale(1); }
+  55%  { opacity: .35; filter: blur(9px);  transform: scale(1.02); }
+  100% { opacity: .3;  filter: blur(15px); transform: scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
   .map__spray__blob {
     animation: none;
-    opacity: .5;
+    opacity: .3;
     filter: blur(15px);
     transform: scale(1);
   }
