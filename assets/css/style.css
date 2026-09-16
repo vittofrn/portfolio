@@ -313,7 +313,13 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    out of the air, the moment the map first scrolls into view. */
 .map__spray {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  /* the same full-bleed trick as .edge above: .map is centred with its own
+     max-width, so this breaks the spray out to the true viewport edges
+     instead of stopping at .map's own (narrower, padded) box. */
+  left: calc(50% - 50vw);
+  width: 100vw;
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
