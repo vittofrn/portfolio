@@ -422,6 +422,7 @@
 
     renderFilter();
     wireMap();
+    wireSpray();
     sizeMap();
     startMap();
 
@@ -628,6 +629,23 @@
       v.el.addEventListener("focus", function () { setHover(v.i); });
       v.el.addEventListener("blur",  function () { setHover(-1); });
     });
+  }
+
+  /* the background spray only plays once, the first time the map actually
+     scrolls into view — not at load, so it reads as arriving with the
+     section rather than as page-load noise. */
+  function wireSpray() {
+    var mapEl = $(".map");
+    if (!mapEl || !window.IntersectionObserver) { if (mapEl) mapEl.classList.add("is-sprayed"); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          mapEl.classList.add("is-sprayed");
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(mapEl);
   }
 
   function setHover(i) {
