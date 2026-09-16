@@ -354,6 +354,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .node__shot {
   position: absolute;
   left: 50%; top: 50%;
+  /* a finger landing on a picture drives the avoid-shove instead of
+     scrolling the page — the field around the pictures is still a free
+     pan-y area, so this only claims the actual hit target. */
+  touch-action: none;
   /* fixed sizes from the wireframe, not a fluid clamp — desktop pictures
      read at 154px regardless of how wide the viewport gets. */
   width: 154px;

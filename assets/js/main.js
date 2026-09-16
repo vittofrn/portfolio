@@ -605,6 +605,26 @@
         if (e.pointerType === "touch") return;
         setHover(-1);
       });
+      /* touch has no hover, so a finger down on a picture stands in for it —
+         positioned at the actual touch point, so the same cursor-avoid shove
+         plays instead of a field-wide pointermove loop (which would just be
+         fighting the scroll gesture again). CSS gives these a touch-action
+         of none so landing on a picture can't also start a page scroll;
+         everywhere else on the field is still a free pan-y scroll area. */
+      v.el.addEventListener("pointerdown", function (e) {
+        if (e.pointerType !== "touch") return;
+        var r = MAP.field.getBoundingClientRect();
+        MAP.mx = e.clientX - r.left; MAP.my = e.clientY - r.top;
+        MAP.pointer = true;
+        setHover(v.i);
+      });
+      v.el.addEventListener("pointerup", touchRelease);
+      v.el.addEventListener("pointercancel", touchRelease);
+      function touchRelease(e) {
+        if (e.pointerType !== "touch") return;
+        MAP.pointer = false; MAP.mx = MAP.my = -99999;
+        setHover(-1);
+      }
       v.el.addEventListener("focus", function () { setHover(v.i); });
       v.el.addEventListener("blur",  function () { setHover(-1); });
     });
