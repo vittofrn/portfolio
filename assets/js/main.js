@@ -672,13 +672,21 @@
         el.appendChild(document.createTextNode(chunk));
         return;
       }
+      /* each letter is its own inline-block (so it can animate), which
+         gives the browser a break opportunity between every pair of them
+         — a word could and did wrap letter-to-letter mid-word. Grouping a
+         word's letters inside one nowrap span keeps the whole word atomic;
+         only the plain-text spaces between words stay breakable. */
+      var word = document.createElement("span");
+      word.className = "word";
       chunk.split("").forEach(function (ch) {
         var span = document.createElement("span");
         span.className = "letter";
         span.style.setProperty("--i", i++);
         span.textContent = ch;
-        el.appendChild(span);
+        word.appendChild(span);
       });
+      el.appendChild(word);
     });
   }
 

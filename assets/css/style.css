@@ -304,7 +304,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 /* each caption is split into one span per letter (see writeLetters in
    main.js) — held invisible until the map scrolls into view, then each
    one settles in on its own beat, left to right, like the line being
-   written out rather than appearing all at once. */
+   written out rather than appearing all at once. Letters are grouped one
+   word at a time in a non-breaking wrapper: an inline-block letter is its
+   own break opportunity, so without this a word could (and did) wrap
+   letter-to-letter mid-word instead of only at the real spaces. */
+.edge .word { display: inline-block; white-space: nowrap; }
 .edge .letter {
   display: inline-block;
   opacity: 0;
