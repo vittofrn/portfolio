@@ -313,8 +313,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 @media (min-width: 1161px) {
   /* reserves a real column for .edge on each side, inside .map's own content
      box — not just relying on empty space that may or may not exist once
-     .map's max-width stops centring it away from the viewport edge */
-  .map__field { max-width: calc(100% - 2 * 14rem); margin: 0 auto; }
+     .map's max-width stops centring it away from the viewport edge. Trimmed
+     down from 14rem: the bigger fixed-size pictures need the room back to
+     spread out wide rather than reading as a cramped, narrow cluster. */
+  .map__field { max-width: calc(100% - 2 * 8rem); margin: 0 auto; }
 }
 .map__links {
   position: absolute;
