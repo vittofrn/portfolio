@@ -357,8 +357,8 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   position: absolute;
   left: 50%; top: 50%;
   /* fixed sizes from the wireframe, not a fluid clamp — desktop pictures
-     read at 174px regardless of how wide the viewport gets. */
-  width: 174px;
+     read at 154px regardless of how wide the viewport gets. */
+  width: 154px;
   aspect-ratio: 1 / 1;
   translate: -50% -50%;
   overflow: hidden;
@@ -413,7 +413,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    companions to the constellation rather than nodes in it. Same hover
    behaviour, just quieter and rounder. */
 .node--arch .node__shot {
-  width: 122px;
+  width: 102px;
   border-radius: 50%;
   box-shadow: 0 1px 2px rgba(40,38,30,.12), 0 6px 14px -10px rgba(40,38,30,.45);
 }
@@ -1197,6 +1197,9 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   gap: .5rem;
   justify-content: center;
   padding: 0 0 clamp(.75rem, 2vh, 1.4rem);
+}
+@media (min-width: 761px) {
+  .filter { margin-bottom: 40px; }
 }
 .filter__toggle {
   display: inline-flex;
