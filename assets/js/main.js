@@ -275,28 +275,39 @@
       MAP.nodes.push({ i: projectCount + j, p: p, tags: p.tags || [], arch: true,
                        bx: 0, by: 0, x: 0, y: 0, ox: 0, oy: 0, el: null, out: null });
     });
+    /* Two separate sets: MAP.links is what the force layout actually pulls
+       on (project-to-project only, exactly as before — archive positioning
+       is untouched), MAP.drawLinks is everything the SVG draws. Keeping
+       them apart means the archive-to-project connector lines are purely
+       visual and never shift where anything settles. */
     MAP.links = [];
-    function addLink(a, b) {
+    MAP.drawLinks = [];
+    function makeLink(a, b) {
       var A = MAP.nodes[a].tags, B = MAP.nodes[b].tags;
       var shared = A.filter(function (t) { return B.indexOf(t) > -1; }).length;
       /* Jaccard, so "both are only editorial" counts for more than "one of
          my four disciplines happens to overlap one of yours". Pairs with
          nothing in common still get a link — dashed and faint — so the map
          reads as one connected constellation rather than separate islands. */
-      MAP.links.push({
+      return {
         a: a, b: b,
         k: shared ? shared / (A.length + B.length - shared) : 0,
         kin: shared > 0
-      });
+      };
     }
     for (var a = 0; a < projectCount; a++) {
-      for (var b = a + 1; b < projectCount; b++) addLink(a, b);
+      for (var b = a + 1; b < projectCount; b++) {
+        var L = makeLink(a, b);
+        MAP.links.push(L);
+        MAP.drawLinks.push(L);
+      }
     }
     /* every archive circle gets a line into each project too, same weak-if-
        unrelated rule as above, so the circled items read as part of the map
-       instead of floating loose beside it. */
+       instead of floating loose beside it — drawn only, so it never nudges
+       the archive circle's own position. */
     for (var ai = projectCount; ai < MAP.nodes.length; ai++) {
-      for (var pi = 0; pi < projectCount; pi++) addLink(ai, pi);
+      for (var pi = 0; pi < projectCount; pi++) MAP.drawLinks.push(makeLink(ai, pi));
     }
   }
 
@@ -402,7 +413,7 @@
       v.out = [v.el.querySelector("[data-co]")];
     });
 
-    MAP.svg.innerHTML = MAP.links.map(function (L, i) {
+    MAP.svg.innerHTML = MAP.drawLinks.map(function (L, i) {
       return '<path class="link' + (L.kin ? "" : " link--far") + '" data-l="' + i + '" ' +
              'style="stroke-width:' + (L.kin ? (0.7 + L.k * 2.4) : 0.6).toFixed(2) +
              ';--o:' + (L.kin ? (0.26 + L.k * 0.54) : 0.14).toFixed(2) + '"/>';
@@ -609,14 +620,14 @@
     /* the lines stay visible whatever is hovered — the ones touching the
        hovered node only darken */
     MAP.paths.forEach(function (el, li) {
-      var L = MAP.links[li];
+      var L = MAP.drawLinks[li];
       el.classList.toggle("is-on", i > -1 && (L.a === i || L.b === i));
     });
     startMap();
   }
 
   function linked(a, b) {
-    return MAP.links.some(function (L) {
+    return MAP.drawLinks.some(function (L) {
       return (L.a === a && L.b === b) || (L.a === b && L.b === a);
     });
   }
@@ -652,7 +663,7 @@
       v.out.forEach(function (o) { if (o) o.textContent = co; });
     });
     MAP.paths.forEach(function (el, i) {
-      var L = MAP.links[i], A = MAP.nodes[L.a], B = MAP.nodes[L.b];
+      var L = MAP.drawLinks[i], A = MAP.nodes[L.a], B = MAP.nodes[L.b];
       /* bow each link to one side so pairs never sit on top of each other */
       var mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
       var dx = B.x - A.x, dy = B.y - A.y;
