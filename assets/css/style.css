@@ -381,9 +381,20 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  opacity: .05;
+  /* fractalNoise pushed through a colour matrix that drops it to greyscale
+     and keeps it centred on mid-grey: overlay leaves mid-grey alone and
+     only lightens/darkens around it, so this lands as speckle rather than
+     the flat grey haze a straight multiply gave. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* 1:1 with the source tile so the grain stays per-pixel sharp — scaling
+     it up averaged the speckle into a flat wash instead of noise. */
+  background-size: 120px 120px;
+  /* .map__spray is its own stacking context, so this blends against the
+     layer's own contents rather than the page — over the empty parts that
+     means blending against nothing, which shows the raw grain as grey.
+     Keep it low enough that the bare paper stays clean; the finer 1:1 tile
+     above is what actually makes the grain read stronger over the colour. */
+  opacity: .14;
   mix-blend-mode: overlay;
   pointer-events: none;
 }
@@ -430,6 +441,32 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 .link.is-on { stroke: var(--ink); opacity: .9; }
 
+/* the map assembles itself the first time it scrolls into view: the
+   connections wipe across left to right (a clip wipe rather than a dash
+   draw, since .link--far is already using stroke-dasharray for its dashed
+   look), and each picture pops in on its own beat behind them. */
+.map__links {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.3s cubic-bezier(.4,0,.2,1) .25s;
+}
+.map.is-sprayed .map__links { clip-path: inset(0 0 0 0); }
+
+.node {
+  opacity: 0;
+  animation: node-in .62s cubic-bezier(.2,.8,.3,1) forwards;
+  animation-play-state: paused;
+  animation-delay: calc(var(--n, 0) * 70ms);
+}
+.map.is-sprayed .node { animation-play-state: running; }
+@keyframes node-in {
+  from { opacity: 0; scale: .78; }
+  to   { opacity: 1; scale: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map__links { clip-path: none; transition: none; }
+  .node { animation: none; opacity: 1; scale: 1; }
+}
+
 .map__nodes { position: absolute; inset: 0; }
 
 /* every node is positioned by its transform, so the anchor itself is a
@@ -455,6 +492,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   width: 154px;
   aspect-ratio: 1 / 1;
   translate: -50% -50%;
+  border-radius: 20px;
   overflow: hidden;
   background: var(--paper-deep);
   box-shadow: 0 1px 2px rgba(40,38,30,.14), 0 10px 22px -14px rgba(40,38,30,.5);
@@ -1386,4 +1424,96 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
     transition: opacity .3s ease;
   }
   .filter.is-open .filter__list { opacity: 1; pointer-events: auto; }
+}
+
+/* ===========================================================================
+   APPEAR ON SCROLL
+   ---------------------------------------------------------------------------
+   The same idea as the map's letter-by-letter captions, generalised: anything
+   marked up as a reveal target sits slightly low and blurred until it first
+   scrolls into view, then settles. Marked from main.js (see wireReveals) so
+   the markup stays clean and nothing is hidden if the script never runs.
+   ========================================================================= */
+.reveal {
+  opacity: 0;
+  translate: 0 18px;
+  filter: blur(3px);
+  transition:
+    opacity .7s cubic-bezier(.2,.8,.3,1),
+    translate .7s cubic-bezier(.2,.8,.3,1),
+    filter .7s cubic-bezier(.2,.8,.3,1);
+  transition-delay: calc(var(--r, 0) * 80ms);
+}
+.reveal.is-in { opacity: 1; translate: 0 0; filter: blur(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; translate: 0 0; filter: none; transition: none; }
+}
+
+/* ===========================================================================
+   THE CURSOR
+   ---------------------------------------------------------------------------
+   A scribbled trail that follows the pointer — the same hand-drawn language
+   as the hover underlines, except here the line is the cursor itself. Mouse
+   only: a finger has no hover position to trail, and the real cursor is left
+   alone on coarse pointers and for reduced motion.
+   ========================================================================= */
+.cursor-trail {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: visible;
+}
+.cursor-trail path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 9px; height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--ink);
+  z-index: 10000;
+  pointer-events: none;
+  transition: scale .18s ease, opacity .18s ease;
+}
+html.has-cursor,
+html.has-cursor body { cursor: none; }
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor .node,
+html.has-cursor .string__hit { cursor: none; }
+/* over anything clickable the dot opens up into a ring */
+html.has-cursor .cursor-dot.is-live { scale: 2.1; opacity: .45; }
+
+/* ===========================================================================
+   THE HARP'S NOTES
+   ---------------------------------------------------------------------------
+   Plucking a string throws a couple of sketched notes off it.
+   ========================================================================= */
+.note {
+  position: absolute;
+  width: 22px;
+  height: 30px;
+  pointer-events: none;
+  overflow: visible;
+  animation: note-float 1.5s cubic-bezier(.25,.6,.3,1) forwards;
+}
+.note path, .note line { stroke: var(--ink); fill: none; stroke-width: 1.7; stroke-linecap: round; }
+.note ellipse { fill: var(--ink); stroke: none; }
+@keyframes note-float {
+  0%   { opacity: 0; translate: 0 0;     rotate: 0deg;               scale: .6; }
+  18%  { opacity: 1; }
+  100% { opacity: 0; translate: var(--dx, 14px) -74px; rotate: var(--rot, 16deg); scale: 1.05; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .note { display: none; }
 }
