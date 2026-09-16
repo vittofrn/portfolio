@@ -305,56 +305,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   .edge { display: none; }   /* no room beside the map at this width */
 }
 
-/* a faint wash of colour behind the whole map, from the Figma "WELCOME"
-   background — a handful of blob shapes in the site's own swipe palette,
-   burned into the paper at a very low opacity so it reads as a stain on
-   the page rather than an illustration competing with the pictures. Each
-   blob fades and sharpens in on its own beat, like paint still settling
-   out of the air, the moment the map first scrolls into view. */
-.map__spray {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-.map__spray__blob {
-  position: absolute;
-  display: block;
-  max-width: none;
-  opacity: 0;
-  mix-blend-mode: color-burn;
-  rotate: -6.33deg;
-  filter: blur(14px);
-  transform: scale(.85);
-  animation-name: spray-in;
-  animation-duration: 1.1s;
-  animation-timing-function: cubic-bezier(.2,.8,.3,1);
-  animation-fill-mode: forwards;
-  animation-play-state: paused;
-  animation-delay: var(--d, 0s);
-}
-.map.is-sprayed .map__spray__blob { animation-play-state: running; }
-@keyframes spray-in {
-  0%   { opacity: 0;    filter: blur(14px); transform: scale(.85); }
-  55%  { opacity: .05;  filter: blur(4px);  transform: scale(1.02); }
-  100% { opacity: .035; filter: blur(0);    transform: scale(1); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .map__spray__blob {
-    animation: none;
-    opacity: .035;
-    filter: none;
-    transform: scale(1);
-  }
-}
-@media (max-width: 760px) {
-  /* the blob sizes and offsets come straight from a wide desktop canvas —
-     scaled down and re-centred so they still read as a loose scatter
-     instead of a handful of oversized shapes stacked in one corner. */
-  .map__spray { transform: scale(.55); transform-origin: 50% 0; }
-}
-
 .map__field {
   position: relative;
   height: clamp(460px, 78vh, 820px);
