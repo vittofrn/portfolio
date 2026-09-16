@@ -1063,6 +1063,10 @@
     '<path d="M11.2 6 L22.6 2.6"/>'
   ];
 
+  /* the hover scribbles' own four colours, cycled note by note */
+  var NOTE_COLOURS = ["--swipe-yellow", "--swipe-pink", "--swipe-orange", "--swipe-blue"];
+  var noteColourNext = 0;
+
   function throwNotes(host, e, offset) {
     if (prefersReduced.matches) return;
     var box = host.getBoundingClientRect();
@@ -1076,6 +1080,8 @@
       note.setAttribute("viewBox", "0 0 24 30");
       note.setAttribute("aria-hidden", "true");
       note.innerHTML = NOTE_SHAPES[i % NOTE_SHAPES.length];
+      note.style.color = "var(" + NOTE_COLOURS[noteColourNext % NOTE_COLOURS.length] + ")";
+      noteColourNext++;
       note.style.left = (x + (i - (n - 1) / 2) * 18 - 11).toFixed(1) + "px";
       note.style.top  = (y - 14).toFixed(1) + "px";
       note.style.setProperty("--dx", ((i - (n - 1) / 2) * 26 + (offset > 0 ? 10 : -10)).toFixed(1) + "px");

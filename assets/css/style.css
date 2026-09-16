@@ -381,20 +381,9 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   content: "";
   position: absolute;
   inset: 0;
-  /* fractalNoise pushed through a colour matrix that drops it to greyscale
-     and keeps it centred on mid-grey: overlay leaves mid-grey alone and
-     only lightens/darkens around it, so this lands as speckle rather than
-     the flat grey haze a straight multiply gave. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  /* 1:1 with the source tile so the grain stays per-pixel sharp — scaling
-     it up averaged the speckle into a flat wash instead of noise. */
-  background-size: 120px 120px;
-  /* .map__spray is its own stacking context, so this blends against the
-     layer's own contents rather than the page — over the empty parts that
-     means blending against nothing, which shows the raw grain as grey.
-     Keep it low enough that the bare paper stays clean; the finer 1:1 tile
-     above is what actually makes the grain read stronger over the colour. */
-  opacity: .14;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: .05;
   mix-blend-mode: overlay;
   pointer-events: none;
 }
@@ -459,12 +448,12 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 .map.is-sprayed .node { animation-play-state: running; }
 @keyframes node-in {
-  from { opacity: 0; scale: .78; }
-  to   { opacity: 1; scale: 1; }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .map__links { clip-path: none; transition: none; }
-  .node { animation: none; opacity: 1; scale: 1; }
+  .node { animation: none; opacity: 1; }
 }
 
 .map__nodes { position: absolute; inset: 0; }
@@ -492,7 +481,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   width: 154px;
   aspect-ratio: 1 / 1;
   translate: -50% -50%;
-  border-radius: 20px;
+  border-radius: 5px;
   overflow: hidden;
   background: var(--paper-deep);
   box-shadow: 0 1px 2px rgba(40,38,30,.14), 0 10px 22px -14px rgba(40,38,30,.5);
@@ -1078,7 +1067,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    textless section (a solo picture in the rhythm) gets a much smaller gap
    instead, so consecutive solo pictures sit close together. */
 .spread { padding: clamp(2.5rem, 7vh, 4.5rem) 0 0; }
-.spread:not(:has(.spread__text)) { padding-top: clamp(.2rem, .5vh, .3rem); }
+/* the run of solo pictures that closes a case study sits at an exact 10px
+   apart — the gap is .spread__shots' own margin-top, so that has to come
+   off too or the padding here is only part of the distance. */
+.spread:not(:has(.spread__text)) { padding-top: 10px; }
+.spread:not(:has(.spread__text)) .spread__shots { margin-top: 0; }
 .spread__text { max-width: none; }
 .spread__text h2 {
   font-family: var(--font-display);
@@ -1139,7 +1132,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   /* symmetric top/bottom air around a text section on mobile too, but the
      solo pictures still get a much tighter gap between each other */
   .spread { padding-top: clamp(1.8rem, 6vh, 3rem); }
-  .spread:not(:has(.spread__text)) { padding-top: clamp(.15rem, .5vh, .25rem); }
+  .spread:not(:has(.spread__text)) { padding-top: 10px; }
   /* the year/service/role strip stacks to one column on a phone; the
      arrow doesn't earn its space at this width */
   .study__meta { grid-template-columns: 1fr; gap: 1.1rem; }
@@ -1507,8 +1500,12 @@ html.has-cursor .cursor-dot.is-live { scale: 2.1; opacity: .45; }
   overflow: visible;
   animation: note-float 1.5s cubic-bezier(.25,.6,.3,1) forwards;
 }
-.note path, .note line { stroke: var(--ink); fill: none; stroke-width: 1.7; stroke-linecap: round; }
-.note ellipse { fill: var(--ink); stroke: none; }
+/* colour is set per note from main.js, cycling the same four swipe colours
+   the hover scribbles use — nth-child can't do it here because the notes
+   share a parent with the discipline rows and the strings overlay. */
+.note { color: var(--swipe-orange); }
+.note path, .note line { stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; }
+.note ellipse { fill: currentColor; stroke: none; }
 @keyframes note-float {
   0%   { opacity: 0; translate: 0 0;     rotate: 0deg;               scale: .6; }
   18%  { opacity: 1; }
