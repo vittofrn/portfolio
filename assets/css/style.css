@@ -294,15 +294,107 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   font-size: .6875rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--pencil);
+  color: var(--ink);
   line-height: 1.55;
   pointer-events: none;
 }
 .edge--left  { left:  calc(50% - 50vw + 1.25rem); text-align: left; }
 .edge--right { right: calc(50% - 50vw + 1.25rem); text-align: right; }
 
+/* each caption is split into one span per letter (see writeLetters in
+   main.js) — held invisible until the map scrolls into view, then each
+   one settles in on its own beat, left to right, like the line being
+   written out rather than appearing all at once. */
+.edge .letter {
+  display: inline-block;
+  opacity: 0;
+  translate: 0 5px;
+  filter: blur(2px);
+  animation: letter-in .5s cubic-bezier(.2,.8,.3,1) forwards;
+  animation-play-state: paused;
+  animation-delay: calc(var(--i, 0) * 30ms);
+}
+.map.is-sprayed .edge .letter { animation-play-state: running; }
+@keyframes letter-in {
+  to { opacity: 1; translate: 0 0; filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edge .letter { animation: none; opacity: 1; translate: 0 0; filter: none; }
+}
+
 @media (max-width: 1160px) {
   .edge { display: none; }   /* no room beside the map at this width */
+}
+
+/* a faint wash of colour behind the whole map, from the Figma "WELCOME"
+   background — a handful of blob shapes in the site's own swipe palette,
+   burned into the paper at a very low opacity so it reads as a stain on
+   the page rather than an illustration competing with the pictures. Each
+   blob fades and sharpens in on its own beat, like paint still settling
+   out of the air, the moment the map first scrolls into view. */
+.map__spray {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* the same full-bleed trick as .edge above: .map is centred with its own
+     max-width, so this breaks the spray out to the true viewport edges
+     instead of stopping at .map's own (narrower, padded) box. */
+  left: calc(50% - 50vw);
+  width: 100vw;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.map__spray__blob {
+  position: absolute;
+  display: block;
+  max-width: none;
+  opacity: 0;
+  mix-blend-mode: color-burn;
+  rotate: -6.33deg;
+  filter: blur(14px);
+  transform: scale(.85);
+  animation-name: spray-in;
+  animation-duration: 1.1s;
+  animation-timing-function: cubic-bezier(.2,.8,.3,1);
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+  animation-delay: var(--d, 0s);
+}
+.map.is-sprayed .map__spray__blob { animation-play-state: running; }
+@keyframes spray-in {
+  0%   { opacity: 0;   filter: blur(14px); transform: scale(.85); }
+  55%  { opacity: .35; filter: blur(9px);  transform: scale(1.02); }
+  100% { opacity: .3;  filter: blur(15px); transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map__spray__blob {
+    animation: none;
+    opacity: .3;
+    filter: blur(15px);
+    transform: scale(1);
+  }
+}
+/* a light grain over the wash — a tiled feTurbulence noise, low opacity and
+   blended so it reads as texture on the paint rather than visible static. */
+.map__spray::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: .05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  /* the blob sizes and offsets come straight from a wide desktop canvas —
+     scaled down so they read as a loose scatter instead of a handful of
+     oversized shapes stacked in one corner. Scaling from the top-left
+     corner (rather than centre) and widening the box first by the inverse
+     of the scale keeps the visible result flush with both true screen
+     edges instead of leaving empty margin where the shrink pulled it in. */
+  .map__spray { width: calc(100vw / .55); transform: scale(.55); transform-origin: 0 0; }
 }
 
 .map__field {
@@ -338,6 +430,32 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 .link.is-on { stroke: var(--ink); opacity: .9; }
 
+/* the map assembles itself the first time it scrolls into view: the
+   connections wipe across left to right (a clip wipe rather than a dash
+   draw, since .link--far is already using stroke-dasharray for its dashed
+   look), and each picture pops in on its own beat behind them. */
+.map__links {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.3s cubic-bezier(.4,0,.2,1) .25s;
+}
+.map.is-sprayed .map__links { clip-path: inset(0 0 0 0); }
+
+.node {
+  opacity: 0;
+  animation: node-in .62s cubic-bezier(.2,.8,.3,1) forwards;
+  animation-play-state: paused;
+  animation-delay: calc(var(--n, 0) * 70ms);
+}
+.map.is-sprayed .node { animation-play-state: running; }
+@keyframes node-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map__links { clip-path: none; transition: none; }
+  .node { animation: none; opacity: 1; }
+}
+
 .map__nodes { position: absolute; inset: 0; }
 
 /* every node is positioned by its transform, so the anchor itself is a
@@ -363,12 +481,26 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   width: 154px;
   aspect-ratio: 1 / 1;
   translate: -50% -50%;
+  border-radius: 5px;
   overflow: hidden;
   background: var(--paper-deep);
   box-shadow: 0 1px 2px rgba(40,38,30,.14), 0 10px 22px -14px rgba(40,38,30,.5);
   transition: scale .34s cubic-bezier(.2,.8,.3,1), box-shadow .34s ease, opacity .32s ease;
 }
 .node__shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* a window-chrome frame laid over every square project picture on the map
+   (not the round archive circles) — stretched to the shot's own box so it
+   always reads as one complete frame regardless of the picture's size. */
+.node:not(.node--arch):not(.node--mark) .node__shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../images/frame/frame-square.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
 
 .node.is-on  .node__shot { scale: 1.44; box-shadow: 0 4px 10px rgba(40,38,30,.2), 0 26px 50px -22px rgba(40,38,30,.55); z-index: 5; }
 .node.is-on  { z-index: 5; }
@@ -935,7 +1067,11 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
    textless section (a solo picture in the rhythm) gets a much smaller gap
    instead, so consecutive solo pictures sit close together. */
 .spread { padding: clamp(2.5rem, 7vh, 4.5rem) 0 0; }
-.spread:not(:has(.spread__text)) { padding-top: clamp(.2rem, .5vh, .3rem); }
+/* the run of solo pictures that closes a case study sits at an exact 10px
+   apart — the gap is .spread__shots' own margin-top, so that has to come
+   off too or the padding here is only part of the distance. */
+.spread:not(:has(.spread__text)) { padding-top: 10px; }
+.spread:not(:has(.spread__text)) .spread__shots { margin-top: 0; }
 .spread__text { max-width: none; }
 .spread__text h2 {
   font-family: var(--font-display);
@@ -996,7 +1132,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   /* symmetric top/bottom air around a text section on mobile too, but the
      solo pictures still get a much tighter gap between each other */
   .spread { padding-top: clamp(1.8rem, 6vh, 3rem); }
-  .spread:not(:has(.spread__text)) { padding-top: clamp(.15rem, .5vh, .25rem); }
+  .spread:not(:has(.spread__text)) { padding-top: 10px; }
   /* the year/service/role strip stacks to one column on a phone; the
      arrow doesn't earn its space at this width */
   .study__meta { grid-template-columns: 1fr; gap: 1.1rem; }
@@ -1281,4 +1417,100 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
     transition: opacity .3s ease;
   }
   .filter.is-open .filter__list { opacity: 1; pointer-events: auto; }
+}
+
+/* ===========================================================================
+   APPEAR ON SCROLL
+   ---------------------------------------------------------------------------
+   The same idea as the map's letter-by-letter captions, generalised: anything
+   marked up as a reveal target sits slightly low and blurred until it first
+   scrolls into view, then settles. Marked from main.js (see wireReveals) so
+   the markup stays clean and nothing is hidden if the script never runs.
+   ========================================================================= */
+.reveal {
+  opacity: 0;
+  translate: 0 18px;
+  filter: blur(3px);
+  transition:
+    opacity .7s cubic-bezier(.2,.8,.3,1),
+    translate .7s cubic-bezier(.2,.8,.3,1),
+    filter .7s cubic-bezier(.2,.8,.3,1);
+  transition-delay: calc(var(--r, 0) * 80ms);
+}
+.reveal.is-in { opacity: 1; translate: 0 0; filter: blur(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; translate: 0 0; filter: none; transition: none; }
+}
+
+/* ===========================================================================
+   THE CURSOR
+   ---------------------------------------------------------------------------
+   A scribbled trail that follows the pointer — the same hand-drawn language
+   as the hover underlines, except here the line is the cursor itself. Mouse
+   only: a finger has no hover position to trail, and the real cursor is left
+   alone on coarse pointers and for reduced motion.
+   ========================================================================= */
+.cursor-trail {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: visible;
+}
+.cursor-trail path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 9px; height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--ink);
+  z-index: 10000;
+  pointer-events: none;
+  transition: scale .18s ease, opacity .18s ease;
+}
+html.has-cursor,
+html.has-cursor body { cursor: none; }
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor .node,
+html.has-cursor .string__hit { cursor: none; }
+/* over anything clickable the dot opens up into a ring */
+html.has-cursor .cursor-dot.is-live { scale: 2.1; opacity: .45; }
+
+/* ===========================================================================
+   THE HARP'S NOTES
+   ---------------------------------------------------------------------------
+   Plucking a string throws a couple of sketched notes off it.
+   ========================================================================= */
+.note {
+  position: absolute;
+  width: 22px;
+  height: 30px;
+  pointer-events: none;
+  overflow: visible;
+  animation: note-float 1.5s cubic-bezier(.25,.6,.3,1) forwards;
+}
+/* colour is set per note from main.js, cycling the same four swipe colours
+   the hover scribbles use — nth-child can't do it here because the notes
+   share a parent with the discipline rows and the strings overlay. */
+.note { color: var(--swipe-orange); }
+.note path, .note line { stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; }
+.note ellipse { fill: currentColor; stroke: none; }
+@keyframes note-float {
+  0%   { opacity: 0; translate: 0 0;     rotate: 0deg;               scale: .6; }
+  18%  { opacity: 1; }
+  100% { opacity: 0; translate: var(--dx, 14px) -74px; rotate: var(--rot, 16deg); scale: 1.05; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .note { display: none; }
 }

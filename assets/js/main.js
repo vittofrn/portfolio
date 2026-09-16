@@ -386,16 +386,17 @@
     if (!MAP.field) return;
 
     var left = $(".edge--left"), right = $(".edge--right");
-    if (left)  left.textContent  = S.identity.role  || "";
-    if (right) right.textContent = S.identity.motto || "";
+    if (left)  writeLetters(left,  S.identity.role  || "");
+    if (right) writeLetters(right, S.identity.motto || "");
 
     buildGraph();
     relax();
 
-    MAP.layer.innerHTML = MAP.nodes.map(function (v) {
+    MAP.layer.innerHTML = MAP.nodes.map(function (v, n) {
       var p = v.p;
       return '<a class="node' + (v.arch ? " node--arch" : "") + '" ' +
                'href="#/' + (v.arch ? "archive/" : "") + esc(p.slug) + '" data-i="' + v.i + '" ' +
+               'style="--n:' + n + '" ' +
                'aria-label="' + esc(p.title) + ', ' + esc(p.year || "") + '">' +
                '<span class="node__shot">' +
                  (p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy" onerror="this.remove()">' : "") +
@@ -422,6 +423,7 @@
 
     renderFilter();
     wireMap();
+    wireSpray();
     sizeMap();
     startMap();
 
@@ -627,6 +629,56 @@
       }
       v.el.addEventListener("focus", function () { setHover(v.i); });
       v.el.addEventListener("blur",  function () { setHover(-1); });
+    });
+  }
+
+  /* the background spray only plays once, the first time the map actually
+     scrolls into view — not at load, so it reads as arriving with the
+     section rather than as page-load noise. */
+  function wireSpray() {
+    var mapEl = $(".map");
+    if (!mapEl) return;
+    function spray() { mapEl.classList.add("is-sprayed"); }
+    if (!window.IntersectionObserver) { spray(); return; }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { spray(); io.disconnect(); }
+      });
+    }, { threshold: 0.25 });
+    io.observe(mapEl);
+
+    /* the pictures themselves are held at opacity 0 until this fires, so it
+       must not be possible to miss it — a backgrounded tab throttles the
+       observer, and a map nobody can see is a far worse failure than an
+       entrance animation nobody watches. */
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) { spray(); io.disconnect(); }
+    });
+    setTimeout(function () { spray(); io.disconnect(); }, 2500);
+  }
+
+  /* wraps every character in its own span so it can fade in on its own
+     beat — reads as the caption being written out letter by letter rather
+     than appearing all at once. Runs off the same .is-sprayed trigger as
+     the background wash, so both arrive together the first time the map
+     scrolls into view. Spaces stay as plain text nodes so the line still
+     wraps normally at word boundaries. */
+  function writeLetters(el, text) {
+    el.textContent = "";
+    var i = 0;
+    text.split(/(\s+)/).forEach(function (chunk) {
+      if (/^\s+$/.test(chunk)) {
+        el.appendChild(document.createTextNode(chunk));
+        return;
+      }
+      chunk.split("").forEach(function (ch) {
+        var span = document.createElement("span");
+        span.className = "letter";
+        span.style.setProperty("--i", i++);
+        span.textContent = ch;
+        el.appendChild(span);
+      });
     });
   }
 
@@ -870,7 +922,7 @@
       "</ul>";
 
     $(".disciplines").innerHTML =
-      '<span class="mark">[ what I do ]</span><ul>' +
+      '<span class="mark">[ play the sound of my skills! ]</span><ul>' +
       a.disciplines.map(function (d) {
         return "<li><strong>" + esc(d.title) + "</strong><span>" + esc(d.desc) + "</span></li>";
       }).join("") + "</ul>";
@@ -981,7 +1033,10 @@
         st.dragging = false;
         st.velocity = -st.offset * HARP_RELEASE;
         hit.style.cursor = "grab";
-        if (Math.abs(st.offset) > 1) harpPluck(st.freq);
+        if (Math.abs(st.offset) > 1) {
+          harpPluck(st.freq);
+          throwNotes(host, e, st.offset);
+        }
         startHarpLoop();
       }
       hit.addEventListener("pointerup", release);
@@ -989,6 +1044,52 @@
     });
 
     startHarpLoop();
+  }
+
+  /* two sketched notes thrown off the string where it was let go — drawn
+     by hand rather than typed as ♪ so they sit in the same wobbly pencil
+     language as the rest of the page. They clean themselves up when the
+     float animation ends. */
+  var NOTE_SHAPES = [
+    /* quaver: a leaning stem with a flag */
+    '<ellipse cx="6.5" cy="24" rx="5.4" ry="4.1" transform="rotate(-18 6.5 24)"/>' +
+    '<path d="M11.6 22.4 L13.4 4"/>' +
+    '<path d="M13.4 4c4.2 1.6 6.6 4.2 5.8 8.2"/>',
+    /* two beamed quavers */
+    '<ellipse cx="5.6" cy="25" rx="4.6" ry="3.5" transform="rotate(-18 5.6 25)"/>' +
+    '<ellipse cx="17" cy="21.6" rx="4.6" ry="3.5" transform="rotate(-18 17 21.6)"/>' +
+    '<path d="M9.9 23.8 L11.2 6"/>' +
+    '<path d="M21.3 20.4 L22.6 2.6"/>' +
+    '<path d="M11.2 6 L22.6 2.6"/>'
+  ];
+
+  /* the hover scribbles' own four colours, cycled note by note */
+  var NOTE_COLOURS = ["--swipe-yellow", "--swipe-pink", "--swipe-orange", "--swipe-blue"];
+  var noteColourNext = 0;
+
+  function throwNotes(host, e, offset) {
+    if (prefersReduced.matches) return;
+    var box = host.getBoundingClientRect();
+    var x = (e && e.clientX != null ? e.clientX - box.left : box.width / 2);
+    var y = (e && e.clientY != null ? e.clientY - box.top  : 0);
+    var n = 2 + (Math.abs(offset) > 12 ? 1 : 0);
+
+    for (var i = 0; i < n; i++) {
+      var note = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      note.setAttribute("class", "note");
+      note.setAttribute("viewBox", "0 0 24 30");
+      note.setAttribute("aria-hidden", "true");
+      note.innerHTML = NOTE_SHAPES[i % NOTE_SHAPES.length];
+      note.style.color = "var(" + NOTE_COLOURS[noteColourNext % NOTE_COLOURS.length] + ")";
+      noteColourNext++;
+      note.style.left = (x + (i - (n - 1) / 2) * 18 - 11).toFixed(1) + "px";
+      note.style.top  = (y - 14).toFixed(1) + "px";
+      note.style.setProperty("--dx", ((i - (n - 1) / 2) * 26 + (offset > 0 ? 10 : -10)).toFixed(1) + "px");
+      note.style.setProperty("--rot", ((i % 2 ? 1 : -1) * (12 + i * 9)) + "deg");
+      note.style.animationDelay = (i * 70) + "ms";
+      note.addEventListener("animationend", function () { this.remove(); });
+      host.appendChild(note);
+    }
   }
 
   function drawString(st, w) {
@@ -1184,6 +1285,135 @@
   }
 
   /* ==================================================================== go */
+  /* ================================================== APPEAR ON SCROLL */
+  /* Everything that isn't the map gets the same treatment the map's edge
+     captions do: held back until it first scrolls into view, then settled
+     in. Targets are tagged from here rather than in the markup so the page
+     is never left hidden if this script fails to run at all. Siblings in a
+     group stagger off --r so a list arrives as a run, not a block. */
+  function wireReveals() {
+    if (prefersReduced.matches) return;
+
+    var groups = [
+      ".works .lede > *",
+      ".works__grid .work",
+      ".about .lede > *",
+      ".about__headline",
+      ".about__grid > *",
+      ".disciplines > *",
+      ".colophon > *"
+    ];
+
+    var targets = [];
+    groups.forEach(function (sel) {
+      $$(sel).forEach(function (el, i) {
+        el.classList.add("reveal");
+        el.style.setProperty("--r", i);
+        targets.push(el);
+      });
+    });
+    if (!targets.length) return;
+
+    if (!window.IntersectionObserver) {
+      targets.forEach(function (el) { el.classList.add("is-in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        show(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    targets.forEach(function (el) { io.observe(el); });
+
+    function show(el) {
+      el.classList.add("is-in");
+      io.unobserve(el);
+    }
+
+    /* a backgrounded tab throttles the observer, so anything already on
+       screen when the page is finally looked at is shown directly rather
+       than waiting for a callback that may not come until the next scroll. */
+    function sweep() {
+      targets.forEach(function (el) {
+        if (el.classList.contains("is-in")) return;
+        var r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) show(el);
+      });
+    }
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) sweep();
+    });
+    window.addEventListener("pageshow", sweep);
+  }
+
+  /* ========================================================= THE CURSOR */
+  /* A scribbled tail that follows the pointer: the last handful of
+     positions, smoothed into one path and faded out from the back. Mouse
+     only — a touch device has no hovering pointer to trail, and the native
+     cursor is left alone there and under reduced motion. */
+  function wireCursor() {
+    if (prefersReduced.matches) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+
+    var TAIL = 16;
+    var pts = [];
+    var x = -99, y = -99, live = false, running = false;
+
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "cursor-trail");
+    svg.setAttribute("aria-hidden", "true");
+    var path = document.createElementNS(svg.namespaceURI, "path");
+    svg.appendChild(path);
+
+    var dot = document.createElement("div");
+    dot.className = "cursor-dot";
+    dot.setAttribute("aria-hidden", "true");
+
+    document.body.appendChild(svg);
+    document.body.appendChild(dot);
+    document.documentElement.classList.add("has-cursor");
+
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      x = e.clientX; y = e.clientY;
+      live = true;
+      pts.push({ x: x, y: y });
+      if (pts.length > TAIL) pts.shift();
+      dot.style.translate = x + "px " + y + "px";
+      /* the dot opens into a ring over anything you can actually click */
+      var over = e.target && e.target.closest &&
+                 e.target.closest("a, button, .node, .string__hit, [data-close]");
+      dot.classList.toggle("is-live", !!over);
+      start();
+    });
+
+    document.addEventListener("pointerleave", function () { live = false; });
+
+    function start() {
+      if (running) return;
+      running = true;
+      (function tick() {
+        /* trail off from the back whenever the pointer stops feeding it */
+        if (!live || pts.length > 1) pts.shift();
+        if (pts.length > 1) {
+          var d = "M" + pts[0].x.toFixed(1) + " " + pts[0].y.toFixed(1);
+          for (var i = 1; i < pts.length; i++) {
+            var p = pts[i], q = pts[i - 1];
+            d += " Q" + q.x.toFixed(1) + " " + q.y.toFixed(1) + " " +
+                 ((p.x + q.x) / 2).toFixed(1) + " " + ((p.y + q.y) / 2).toFixed(1);
+          }
+          path.setAttribute("d", d);
+          path.style.opacity = Math.min(1, pts.length / TAIL).toFixed(2);
+          requestAnimationFrame(tick);
+        } else {
+          path.removeAttribute("d");
+          running = false;
+        }
+      })();
+    }
+  }
+
   function init() {
     renderMasthead();
     renderMap();
@@ -1194,6 +1424,8 @@
     renderContact();
     wireMasthead();
     wireBurger();
+    wireReveals();
+    wireCursor();
 
     studyEl = $(".study");
     lightboxEl = $(".lightbox");
