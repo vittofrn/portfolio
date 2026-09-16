@@ -396,7 +396,13 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
      scaled down and re-centred, on request, so the wash reads as one
      centred cluster of colour on a phone instead of the full edge-to-edge
      sweep desktop has the width for. */
-  .map__spray { width: 100vw; transform: scale(.7); transform-origin: 50% 0; }
+  /* full width again, on request — the blobs' own positions (tuned for a
+     wide desktop canvas) sprawl well past both edges on a phone regardless,
+     so rather than shrinking the whole thing down to fit (which read as
+     margined, not "side to side"), this just lets the box span 0-100vw at
+     full size, stops clipping it (nothing gets cut off at the box edge),
+     and nudges the visible slice over so its own weight sits centred. */
+  .map__spray { width: 100vw; overflow: visible; transform: translateX(28px); }
 }
 
 .map__field {
