@@ -613,9 +613,12 @@
   function setHover(i) {
     if (MAP.hovered === i) return;
     MAP.hovered = i;
+    /* pointing at anything fades everything else back, archive circles
+       included — the links are a full mesh, so dimming only the unlinked
+       ones never actually dimmed anything. */
     MAP.nodes.forEach(function (v) {
       v.el.classList.toggle("is-on", v.i === i);
-      v.el.classList.toggle("is-off", i > -1 && v.i !== i && !linked(i, v.i));
+      v.el.classList.toggle("is-off", i > -1 && v.i !== i);
     });
     /* the lines stay visible whatever is hovered — the ones touching the
        hovered node only darken */
@@ -624,12 +627,6 @@
       el.classList.toggle("is-on", i > -1 && (L.a === i || L.b === i));
     });
     startMap();
-  }
-
-  function linked(a, b) {
-    return MAP.drawLinks.some(function (L) {
-      return (L.a === a && L.b === b) || (L.a === b && L.b === a);
-    });
   }
 
   /* The soft avoid: a node inside AVOID of the cursor eases out of its way,
