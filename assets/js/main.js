@@ -386,8 +386,8 @@
     if (!MAP.field) return;
 
     var left = $(".edge--left"), right = $(".edge--right");
-    if (left)  left.textContent  = S.identity.role  || "";
-    if (right) right.textContent = S.identity.motto || "";
+    if (left)  writeLetters(left,  S.identity.role  || "");
+    if (right) writeLetters(right, S.identity.motto || "");
 
     buildGraph();
     relax();
@@ -646,6 +646,30 @@
       });
     }, { threshold: 0.25 });
     io.observe(mapEl);
+  }
+
+  /* wraps every character in its own span so it can fade in on its own
+     beat — reads as the caption being written out letter by letter rather
+     than appearing all at once. Runs off the same .is-sprayed trigger as
+     the background wash, so both arrive together the first time the map
+     scrolls into view. Spaces stay as plain text nodes so the line still
+     wraps normally at word boundaries. */
+  function writeLetters(el, text) {
+    el.textContent = "";
+    var i = 0;
+    text.split(/(\s+)/).forEach(function (chunk) {
+      if (/^\s+$/.test(chunk)) {
+        el.appendChild(document.createTextNode(chunk));
+        return;
+      }
+      chunk.split("").forEach(function (ch) {
+        var span = document.createElement("span");
+        span.className = "letter";
+        span.style.setProperty("--i", i++);
+        span.textContent = ch;
+        el.appendChild(span);
+      });
+    });
   }
 
   function setHover(i) {

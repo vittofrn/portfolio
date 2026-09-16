@@ -301,6 +301,27 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .edge--left  { left:  calc(50% - 50vw + 1.25rem); text-align: left; }
 .edge--right { right: calc(50% - 50vw + 1.25rem); text-align: right; }
 
+/* each caption is split into one span per letter (see writeLetters in
+   main.js) — held invisible until the map scrolls into view, then each
+   one settles in on its own beat, left to right, like the line being
+   written out rather than appearing all at once. */
+.edge .letter {
+  display: inline-block;
+  opacity: 0;
+  translate: 0 5px;
+  filter: blur(2px);
+  animation: letter-in .5s cubic-bezier(.2,.8,.3,1) forwards;
+  animation-play-state: paused;
+  animation-delay: calc(var(--i, 0) * 30ms);
+}
+.map.is-sprayed .edge .letter { animation-play-state: running; }
+@keyframes letter-in {
+  to { opacity: 1; translate: 0 0; filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edge .letter { animation: none; opacity: 1; translate: 0 0; filter: none; }
+}
+
 @media (max-width: 1160px) {
   .edge { display: none; }   /* no room beside the map at this width */
 }
@@ -440,6 +461,19 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   transition: scale .34s cubic-bezier(.2,.8,.3,1), box-shadow .34s ease, opacity .32s ease;
 }
 .node__shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* a window-chrome frame laid over every square project picture on the map
+   (not the round archive circles) — stretched to the shot's own box so it
+   always reads as one complete frame regardless of the picture's size. */
+.node:not(.node--arch):not(.node--mark) .node__shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../images/frame/frame-square.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
 
 .node.is-on  .node__shot { scale: 1.44; box-shadow: 0 4px 10px rgba(40,38,30,.2), 0 26px 50px -22px rgba(40,38,30,.55); z-index: 5; }
 .node.is-on  { z-index: 5; }
