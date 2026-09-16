@@ -518,11 +518,10 @@
        centred in the field */
     /* The field is far wider than it is tall, so a single uniform scale is
        always pinned by the height and leaves the sides empty. Scale the axes
-       separately so x fills the whole width — on request, per the reference
-       wireframe, the constellation should spread out horizontally rather
-       than sit as a tight, narrow cluster in the middle of a wide field. */
+       separately — x fills the width — but cap x against y so the shape of
+       the arrangement is stretched, not destroyed. */
     var ky = (r.height - pad * 2) / h;
-    var kx = (r.width - pad * 2) / w;
+    var kx = Math.min((r.width - pad * 2) / w, ky * 2.6);
     MAP.nodes.forEach(function (v) {
       v.bx = r.width  / 2 + v.lx * kx;
       v.by = r.height / 2 + v.ly * ky;
@@ -531,15 +530,15 @@
     /* The force layout works in abstract units; once it is mapped onto real
        pixels at a real picture size, neighbours can still end up on top of
        each other. A few passes of collision relaxation fixes that without
-       disturbing the overall arrangement. A thin, near-touching buffer on
-       both mobile and desktop now, matching the tightly packed wireframe
-       rather than the roomier spacing the old layout left between shots.
+       disturbing the overall arrangement. A tighter buffer on narrow/mobile
+       widths keeps a real but very thin gap instead of the roomier spacing
+       desktop has space for.
 
        The pictures are SQUARES, so separation is measured per axis, not by
        centre distance: two nodes sitting diagonally at a circle-safe
        distance still overlap as boxes, which is exactly what kept leaving
        corners touching. Push along whichever axis needs the least movement. */
-    var gapFactor = 1.04;
+    var gapFactor = window.innerWidth <= 760 ? 1.04 : 1.16;
     var i, j, A, B, dx, dy, push, need, ox, oy, s;
     for (var pass = 0; pass < 120; pass++) {
       for (i = 0; i < MAP.nodes.length; i++) {
