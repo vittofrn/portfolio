@@ -267,8 +267,7 @@
       return { i: i, p: p, tags: disciplines(p), arch: false,
                bx: 0, by: 0, x: 0, y: 0, ox: 0, oy: 0, el: null, out: null };
     });
-    /* the archive rides along as small circles, outside the link structure
-       entirely (no project-to-archive lines). Most carry no tags, so they
+    /* the archive rides along as small circles. Most carry no tags, so they
        sit outside the discipline filter too — but one can opt in with its
        own `tags` array in content.js, same list the filter reads. */
     var projectCount = MAP.nodes.length;
@@ -277,20 +276,27 @@
                        bx: 0, by: 0, x: 0, y: 0, ox: 0, oy: 0, el: null, out: null });
     });
     MAP.links = [];
+    function addLink(a, b) {
+      var A = MAP.nodes[a].tags, B = MAP.nodes[b].tags;
+      var shared = A.filter(function (t) { return B.indexOf(t) > -1; }).length;
+      /* Jaccard, so "both are only editorial" counts for more than "one of
+         my four disciplines happens to overlap one of yours". Pairs with
+         nothing in common still get a link — dashed and faint — so the map
+         reads as one connected constellation rather than separate islands. */
+      MAP.links.push({
+        a: a, b: b,
+        k: shared ? shared / (A.length + B.length - shared) : 0,
+        kin: shared > 0
+      });
+    }
     for (var a = 0; a < projectCount; a++) {
-      for (var b = a + 1; b < projectCount; b++) {
-        var A = MAP.nodes[a].tags, B = MAP.nodes[b].tags;
-        var shared = A.filter(function (t) { return B.indexOf(t) > -1; }).length;
-        /* Jaccard, so "both are only editorial" counts for more than "one of
-           my four disciplines happens to overlap one of yours". Pairs with
-           nothing in common still get a link — dashed and faint — so the map
-           reads as one connected constellation rather than separate islands. */
-        MAP.links.push({
-          a: a, b: b,
-          k: shared ? shared / (A.length + B.length - shared) : 0,
-          kin: shared > 0
-        });
-      }
+      for (var b = a + 1; b < projectCount; b++) addLink(a, b);
+    }
+    /* every archive circle gets a line into each project too, same weak-if-
+       unrelated rule as above, so the circled items read as part of the map
+       instead of floating loose beside it. */
+    for (var ai = projectCount; ai < MAP.nodes.length; ai++) {
+      for (var pi = 0; pi < projectCount; pi++) addLink(ai, pi);
     }
   }
 
@@ -566,17 +572,29 @@
 
   function wireMap() {
     MAP.field.addEventListener("pointermove", function (e) {
+      /* the cursor-avoid shove is a mouse-hover effect — on a touch device
+         every scroll drag across the field is also a pointermove, so
+         running it there fought the finger for frames while scrolling and
+         "avoided" a fingertip it could never track precisely anyway. */
+      if (e.pointerType === "touch") return;
       var r = MAP.field.getBoundingClientRect();
       MAP.mx = e.clientX - r.left; MAP.my = e.clientY - r.top;
       MAP.pointer = true;
       startMap();
     });
-    MAP.field.addEventListener("pointerleave", function () {
+    MAP.field.addEventListener("pointerleave", function (e) {
+      if (e.pointerType === "touch") return;
       MAP.pointer = false; MAP.mx = MAP.my = -99999; startMap();
     });
     MAP.nodes.forEach(function (v) {
-      v.el.addEventListener("pointerenter", function () { setHover(v.i); });
-      v.el.addEventListener("pointerleave", function () { setHover(-1); });
+      v.el.addEventListener("pointerenter", function (e) {
+        if (e.pointerType === "touch") return;
+        setHover(v.i);
+      });
+      v.el.addEventListener("pointerleave", function (e) {
+        if (e.pointerType === "touch") return;
+        setHover(-1);
+      });
       v.el.addEventListener("focus", function () { setHover(v.i); });
       v.el.addEventListener("blur",  function () { setHover(-1); });
     });
