@@ -393,12 +393,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 @media (max-width: 760px) {
   /* the blob sizes and offsets come straight from a wide desktop canvas —
-     scaled down so they read as a loose scatter instead of a handful of
-     oversized shapes stacked in one corner. Scaling from the top-left
-     corner (rather than centre) and widening the box first by the inverse
-     of the scale keeps the visible result flush with both true screen
-     edges instead of leaving empty margin where the shrink pulled it in. */
-  .map__spray { width: calc(100vw / .55); transform: scale(.55); transform-origin: 0 0; }
+     scaled down and re-centred, on request, so the wash reads as one
+     centred cluster of colour on a phone instead of the full edge-to-edge
+     sweep desktop has the width for. */
+  .map__spray { width: 100vw; transform: scale(.7); transform-origin: 50% 0; }
 }
 
 .map__field {
@@ -1490,6 +1488,28 @@ html.has-cursor .node,
 html.has-cursor .string__hit { cursor: none; }
 /* over anything clickable the dot opens up into a ring */
 html.has-cursor .cursor-dot.is-live { scale: 2.1; opacity: .45; }
+
+/* "open" rides just off the dot, specifically over a map picture — the
+   one thing on the page that takes you to a whole other page. */
+.cursor-label {
+  position: fixed;
+  top: 0; left: 0;
+  margin: 14px 0 0 14px;
+  padding: .3rem .6rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: .625rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0;
+  scale: .7;
+  transition: opacity .18s ease, scale .18s ease;
+}
+html.has-cursor .cursor-label.is-live { opacity: 1; scale: 1; }
 
 /* ===========================================================================
    THE HARP'S NOTES

@@ -250,7 +250,8 @@
   var MAP = {
     nodes: [], links: [], field: null, svg: null, layer: null,
     w: 0, h: 0, hovered: -1, running: false,
-    mx: -99999, my: -99999, pointer: false
+    mx: -99999, my: -99999, pointer: false,
+    armed: -1   /* touch only: which node a first tap has "hover-armed" */
   };
 
   var AVOID = 190;   /* how close the cursor gets before a node gives way */
@@ -598,6 +599,15 @@
       if (e.pointerType === "touch") return;
       MAP.pointer = false; MAP.mx = MAP.my = -99999; startMap();
     });
+    /* a tap that lands on empty field (not on any picture) drops whichever
+       node the first tap had armed, below — otherwise it would stay
+       "hovered" forever with no way to back out of it on touch. */
+    MAP.field.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "touch") return;
+      if (e.target.closest(".node")) return;
+      MAP.armed = -1;
+      setHover(-1);
+    });
     MAP.nodes.forEach(function (v) {
       v.el.addEventListener("pointerenter", function (e) {
         if (e.pointerType === "touch") return;
@@ -618,15 +628,30 @@
         var r = MAP.field.getBoundingClientRect();
         MAP.mx = e.clientX - r.left; MAP.my = e.clientY - r.top;
         MAP.pointer = true;
+        v._touchTap = true;
         setHover(v.i);
       });
       v.el.addEventListener("pointerup", touchRelease);
       v.el.addEventListener("pointercancel", touchRelease);
       function touchRelease(e) {
         if (e.pointerType !== "touch") return;
+        /* release only stops the avoid-shove tracking the fingertip — the
+           hover state (dim/scale/tag) stays up, since that's what "counts
+           as hover" on touch now; it's cleared by the click handler below
+           (first tap) or by tapping elsewhere (see field listener above). */
         MAP.pointer = false; MAP.mx = MAP.my = -99999;
-        setHover(-1);
+        startMap();
       }
+      /* first tap = hover only; the link doesn't open until a second tap
+         lands on the same, already-armed picture. Tapping a different
+         picture just re-arms onto that one instead of opening it. */
+      v.el.addEventListener("click", function (e) {
+        if (!v._touchTap) return;
+        v._touchTap = false;
+        if (MAP.armed === v.i) { MAP.armed = -1; return; }
+        e.preventDefault();
+        MAP.armed = v.i;
+      });
       v.el.addEventListener("focus", function () { setHover(v.i); });
       v.el.addEventListener("blur",  function () { setHover(-1); });
     });
@@ -1378,8 +1403,17 @@
     dot.className = "cursor-dot";
     dot.setAttribute("aria-hidden", "true");
 
+    /* "open" rides along next to the dot specifically over a map picture —
+       works are the one thing on the page that navigate to a whole other
+       page (a case study, or the archive lightbox), so the cursor says so. */
+    var label = document.createElement("div");
+    label.className = "cursor-label";
+    label.textContent = "open";
+    label.setAttribute("aria-hidden", "true");
+
     document.body.appendChild(svg);
     document.body.appendChild(dot);
+    document.body.appendChild(label);
     document.documentElement.classList.add("has-cursor");
 
     document.addEventListener("pointermove", function (e) {
@@ -1389,10 +1423,13 @@
       pts.push({ x: x, y: y });
       if (pts.length > TAIL) pts.shift();
       dot.style.translate = x + "px " + y + "px";
+      label.style.translate = x + "px " + y + "px";
       /* the dot opens into a ring over anything you can actually click */
       var over = e.target && e.target.closest &&
                  e.target.closest("a, button, .node, .string__hit, [data-close]");
       dot.classList.toggle("is-live", !!over);
+      var onWork = e.target && e.target.closest && e.target.closest(".node");
+      label.classList.toggle("is-live", !!onWork);
       start();
     });
 
