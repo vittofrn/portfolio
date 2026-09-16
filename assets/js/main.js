@@ -524,15 +524,15 @@
     /* The force layout works in abstract units; once it is mapped onto real
        pixels at a real picture size, neighbours can still end up on top of
        each other. A few passes of collision relaxation fixes that without
-       disturbing the overall arrangement. A tighter buffer on narrow/mobile
-       widths keeps a real but very thin gap instead of the roomier spacing
-       desktop has space for.
+       disturbing the overall arrangement. A thin, near-touching buffer on
+       both mobile and desktop now, matching the tightly packed wireframe
+       rather than the roomier spacing the old layout left between shots.
 
        The pictures are SQUARES, so separation is measured per axis, not by
        centre distance: two nodes sitting diagonally at a circle-safe
        distance still overlap as boxes, which is exactly what kept leaving
        corners touching. Push along whichever axis needs the least movement. */
-    var gapFactor = window.innerWidth <= 760 ? 1.9 : 1.16;
+    var gapFactor = 1.04;
     var i, j, A, B, dx, dy, push, need, ox, oy, s;
     for (var pass = 0; pass < 120; pass++) {
       for (i = 0; i < MAP.nodes.length; i++) {
