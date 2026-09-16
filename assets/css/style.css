@@ -294,7 +294,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   font-size: .6875rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--pencil);
+  color: var(--ink);
   line-height: 1.55;
   pointer-events: none;
 }
@@ -343,14 +343,14 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .map.is-sprayed .map__spray__blob { animation-play-state: running; }
 @keyframes spray-in {
   0%   { opacity: 0;   filter: blur(14px); transform: scale(.85); }
-  55%  { opacity: .58; filter: blur(24px); transform: scale(1.02); }
-  100% { opacity: .5;  filter: blur(40px); transform: scale(1); }
+  55%  { opacity: .58; filter: blur(9px);  transform: scale(1.02); }
+  100% { opacity: .5;  filter: blur(15px); transform: scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
   .map__spray__blob {
     animation: none;
     opacity: .5;
-    filter: blur(40px);
+    filter: blur(15px);
     transform: scale(1);
   }
 }
@@ -368,9 +368,12 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 @media (max-width: 760px) {
   /* the blob sizes and offsets come straight from a wide desktop canvas —
-     scaled down and re-centred so they still read as a loose scatter
-     instead of a handful of oversized shapes stacked in one corner. */
-  .map__spray { transform: scale(.55); transform-origin: 50% 0; }
+     scaled down so they read as a loose scatter instead of a handful of
+     oversized shapes stacked in one corner. Scaling from the top-left
+     corner (rather than centre) and widening the box first by the inverse
+     of the scale keeps the visible result flush with both true screen
+     edges instead of leaving empty margin where the shrink pulled it in. */
+  .map__spray { width: calc(100vw / .55); transform: scale(.55); transform-origin: 0 0; }
 }
 
 .map__field {
