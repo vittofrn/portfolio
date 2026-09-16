@@ -513,9 +513,12 @@
     /* The field is far wider than it is tall, so a single uniform scale is
        always pinned by the height and leaves the sides empty. Scale the axes
        separately — x fills the width — but cap x against y so the shape of
-       the arrangement is stretched, not destroyed. */
+       the arrangement is stretched, not destroyed. Capped much closer to
+       the force layout's own natural shape now: the old 2.6x cap stretched
+       the constellation so wide on desktop that the collision pass never
+       even had neighbouring pictures close enough to pull together. */
     var ky = (r.height - pad * 2) / h;
-    var kx = Math.min((r.width - pad * 2) / w, ky * 2.6);
+    var kx = Math.min((r.width - pad * 2) / w, ky * 1.3);
     MAP.nodes.forEach(function (v) {
       v.bx = r.width  / 2 + v.lx * kx;
       v.by = r.height / 2 + v.ly * ky;

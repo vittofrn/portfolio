@@ -444,6 +444,9 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   /* taller field, so the extra width goes toward real spacing rather than
      tighter packing */
   .map__field { height: clamp(560px, 80vh, 740px); }
+  /* opening the "all work" filter drops its chip list in above the map —
+     give it 20px of daylight instead of the map crowding right up under it. */
+  .filter.is-open { margin-bottom: 20px; }
 }
 
 
