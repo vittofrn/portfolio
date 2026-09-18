@@ -1261,6 +1261,9 @@
 
     lightboxLastFocus = document.activeElement;
     lightboxEl.querySelector(".lightbox__title").textContent = p.title;
+    var desc = lightboxEl.querySelector(".lightbox__desc");
+    desc.textContent = p.desc || "";
+    desc.hidden = !p.desc;
     lightboxEl.querySelector(".lightbox__strip").innerHTML =
       (p.images || []).map(function (src) {
         return '<figure class="lightbox__plate">' + shot(src, "", "lightbox__shot") + "</figure>";

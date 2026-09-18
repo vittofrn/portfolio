@@ -403,7 +403,8 @@ window.SITE = {
   archive: [
     {
       slug: "rufa-annual-report",
-      title: "Rufa Annual Report",
+      title: "Rufa Annual Report Infographics",
+      desc: "Collaborated in a 2day hackathon style production to create infographics for the previously European Design Gold Award Winning Rufa Annual Report",
       category: "Infographics",
       year: "2023",
       // opts this one into the map's discipline filter — the others stay out
@@ -418,7 +419,8 @@ window.SITE = {
     },
     {
       slug: "magjam",
-      title: "Magjam",
+      title: "MagJam Editorial Photography",
+      desc: "Collaborated in a team to create editorial photography for the MagJam editorial created for the Mag to Mag 2024 Exhibit in Milan",
       category: "Editorial Photography",
       year: "2024",
       cover: "assets/images/archive/magjam/cover.jpg",
@@ -430,7 +432,8 @@ window.SITE = {
     },
     {
       slug: "maxxi-infinito",
-      title: "Maxxi GRAPHIIIC Exhibit",
+      title: "Infinito Poster at Maxxi GRAPHIIIC Exhibit",
+      desc: "Designed a poster selected to be added to the exhibit GRAPHIIIC at the Museum of Modern Art Maxxi in Rome",
       category: "Infinito Poster",
       year: "2023",
       cover: "assets/images/archive/maxxi-infinito/cover.jpg",

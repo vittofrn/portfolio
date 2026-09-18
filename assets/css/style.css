@@ -1184,6 +1184,9 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   z-index: 1;
   width: min(92vw, 1400px);
   max-height: 88vh;
+  /* room for .lightbox__close, now sitting inside the panel's own top-right
+     corner instead of floating above it */
+  padding-top: 4.2rem;
   display: flex;
   flex-direction: column;
   translate: 0 12px;
@@ -1192,7 +1195,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .lightbox.is-open .lightbox__panel { translate: 0 0; }
 .lightbox__close {
   position: absolute;
-  top: -2.6rem;
+  top: 30px;
   right: 0;
   width: 2.2rem;
   height: 2.2rem;
@@ -1201,13 +1204,24 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   color: var(--paper);
   display: grid;
   place-items: center;
+  z-index: 2;
 }
 .lightbox__title {
   color: var(--paper);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(1.2rem, 2.4vw, 1.7rem);
-  margin: 0 0 1rem;
+  margin: 0 0 .4rem;
+  padding-right: 3rem;   /* clears .lightbox__close, now inline in this corner */
+}
+.lightbox__desc {
+  color: var(--paper);
+  opacity: .74;
+  font-size: .9375rem;
+  line-height: 1.55;
+  max-width: 46rem;
+  margin: 0 0 1.2rem;
+  padding-right: 3rem;
 }
 .lightbox__strip {
   display: flex;
@@ -1221,8 +1235,8 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .lightbox__shot img { height: 100%; width: auto; max-width: none; display: block; position: relative; z-index: 1; object-fit: contain; }
 
 @media (max-width: 760px) {
-  .lightbox__panel { width: 100vw; padding: 0 1rem; }
-  .lightbox__close { top: .6rem; right: .6rem; color: var(--ink); }
+  .lightbox__panel { width: 100vw; padding: 3rem 1rem 0; }
+  .lightbox__close { top: 10px; right: 0; color: var(--paper); }
   .lightbox__plate { height: min(60vh, 480px); }
 }
 
