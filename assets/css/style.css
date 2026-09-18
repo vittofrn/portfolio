@@ -1101,6 +1101,9 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
   gap: clamp(1.2rem, 2.6vw, 2rem);
 }
+/* a duo — exactly two pictures side by side — keeps a fixed 10px gap
+   between them instead of the fluid clamp above. */
+.spread__shots:has(> .plate:nth-child(2):last-child) { gap: 10px; }
 .plate { margin: 0; }
 /* every plate — cover included — is cropped to a fixed frame instead of
    showing at its native size, so a row of images lines up evenly no matter
