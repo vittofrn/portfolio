@@ -1195,7 +1195,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .lightbox.is-open .lightbox__panel { translate: 0 0; }
 .lightbox__close {
   position: absolute;
-  top: 30px;
+  top: 20px;
   right: 0;
   width: 2.2rem;
   height: 2.2rem;
@@ -1236,7 +1236,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 
 @media (max-width: 760px) {
   .lightbox__panel { width: 100vw; padding: 3rem 1rem 0; }
-  .lightbox__close { top: 10px; right: 0; color: var(--paper); }
+  .lightbox__close { top: 7px; right: 0; color: var(--paper); }
   .lightbox__plate { height: min(60vh, 480px); }
 }
 
