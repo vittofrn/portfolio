@@ -162,12 +162,12 @@ window.SITE = {
       slug: "abstract-entity-atlas",
       title: "Abstract Entity Atlas",
       category: "UX & UI / Infographics / Editorial design",
-      year: "2025",
+      year: "2026",
       blurb: "Who you are online, mapped.",
       cover: "assets/images/projects/abstract-entity-atlas/cover.jpg",
       size: "tall",
       meta: {
-        year: "2025",
+        year: "2026",
         service: ["UX & UI design", "Infographics", "Editorial design", "Brand design"],
         role: ["Brand designer", "UX & UI designer", "Infographics designer", "Editor"]
       },
