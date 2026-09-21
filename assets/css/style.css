@@ -826,6 +826,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .work:nth-child(4n+2) .work__a { --swipe-colour: var(--swipe-pink); }
 .work:nth-child(4n+3) .work__a { --swipe-colour: var(--swipe-orange); }
 .work:nth-child(4n+4) .work__a { --swipe-colour: var(--swipe-blue); }
+/* Maggo's circle-scribble hover is pinned to cyan regardless of where it
+   falls in the 4-colour cycle above (by slug, not grid position, so it
+   stays put if the work order ever changes). */
+.work .work__a[href="#/maggo"] { --swipe-colour: var(--swipe-blue); }
 .work__no {
   position: absolute;
   top: .7rem; left: .7rem;
