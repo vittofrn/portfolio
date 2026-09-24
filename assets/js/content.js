@@ -408,7 +408,7 @@ window.SITE = {
       category: "Infographics",
       year: "2023",
       // opts this one into the map's discipline filter — the others stay out
-      tags: ["infographics"],
+      tags: ["infographics", "editorial design"],
       cover: "assets/images/archive/rufa-annual-report/cover.jpg",
       images: [
         "assets/images/archive/rufa-annual-report/01.jpg",
@@ -423,6 +423,8 @@ window.SITE = {
       desc: "Collaborated in a team to create editorial photography for the MagJam editorial created for the Mag to Mag 2024 Exhibit in Milan",
       category: "Editorial Photography",
       year: "2024",
+      // opts this one into the map's discipline filter — see rufa-annual-report above
+      tags: ["editorial design"],
       cover: "assets/images/archive/magjam/cover.jpg",
       images: [
         "assets/images/archive/magjam/01.jpg",
