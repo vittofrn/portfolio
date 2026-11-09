@@ -332,6 +332,8 @@ window.SITE = {
       slug: "scomodo",
       title: "Scomodo",
       category: "Advertising / Illustration / Copywriting",
+      // extra filter membership — not shown in the grid's category line
+      tags: ["social media"],
       year: "2025",
       blurb: "Uncomfortable on purpose.",
       cover: "assets/images/projects/scomodo/cover.jpg",

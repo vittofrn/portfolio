@@ -258,9 +258,12 @@
   var SHOVE = 46;    /* how far it moves at most */
 
   function disciplines(p) {
-    return String(p.category || "").split("/")
+    /* read off `category`, plus any extra `tags` a project lists in
+       content.js — lets a project join a filter without changing the
+       category text shown in the grid */
+    return String(p.category || "").split("/").concat(p.tags || [])
       .map(function (t) { return t.trim().toLowerCase(); })
-      .filter(Boolean);
+      .filter(function (t, i, a) { return t && a.indexOf(t) === i; });
   }
 
   function buildGraph() {
